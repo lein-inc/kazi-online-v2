@@ -1,0 +1,558 @@
+/* ============================================================
+   KAZI ONLINE — Shared + Responsive CSS
+   ============================================================ */
+
+/* ===== Big CTA (フッター上SDC入会セクション) ===== */
+.big-cta {
+  background: #0a0f1a; color: #fff;
+  padding: 100px 40px; text-align: center;
+  margin-bottom: 0;
+}
+.big-cta h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 30px; font-weight: 400; margin-bottom: 16px; letter-spacing: 1px;
+}
+.big-cta p {
+  font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 40px;
+  line-height: 2.0; font-weight: 300;
+}
+.big-cta-btn {
+  display: inline-block; background: transparent; color: #fff;
+  padding: 20px 72px; font-size: 15px; font-weight: 400;
+  text-decoration: none; cursor: pointer;
+  border: 2px solid #fff; transition: background .3s, color .3s;
+  letter-spacing: 2px; font-family: 'Noto Sans JP', sans-serif;
+}
+.big-cta-btn:hover { background: #fff; color: #0a0f1a; }
+.big-cta-note {
+  font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 20px; font-weight: 300;
+}
+.big-cta-note a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color .2s; }
+.big-cta-note a:hover { color: rgba(255,255,255,0.8); }
+
+/* ===== Sitemap Button (管理用) ===== */
+.btn-sitemap {
+  display: inline-block; padding: 4px 10px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  color: #999; text-decoration: none;
+  border: 1px solid #ccc; border-radius: 3px;
+  transition: background .2s, color .2s;
+  font-family: 'Inter', sans-serif;
+}
+.btn-sitemap:hover { background: #333; color: #fff; border-color: #333; }
+
+/* ===== 関連記事カード（横型レイアウト・統一UI） ===== */
+.related-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
+}
+.related-card {
+  display: flex; flex-direction: row; padding: 24px 20px; gap: 20px;
+  border-bottom: 1px solid #f0f0f0; text-decoration: none; color: inherit;
+  transition: background .2s;
+}
+.related-card:hover { background: #fafafa; }
+.related-card-body { flex: 1; min-width: 0; order: 1; display: flex; flex-direction: column; gap: 6px; }
+.related-card-img {
+  width: 120px; height: 80px; flex-shrink: 0; order: 2;
+  background-size: cover; background-position: center; border-radius: 2px;
+  align-self: center;
+}
+.related-card-cat {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 11px; color: #2c5f8a; display: inline-block;
+  padding: 2px 8px; background: #e8f0f8; border-radius: 2px;
+  letter-spacing: 0.04em; font-weight: 500; align-self: flex-start;
+}
+.related-card-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 16px; font-weight: 400; color: #1a1a1a; line-height: 1.7;
+}
+.related-card:hover .related-card-title { color: #2c5f8a; }
+.related-card-excerpt {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px; color: #777; line-height: 1.7; font-weight: 300;
+}
+.related-card-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; color: #aaa; letter-spacing: 0.04em;
+}
+
+/* ===== Sidebar SDC バナー高さ調整 ===== */
+.sidebar-sdclub { padding: 96px 28px 108px !important; }
+
+/* ===== Sidebar Layout (全ページ共通・強制適用) ===== */
+.content-with-sidebar {
+  display: grid !important;
+  grid-template-columns: 1fr 280px !important;
+  gap: 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.content-with-sidebar > main,
+.content-with-sidebar > .content-main {
+  min-width: 0;
+  overflow: hidden;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 20px 0 48px !important;
+}
+.content-sidebar { position: relative; }
+.sidebar-sticky { position: sticky; top: 80px; }
+
+/* Sidebar Native Ad */
+.sidebar-ad {
+  display: block; margin-top: 20px;
+  position: relative; width: 100%; aspect-ratio: 1/1;
+  background: #e4e4e4; background-size: cover; background-position: center;
+  text-decoration: none; overflow: hidden;
+}
+.sidebar-ad-label {
+  position: absolute; top: 8px; left: 8px;
+  background: rgba(0,0,0,.6); color: #fff;
+  font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 700;
+  padding: 2px 8px; letter-spacing: 1px;
+}
+
+/* ========== 1024px — タブレット ========== */
+@media (max-width: 1024px) {
+
+  /* Header */
+  .global-nav { display: none !important; }
+  .btn-hamburger { display: flex !important; }
+  .header-top { padding: 14px 24px; gap: 20px; }
+
+  /* Hamburger Panel */
+  .hamburger-panel { left: 120px; }
+  .hamburger-nav-grid { grid-template-columns: repeat(3, 1fr); gap: 24px 28px; }
+
+  /* Content Layout */
+  .content-with-sidebar {
+    grid-template-columns: 1fr !important;
+    padding: 0 24px;
+    gap: 32px;
+  }
+  .content-sidebar { display: none !important; }  /* big-ctaがあるためサイドバー非表示 */
+
+  /* Related Articles */
+  .related-card-img { width: 100px; height: 68px; }
+
+  /* Article List */
+  .article-list { grid-template-columns: 1fr !important; }
+
+  /* Article Header */
+  .article-header {
+    grid-template-columns: 1fr !important;
+    padding: 24px !important;
+  }
+
+  /* Hero Slider (TOP) */
+  .hero-slider { height: 600px !important; }
+  .hero-spacer { height: 600px !important; }
+
+  /* Pickup Layout (TOP) — stack to 1 column */
+  .pickup-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px 0;
+  }
+  .card-featured .card-title { font-size: 22px; }
+
+  /* YouTube / Kazi Movie — stack to 1 column */
+  .youtube-inner { grid-template-columns: 1fr !important; gap: 24px; }
+
+  /* Publication Grid */
+  .pub-grid { grid-template-columns: repeat(4, 1fr) !important; }
+
+  /* Footer Sitemap */
+  .footer-sitemap {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 40px 24px 24px;
+    gap: 24px 20px;
+  }
+
+  /* Mega menu */
+  .mega-menu { display: none !important; }
+  .mega-overlay { display: none !important; }
+
+  /* SDC Landing */
+  .sdc-hero { padding: 100px 24px 80px !important; }
+  .sdc-hero h1 { font-size: 36px !important; }
+  .benefit-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .register-cta { padding: 56px 24px; }
+
+  /* Mypage */
+  .mypage-wrap {
+    grid-template-columns: 1fr !important;
+    padding: 24px 20px 48px;
+  }
+  .mypage-wrap > aside { display: none; }
+  .bookmark-grid { grid-template-columns: 1fr !important; }
+  .history-list { grid-template-columns: 1fr !important; }
+  .magazine-grid { grid-template-columns: repeat(3, 1fr) !important; }
+
+  /* Article Pager (前後記事ナビ) */
+  .article-pager { grid-template-columns: 1fr !important; }
+
+  /* Ad Banner Page */
+  .layout-mockup { grid-template-columns: 1fr !important; }
+  .price-table-wrap { grid-template-columns: 1fr !important; gap: 24px; }
+
+  /* SDC Landing — about / plan */
+  .about-wrap { grid-template-columns: 1fr !important; gap: 32px; }
+  .plan-grid { grid-template-columns: 1fr !important; }
+
+  /* Ad Banner (TOP) */
+  .ad-banner { padding: 16px; gap: 16px; }
+  .ad-banner-img { width: 120px; height: 68px; }
+
+  /* Inline Ad in Article List */
+  .ad-native-link { gap: 16px; }
+  .ad-native-img { width: 160px; height: 100px; }
+
+  /* Company Page */
+  .stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .b2b-form-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ========== 768px — モバイル ========== */
+@media (max-width: 768px) {
+
+  /* SDC Float Banner */
+  .sdc-float-banner { padding: 12px 16px; gap: 16px; flex-wrap: wrap; }
+  .sdc-float-banner-left { gap: 12px; }
+  .sdc-float-banner-title { font-size: 15px; }
+  .sdc-float-banner-desc { font-size: 11px; }
+  .sdc-float-banner-btn { padding: 8px 24px; font-size: 10px; }
+  .sdc-float-banner-close { right: 12px; font-size: 14px; }
+
+  /* SDC Popup */
+  .sdc-popup-body { padding: 40px 28px 36px; }
+  .sdc-popup-title { font-size: 26px; }
+
+  /* Header */
+  .header-top { padding: 12px 16px; gap: 12px; }
+  .logo-full { height: 22px; }
+  .logo-small { height: 18px; }
+  .btn-login { font-size: 11px; padding: 6px 12px; }
+
+  /* Hamburger Panel — full width */
+  .hamburger-panel { left: 0; }
+  .hamburger-nav-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 24px; }
+  .hamburger-panel-body { flex-direction: column; }
+  .hamburger-aside { width: 100%; }
+  .hamburger-nav { width: 100%; }
+
+  /* Content & Grid */
+  .content-with-sidebar { padding: 0 16px; gap: 24px; }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 20px; }
+
+  /* Maker Grid */
+  .maker-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Benefit Detail */
+  .benefit-detail-item { gap: 16px; padding: 20px 0; }
+  .benefit-detail-num { font-size: 22px; width: 36px; }
+  .benefit-detail-body h4 { font-size: 15px; }
+  .benefit-detail-body p { font-size: 13px; }
+
+  /* Feature Grid */
+  .feature-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Category Hero — stack vertically */
+  .cat-hero-inner { flex-direction: column; gap: 8px; }
+  .cat-hero-inner p { text-align: left; }
+  .cat-hero h1 { font-size: 20px; }
+  .breadcrumb { padding: 10px 16px; }
+  .cat-hero-inner { padding: 0 16px !important; }
+
+  /* Inline Ad in Article List */
+  .ad-native-link { flex-direction: column; gap: 12px; }
+  .ad-native-img { width: 100%; height: 140px; }
+  .ad-native-title { font-size: 13px; }
+  .ad-native-desc { font-size: 11px; }
+
+  /* Hero Slider (TOP) */
+  .hero-slider { height: 480px !important; }
+  .hero-spacer { height: 480px !important; }
+  .slide { width: 92% !important; }
+  .slide-caption { padding: 18px 22px; max-width: 100%; }
+  .slide-caption h2 { font-size: 18px !important; }
+
+  /* Pickup Layout (TOP) */
+  .pickup-layout { grid-template-columns: 1fr !important; gap: 24px 0; }
+  .card-featured .card-title { font-size: 20px; }
+  .card-featured .card-excerpt { font-size: 12px; }
+  .card-list .card-img-sm { width: 120px; height: 80px; }
+  .card-list .card-title { font-size: 16px; }
+  .card-list .card-excerpt { display: none; }
+
+  /* Section headers (TOP) */
+  .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* YouTube / Kazi Movie */
+  .youtube-inner { grid-template-columns: 1fr !important; gap: 20px; }
+  .youtube-text h3 { font-size: 18px; }
+  .youtube-text p { font-size: 12px; }
+  .youtube-stats { gap: 24px; }
+  .youtube-stat-value { font-size: 20px; }
+
+  /* Publication Grid */
+  .pub-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 12px; }
+
+  /* Page Hero (SDC Auth) */
+  .page-hero { padding: 56px 16px 44px !important; }
+  .page-hero h1 { font-size: 22px !important; letter-spacing: 2px !important; }
+  .page-hero p { font-size: 12px !important; }
+
+  /* Profile Header (Mypage) */
+  .profile-header { padding: 28px 16px !important; }
+  .profile-header-inner { flex-direction: column; text-align: center; gap: 16px; }
+  .profile-meta { justify-content: center; flex-wrap: wrap; }
+
+  /* Mypage Grids */
+  .bookmark-grid { grid-template-columns: 1fr !important; }
+  .history-list { grid-template-columns: 1fr !important; }
+  .magazine-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+  .benefit-list { grid-template-columns: 1fr !important; }
+  .marina-fav-list { grid-template-columns: 1fr !important; }
+  .marina-fav-img { width: 90px; height: 60px; }
+
+  /* SDC Promo (Login) */
+  .sdc-brands { gap: 16px; flex-wrap: wrap; }
+
+  /* Form */
+  .form-wrap { padding: 32px 16px 48px; }
+  .form-check-grid { grid-template-columns: 1fr !important; }
+  .step-indicator { max-width: 100%; }
+
+  /* Search Popup */
+  .search-box { padding: 24px 20px 32px !important; }
+  .search-sdc-banner { flex-direction: column; text-align: center; gap: 16px; }
+  .search-cats { gap: 8px; }
+  .search-cat-btn { min-width: 70px !important; padding: 12px 6px !important; }
+
+  /* Card List (articles) */
+  .card-list .card-img-sm { width: 120px; height: 80px; }
+  .card-list .card-title { font-size: 16px; }
+  .card-list .card-excerpt { display: none; }
+
+  /* Footer Sitemap */
+  .footer-sitemap {
+    grid-template-columns: repeat(2, 1fr) !important;
+    padding: 32px 16px 24px;
+    gap: 20px 16px;
+  }
+  .footer-bottom { padding: 16px; font-size: 11px; }
+
+  /* SDC Landing Page */
+  .sdc-hero { padding: 72px 16px 56px !important; }
+  .sdc-hero h1 { font-size: 28px !important; }
+  .sdc-hero p { font-size: 13px !important; }
+  .benefit-grid { grid-template-columns: 1fr !important; }
+  .register-cta { padding: 48px 16px; }
+  .register-cta h2 { font-size: 22px; }
+  .register-cta-btn { padding: 16px 48px; font-size: 14px; }
+
+  /* Big CTA */
+  .big-cta { padding: 64px 16px; }
+  .big-cta h2 { font-size: 24px; }
+  .big-cta p { font-size: 13px; margin-bottom: 28px; }
+  .big-cta-btn { padding: 16px 48px; font-size: 14px; }
+
+  /* Article Header */
+  .article-header { padding: 16px !important; gap: 16px; }
+
+  /* Related Articles — stack to 1 column */
+  .related-grid { grid-template-columns: 1fr !important; }
+  .related-card-img { width: 90px; height: 60px; }
+  .related-card-title { font-size: 14px; }
+  .related-card-excerpt { display: none; }
+
+  /* History list */
+  .history-item { gap: 12px; }
+  .history-item-img { width: 90px; height: 60px; }
+
+  /* Confirm page */
+  .confirm-wrap { padding: 32px 16px 48px; }
+  .confirm-table th { width: 120px; font-size: 11px; padding: 10px 8px 10px 0; }
+  .confirm-table td { font-size: 12px; padding: 10px 0; }
+
+  /* Complete page */
+  .complete-wrap { padding: 48px 16px 64px; }
+
+  /* Article Pager */
+  .article-pager { grid-template-columns: 1fr !important; gap: 16px; }
+
+  /* Ad Banner Page */
+  .layout-mockup { grid-template-columns: 1fr !important; }
+  .sp-mockup-wrap { flex-direction: column; gap: 24px; }
+  .price-table-wrap { grid-template-columns: 1fr !important; gap: 20px; }
+  .price-row { grid-template-columns: 16px 1fr auto !important; gap: 8px; }
+
+  /* SDC Landing — about / plan */
+  .about-wrap { grid-template-columns: 1fr !important; gap: 24px; }
+  .plan-grid { grid-template-columns: 1fr !important; }
+
+  /* Ad Banner (TOP) */
+  .ad-banner { padding: 16px; gap: 16px; }
+  .ad-banner-img { width: 120px; height: 68px; }
+
+  /* Company Page */
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .b2b-form-grid { grid-template-columns: 1fr !important; }
+
+  /* Author Page */
+  .author-profile-card { flex-direction: column; text-align: center; gap: 20px; }
+  .author-stats { flex-wrap: wrap; gap: 16px; justify-content: center; }
+}
+
+/* ========== 480px — スマートフォン小 ========== */
+@media (max-width: 480px) {
+
+  /* Header */
+  .header-top { padding: 10px 12px; gap: 8px; }
+  .btn-sitemap { display: none; }
+
+  /* SDC Float Banner */
+  .sdc-float-banner { padding: 10px 12px; gap: 8px; flex-direction: column; text-align: center; }
+  .sdc-float-banner-left { justify-content: center; }
+  .sdc-float-banner-title { font-size: 14px; }
+  .sdc-float-banner-desc { display: none; }
+  .sdc-float-banner-btn { padding: 8px 20px; }
+  .sdc-float-banner-close { top: 6px; right: 8px; transform: none; font-size: 12px; }
+
+  /* SDC Popup */
+  .sdc-popup-body { padding: 36px 20px 32px; }
+  .sdc-popup-title { font-size: 22px; }
+  .sdc-popup-desc br { display: none; }
+  .sdc-popup-benefits { gap: 20px; }
+  .sdc-popup-btn { padding: 16px 40px; font-size: 12px; }
+
+  /* Hamburger */
+  .hamburger-nav-grid { grid-template-columns: 1fr !important; gap: 16px; }
+  .hamburger-panel-header { padding: 12px 16px; }
+
+  /* Content & Grid */
+  .content-with-sidebar { padding: 0 12px; }
+  .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
+
+  /* Maker Grid */
+  .maker-grid { grid-template-columns: 1fr !important; }
+
+  /* Hero Slider (TOP) */
+  .hero-slider { height: 380px !important; }
+  .hero-spacer { height: 380px !important; }
+  .slide { width: 100% !important; }
+  .slide-caption { padding: 14px 16px; }
+  .slide-caption h2 { font-size: 15px !important; }
+  .slide-caption .area-label { font-size: 10px; }
+
+  /* Pickup Layout (TOP) — vertical stacking */
+  .card-list { flex-direction: column; gap: 12px; }
+  .card-list .card-img-sm { width: 100%; height: 180px; }
+  .card-list .card-title { font-size: 15px; }
+  .card-featured .card-title { font-size: 18px; }
+  .card-featured .card-img { aspect-ratio: 16/9; }
+
+  /* YouTube / Kazi Movie */
+  .youtube-text h3 { font-size: 16px; }
+  .youtube-stats { gap: 16px; flex-wrap: wrap; }
+  .youtube-stat-value { font-size: 18px; }
+
+  /* Publication Grid */
+  .pub-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+
+  /* Page Hero (SDC Auth) */
+  .page-hero { padding: 44px 12px 36px !important; }
+  .page-hero h1 { font-size: 20px !important; }
+  .page-hero-eyebrow { font-size: 10px !important; letter-spacing: 4px !important; }
+
+  /* Search */
+  .search-input-row { flex-direction: column; }
+  .search-input-row input { border-right: 1px solid #e8e8e8 !important; }
+  .search-input-row button { width: 100%; }
+  .search-box { padding: 20px 16px 24px !important; }
+  .search-tags { gap: 6px; }
+  .search-tag { font-size: 11px; padding: 5px 12px; }
+
+  /* Form */
+  .form-wrap { padding: 24px 12px 36px; }
+  .form-submit { padding: 14px 16px; font-size: 14px; }
+  .login-register-btn { padding: 14px 32px; font-size: 13px; }
+  .sdc-pillar h3 { font-size: 15px; }
+  .sdc-brands { gap: 12px; }
+  .sdc-brand { font-size: 11px; }
+  .sdc-testimonial { padding: 20px 20px; }
+
+  /* Card list */
+  .card-list { flex-direction: column; gap: 12px; }
+  .card-list .card-img-sm { width: 100%; height: 180px; }
+  .card-list .card-title { font-size: 15px; }
+
+  /* Mypage */
+  .bookmark-grid { grid-template-columns: 1fr !important; }
+  .bookmark-card-img, .history-item-img { width: 90px; height: 60px; }
+  .bookmark-card-title, .history-item-title { font-size: 14px; }
+  .bookmark-card-excerpt, .history-item-excerpt { display: none; }
+  .magazine-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .sidebar-nav li a { padding: 12px 10px; font-size: 12px; }
+
+  /* Confirm */
+  .confirm-wrap { padding: 24px 12px 36px; }
+  .confirm-table th { width: 100px; }
+
+  /* Complete */
+  .complete-wrap { padding: 36px 12px 48px; }
+  .complete-icon { width: 64px; height: 64px; font-size: 28px; }
+  .btn-mypage { padding: 14px 36px; font-size: 14px; }
+
+  /* Related Articles — smaller thumbnails on small screens */
+  .related-card-img { width: 80px; height: 54px; }
+
+  /* SDC Landing */
+  .sdc-hero { padding: 56px 12px 44px !important; }
+  .sdc-hero h1 { font-size: 22px !important; letter-spacing: 2px !important; }
+  .register-cta { padding: 36px 12px; }
+  .register-cta h2 { font-size: 20px; }
+
+  /* Benefit Detail (small) */
+  .benefit-detail-item { flex-direction: column; gap: 8px; }
+  .benefit-detail-num { width: auto; font-size: 20px; }
+  .benefit-detail-body h4 { font-size: 14px; }
+  .benefit-detail-body p { font-size: 12px; line-height: 1.8; }
+
+  /* Feature Grid (small) */
+  .feature-grid { grid-template-columns: 1fr !important; }
+
+  /* Big CTA */
+  .big-cta { padding: 48px 12px; }
+  .big-cta h2 { font-size: 20px; }
+  .big-cta-btn { padding: 14px 36px; font-size: 13px; letter-spacing: 1px; }
+
+  /* Footer Sitemap */
+  .footer-sitemap { grid-template-columns: 1fr !important; gap: 16px; padding: 24px 12px 20px; }
+  .footer-col-title { font-size: 12px; margin-bottom: 8px; }
+
+  /* Section headers */
+  .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* Article Pager */
+  .article-pager { gap: 12px; }
+
+  /* Ad Banner Page */
+  .sp-mockup-wrap { gap: 16px; }
+  .price-row { grid-template-columns: 1fr !important; gap: 4px; }
+
+  /* Company Page */
+  .stats-grid { grid-template-columns: 1fr !important; }
+  .stats-grid .stat-item { padding: 16px; }
+
+  /* Author Page */
+  .author-profile-card { gap: 16px; }
+  .author-stats { gap: 12px; }
+
+  /* Profile */
+  .profile-avatar { width: 56px; height: 56px; font-size: 22px; }
+  .profile-info h1 { font-size: 18px; }
+  .profile-badge { margin-left: 0; margin-top: 8px; display: block; }
+}

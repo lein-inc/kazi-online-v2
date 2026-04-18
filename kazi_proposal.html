@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAZI ONLINE リニューアル提案書</title>
+<style>
+/* ===== BASE ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial, sans-serif;
+  background: #f0f0f0;
+  color: #1a1a1a;
+  font-size: 10pt;
+  line-height: 1.7;
+}
+
+/* ===== PAGE ===== */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12mm auto;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,.15);
+}
+.page-inner {
+  padding: 18mm 20mm 16mm;
+  min-height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== PRINT ===== */
+@media print {
+  body { background: #fff; }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+  @page { size: A4; margin: 0; }
+}
+
+/* ===== COVER ===== */
+.cover { background: #1a1a1a; }
+.cover .page-inner { padding: 0; justify-content: space-between; }
+.cover-top { padding: 14mm 18mm 0; }
+.cover-logo { font-size: 11pt; font-weight: bold; color: #fff; letter-spacing: 2px; border: 1px solid #555; display: inline-block; padding: 6px 16px; }
+.cover-confidential { font-size: 7pt; color: #666; letter-spacing: 2px; margin-top: 8mm; }
+.cover-main { padding: 0 18mm; }
+.cover-eyebrow { font-size: 8pt; letter-spacing: 3px; color: #888; margin-bottom: 10mm; }
+.cover-title { font-size: 30pt; font-weight: bold; color: #fff; line-height: 1.25; margin-bottom: 8mm; }
+.cover-subtitle { font-size: 12pt; color: #aaa; margin-bottom: 14mm; }
+.cover-divider { width: 40mm; height: 2px; background: #444; margin-bottom: 10mm; }
+.cover-meta { font-size: 8.5pt; color: #777; line-height: 2; }
+.cover-meta strong { color: #aaa; }
+.cover-bottom { background: #111; padding: 8mm 18mm; display: flex; justify-content: space-between; align-items: flex-end; }
+.cover-bottom-brand { font-size: 8pt; color: #555; letter-spacing: 1px; }
+.cover-bottom-page { font-size: 7pt; color: #444; }
+
+/* ===== PAGE HEADER ===== */
+.phead { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 4mm; margin-bottom: 8mm; }
+.phead-section { font-size: 7pt; letter-spacing: 2px; color: #888; }
+.phead-brand { font-size: 7pt; color: #bbb; letter-spacing: 1px; }
+.phead-title { font-size: 18pt; font-weight: bold; color: #1a1a1a; line-height: 1.2; }
+.phead-title-en { font-size: 7.5pt; letter-spacing: 2px; color: #999; margin-top: 1mm; }
+
+/* ===== PAGE FOOTER ===== */
+.pfooter { margin-top: auto; padding-top: 6mm; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 7pt; color: #bbb; }
+
+/* ===== SECTION HEADING ===== */
+.sec { margin-bottom: 6mm; }
+.sec-label { font-size: 7pt; letter-spacing: 2px; color: #999; margin-bottom: 1mm; }
+.sec h2 { font-size: 13pt; font-weight: bold; color: #1a1a1a; border-left: 3px solid #1a1a1a; padding-left: 3mm; margin-bottom: 3mm; }
+.sec h3 { font-size: 10pt; font-weight: bold; color: #1a1a1a; margin-bottom: 2mm; margin-top: 5mm; }
+.sec p { font-size: 9pt; color: #444; line-height: 1.8; margin-bottom: 2mm; }
+
+/* ===== TOC ===== */
+.toc-item { display: flex; align-items: baseline; gap: 3mm; padding: 3mm 0; border-bottom: 1px dotted #ddd; }
+.toc-num { font-size: 8pt; color: #bbb; width: 6mm; flex-shrink: 0; }
+.toc-title { font-size: 9.5pt; color: #333; flex: 1; }
+.toc-sub { font-size: 8pt; color: #999; margin-left: 9mm; padding: 1mm 0; }
+.toc-page { font-size: 8pt; color: #bbb; }
+
+/* ===== ISSUE GRID ===== */
+.issue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin-top: 3mm; }
+.issue-card { border: 1px solid #ddd; padding: 4mm 5mm; }
+.issue-card-tag { font-size: 7pt; color: #999; letter-spacing: 1px; margin-bottom: 1.5mm; }
+.issue-card-title { font-size: 9pt; font-weight: bold; color: #1a1a1a; margin-bottom: 1.5mm; }
+.issue-card-desc { font-size: 8pt; color: #666; line-height: 1.7; }
+
+/* ===== KPI BOXES ===== */
+.kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 4mm 0; }
+.kpi-box { background: #1a1a1a; color: #fff; padding: 5mm; text-align: center; }
+.kpi-box-num { font-size: 20pt; font-weight: bold; color: #fff; line-height: 1; }
+.kpi-box-unit { font-size: 8pt; color: #aaa; }
+.kpi-box-label { font-size: 7.5pt; color: #888; margin-top: 1.5mm; }
+.kpi-box-light { background: #f5f5f5; color: #1a1a1a; padding: 5mm; text-align: center; border: 1px solid #ddd; }
+.kpi-box-light .kpi-box-num { color: #1a1a1a; }
+.kpi-box-light .kpi-box-unit { color: #777; }
+.kpi-box-light .kpi-box-label { color: #999; }
+
+/* ===== CONCEPT CARD ===== */
+.concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 3mm 0; }
+.concept-card { border: 1px solid #1a1a1a; padding: 5mm; }
+.concept-card-num { font-size: 18pt; font-weight: bold; color: #ddd; line-height: 1; margin-bottom: 2mm; }
+.concept-card-title { font-size: 9.5pt; font-weight: bold; color: #1a1a1a; margin-bottom: 2mm; }
+.concept-card-desc { font-size: 8pt; color: #666; line-height: 1.7; }
+
+/* ===== SITEMAP ===== */
+.sitemap-wrap { margin: 3mm 0; }
+.sitemap-row { display: flex; gap: 2mm; margin-bottom: 2.5mm; align-items: stretch; }
+.sitemap-top { background: #1a1a1a; color: #fff; padding: 2.5mm 4mm; font-size: 7.5pt; font-weight: bold; min-width: 20mm; text-align: center; display: flex; align-items: center; justify-content: center; }
+.sitemap-cat { background: #444; color: #fff; padding: 2.5mm 4mm; font-size: 7.5pt; font-weight: bold; min-width: 22mm; flex-shrink: 0; display: flex; align-items: center; }
+.sitemap-cat.light { background: #888; }
+.sitemap-items { display: flex; flex-wrap: wrap; gap: 1.5mm; align-items: center; flex: 1; }
+.sitemap-item { border: 1px solid #ccc; padding: 1.5mm 3mm; font-size: 7pt; color: #555; white-space: nowrap; }
+.sitemap-item.new { border-color: #333; background: #f5f5f5; font-weight: bold; }
+.sitemap-arrow { font-size: 8pt; color: #ccc; padding: 0 1mm; }
+
+/* ===== PAGE WIREFRAME OVERVIEW ===== */
+.wf-overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 3mm 0; }
+.wf-card { border: 1px solid #ddd; }
+.wf-card-thumb { background: #f0f0f0; height: 28mm; display: flex; align-items: center; justify-content: center; font-size: 8pt; color: #bbb; border-bottom: 1px solid #ddd; position: relative; overflow: hidden; }
+.wf-card-thumb-content { text-align: center; }
+.wf-card-body { padding: 3mm; }
+.wf-card-name { font-size: 8pt; font-weight: bold; color: #1a1a1a; margin-bottom: 1mm; }
+.wf-card-desc { font-size: 7pt; color: #888; line-height: 1.6; }
+
+/* Miniature wireframe elements */
+.mini-header { background: #1a1a1a; height: 5px; margin-bottom: 2px; }
+.mini-hero { background: #555; height: 14px; margin-bottom: 2px; display: flex; align-items: center; justify-content: center; }
+.mini-hero span { font-size: 5pt; color: #fff; }
+.mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; }
+.mini-card { background: #e0e0e0; height: 8px; }
+.mini-row { display: flex; gap: 1px; margin-bottom: 2px; }
+.mini-block { background: #ddd; flex: 1; height: 6px; }
+.mini-block.dark { background: #555; }
+.mini-block.wide { flex: 2; }
+.mini-sidebar { background: #f0f0f0; width: 14px; flex-shrink: 0; }
+
+/* ===== B2B SERVICES ===== */
+.b2b-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3mm; margin: 3mm 0; }
+.b2b-card { border: 1px solid #ddd; padding: 5mm; }
+.b2b-card-tag { font-size: 7pt; letter-spacing: 1px; color: #999; margin-bottom: 1.5mm; }
+.b2b-card-title { font-size: 10pt; font-weight: bold; color: #1a1a1a; margin-bottom: 2mm; }
+.b2b-card-desc { font-size: 8pt; color: #555; line-height: 1.7; margin-bottom: 2mm; }
+.b2b-card-list { list-style: none; }
+.b2b-card-list li { font-size: 7.5pt; color: #666; padding: 1mm 0; border-bottom: 1px dotted #eee; padding-left: 3mm; position: relative; }
+.b2b-card-list li::before { content: '—'; position: absolute; left: 0; color: #bbb; }
+
+/* ===== EFFECT TABLE ===== */
+.effect-table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+.effect-table th { background: #1a1a1a; color: #fff; padding: 3mm 4mm; font-size: 8pt; text-align: left; }
+.effect-table td { padding: 3mm 4mm; font-size: 8.5pt; border-bottom: 1px solid #eee; color: #444; vertical-align: top; }
+.effect-table tr:nth-child(even) td { background: #fafafa; }
+.tag-up { background: #1a1a1a; color: #fff; font-size: 7pt; padding: 1px 5px; }
+.tag-new { background: #555; color: #fff; font-size: 7pt; padding: 1px 5px; }
+
+/* ===== SCHEDULE ===== */
+.schedule-table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+.schedule-table th { background: #333; color: #fff; padding: 2.5mm 4mm; font-size: 7.5pt; text-align: center; }
+.schedule-table td { padding: 2.5mm 4mm; font-size: 8pt; border: 1px solid #eee; color: #444; vertical-align: top; }
+.schedule-table td.phase { background: #f5f5f5; font-weight: bold; color: #1a1a1a; font-size: 8pt; }
+.bar { height: 5mm; background: #1a1a1a; border-radius: 1px; }
+.bar-light { height: 5mm; background: #bbb; border-radius: 1px; }
+.bar-outline { height: 5mm; border: 1.5px solid #999; border-radius: 1px; }
+
+/* ===== NEXT STEPS ===== */
+.steps { list-style: none; margin: 3mm 0; }
+.step { display: flex; gap: 4mm; margin-bottom: 3mm; align-items: flex-start; }
+.step-num { width: 7mm; height: 7mm; background: #1a1a1a; color: #fff; font-size: 8pt; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-body { flex: 1; }
+.step-title { font-size: 9.5pt; font-weight: bold; color: #1a1a1a; margin-bottom: 1mm; }
+.step-desc { font-size: 8pt; color: #666; line-height: 1.7; }
+
+/* ===== CTA BOX ===== */
+.cta-box { background: #1a1a1a; color: #fff; padding: 8mm 10mm; margin: 5mm 0; display: flex; justify-content: space-between; align-items: center; gap: 6mm; }
+.cta-box-text h3 { font-size: 12pt; font-weight: bold; color: #fff; margin-bottom: 2mm; }
+.cta-box-text p { font-size: 8.5pt; color: #aaa; line-height: 1.7; }
+.cta-box-btn { border: 1.5px solid #fff; color: #fff; padding: 3mm 8mm; font-size: 8.5pt; white-space: nowrap; flex-shrink: 0; }
+
+/* ===== UTILS ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin: 3mm 0; }
+.divider { height: 1px; background: #eee; margin: 5mm 0; }
+.note { font-size: 7.5pt; color: #999; line-height: 1.7; border-left: 2px solid #ddd; padding-left: 3mm; margin-top: 3mm; }
+.badge { display: inline-block; background: #1a1a1a; color: #fff; font-size: 7pt; padding: 1px 5px; margin-right: 1mm; }
+.badge-light { display: inline-block; border: 1px solid #ccc; color: #777; font-size: 7pt; padding: 1px 5px; margin-right: 1mm; }
+.spacer-sm { height: 3mm; }
+.spacer { height: 6mm; }
+</style>
+</head>
+<body>
+
+<!-- ============================= PAGE 1: COVER ============================= -->
+<div class="page cover">
+  <div class="page-inner">
+    <div class="cover-top">
+      <div class="cover-logo">KAZI ONLINE</div>
+      <div class="cover-confidential">CONFIDENTIAL — 社外秘</div>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <div class="cover-main">
+        <div class="cover-eyebrow">WEB RENEWAL PROPOSAL</div>
+        <div class="cover-title">
+          KAZI ONLINE<br>
+          リニューアル<br>
+          提案書
+        </div>
+        <div class="cover-subtitle">Webサイト全体設計・ワイヤーフレーム提案</div>
+        <div class="cover-divider"></div>
+        <div class="cover-meta">
+          <strong>作成日：</strong>2026年3月<br>
+          <strong>対象クライアント：</strong>株式会社舵社<br>
+          <strong>提案内容：</strong>kazi-online.com 全体リニューアル設計<br>
+          <strong>フェーズ：</strong>情報設計・ワイヤーフレーム提案
+        </div>
+      </div>
+    </div>
+    <div class="cover-bottom">
+      <div class="cover-bottom-brand">KAZI ONLINE RENEWAL PROJECT</div>
+      <div class="cover-bottom-page">PROPOSAL DOCUMENT — 2026</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 2: TOC ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">CONTENTS</div>
+        <div class="phead-title">目次</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="toc-item">
+      <div class="toc-num">01</div>
+      <div class="toc-title"><strong>プロジェクト概要・背景</strong></div>
+      <div class="toc-page">P.3</div>
+    </div>
+    <div class="toc-sub">リニューアルの目的 / 解決すべき課題</div>
+
+    <div class="toc-item">
+      <div class="toc-num">02</div>
+      <div class="toc-title"><strong>提案コンセプト</strong></div>
+      <div class="toc-page">P.4</div>
+    </div>
+    <div class="toc-sub">デザイン・UX方針 / 戦略的ポジショニング</div>
+
+    <div class="toc-item">
+      <div class="toc-num">03</div>
+      <div class="toc-title"><strong>サイト全体構成（情報アーキテクチャ）</strong></div>
+      <div class="toc-page">P.5</div>
+    </div>
+    <div class="toc-sub">グローバルナビ / カテゴリー階層 / 新規追加ページ</div>
+
+    <div class="toc-item">
+      <div class="toc-num">04</div>
+      <div class="toc-title"><strong>主要ページ ワイヤーフレーム概要</strong></div>
+      <div class="toc-page">P.6–7</div>
+    </div>
+    <div class="toc-sub">トップ / カテゴリー / 記事 / マリーナ / ライフスタイル / 会員 / 会社概要</div>
+
+    <div class="toc-item">
+      <div class="toc-num">05</div>
+      <div class="toc-title"><strong>企業・法人向けサービス強化</strong></div>
+      <div class="toc-page">P.8</div>
+    </div>
+    <div class="toc-sub">広告 / タイアップ / イベント / 取材 / B2B問い合わせ導線</div>
+
+    <div class="toc-item">
+      <div class="toc-num">06</div>
+      <div class="toc-title"><strong>期待される効果・KPI</strong></div>
+      <div class="toc-page">P.9</div>
+    </div>
+    <div class="toc-sub">PV向上 / 広告収益 / B2B問い合わせ / 会員獲得</div>
+
+    <div class="toc-item">
+      <div class="toc-num">07</div>
+      <div class="toc-title"><strong>推進スケジュール（案）</strong></div>
+      <div class="toc-page">P.10</div>
+    </div>
+    <div class="toc-sub">フェーズ別ロードマップ（6ヶ月計画）</div>
+
+    <div class="toc-item">
+      <div class="toc-num">08</div>
+      <div class="toc-title"><strong>次のステップ・ご確認事項</strong></div>
+      <div class="toc-page">P.11</div>
+    </div>
+    <div class="toc-sub">承認項目 / アクションリスト</div>
+
+    <div class="spacer"></div>
+    <div class="note">
+      本提案書はKAZI ONLINE（kazi-online.com）のWebサイトリニューアルに関する情報設計・ワイヤーフレーム提案をまとめたものです。
+      記載されている数値・仕様は提案段階のものであり、クライアントとの確認・合意を経て確定します。
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>2</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 3: PROJECT OVERVIEW ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">01 — PROJECT OVERVIEW</div>
+        <div class="phead-title">プロジェクト概要・背景</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">BACKGROUND</div>
+      <h2>リニューアルの背景</h2>
+      <p>
+        KAZI ONLINE（kazi-online.com）は、1952年創業の老舗マリン専門出版社・株式会社舵社が運営する
+        日本唯一のマリン専門Webメディアです。月刊Kazi誌・マリーナ情報・フィッシング・ボート・ヨットなど
+        豊富なコンテンツを持ちながら、現行サイトのUI/UX・情報設計の老朽化により、ユーザー体験・
+        広告収益・企業向け営業の機会損失が生じています。
+      </p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">ISSUES TO SOLVE</div>
+      <h2>解決すべき課題</h2>
+      <div class="issue-grid">
+        <div class="issue-card">
+          <div class="issue-card-tag">ISSUE 01 — UX</div>
+          <div class="issue-card-title">情報の発見性が低い</div>
+          <div class="issue-card-desc">コンテンツは豊富なのに、ナビゲーション構造が分かりにくく、ユーザーが求める情報にたどり着けない。直帰率が高い。</div>
+        </div>
+        <div class="issue-card">
+          <div class="issue-card-tag">ISSUE 02 — B2B</div>
+          <div class="issue-card-title">企業向け訴求が弱い</div>
+          <div class="issue-card-desc">広告掲載・タイアップ・取材依頼などのB2B問い合わせへの導線がなく、企業からのアプローチ機会を逃している。</div>
+        </div>
+        <div class="issue-card">
+          <div class="issue-card-tag">ISSUE 03 — CONTENT</div>
+          <div class="issue-card-title">カテゴリー設計の最適化</div>
+          <div class="issue-card-desc">コンテンツの粒度がバラバラで、SEO的にも整理が必要。サブカテゴリーの設計により検索流入を強化できる余地がある。</div>
+        </div>
+        <div class="issue-card">
+          <div class="issue-card-tag">ISSUE 04 — MEMBER</div>
+          <div class="issue-card-title">会員サービスの認知不足</div>
+          <div class="issue-card-desc">Sea Dream Club（会員制サービス）の価値が十分に伝わっておらず、会員獲得数が伸び悩んでいる。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">PROJECT GOALS</div>
+      <h2>プロジェクトゴール</h2>
+      <div class="kpi-row">
+        <div class="kpi-box">
+          <div class="kpi-box-num">UX</div>
+          <div class="kpi-box-label">情報設計を刷新し<br>使いやすさを向上</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-box-num">B2B</div>
+          <div class="kpi-box-label">企業向け問い合わせ<br>導線を新設</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-box-num">SEO</div>
+          <div class="kpi-box-label">専門コンテンツで<br>検索流入を強化</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>3</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 4: CONCEPT ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">02 — CONCEPT</div>
+        <div class="phead-title">提案コンセプト</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">SERVICE STATEMENT</div>
+      <h2>サービスステートメント</h2>
+      <div style="background:#1a1a1a; color:#fff; padding:8mm 10mm; margin:3mm 0;">
+        <div style="font-size:7pt; letter-spacing:3px; color:#888; margin-bottom:3mm;">CORE MESSAGE</div>
+        <div style="font-size:18pt; font-weight:bold; color:#fff; line-height:1.35; margin-bottom:4mm;">
+          日本のマリンカルチャーを、<br>次の世代へ。
+        </div>
+        <div style="font-size:8.5pt; color:#bbb; line-height:1.9; max-width:130mm;">
+          舵社は創業以来70余年、日本唯一のマリン専門メディアとして、ヨット・ボート・フィッシング・
+          マリンライフスタイルの文化と情報を発信し続けてきました。雑誌・Web・EC・会員コミュニティを通じて、
+          マリンを愛するすべての人と産業をつなぎます。
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer-sm"></div>
+
+    <div class="sec">
+      <div class="sec-label">DESIGN CONCEPT</div>
+      <h2>デザイン・UX方針</h2>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-card-num">01</div>
+          <div class="concept-card-title">信頼性と専門性の可視化</div>
+          <div class="concept-card-desc">70年の実績を体現するモノクロームベースのプロフェッショナルデザイン。過剰な装飾を排し、コンテンツの質で訴求する。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-num">02</div>
+          <div class="concept-card-title">コンテンツファースト設計</div>
+          <div class="concept-card-desc">ユーザーが最短経路でコンテンツに到達できるIA設計。グローバルナビ7カテゴリー＋サブナビ構造で直感的に操作できる。</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-num">03</div>
+          <div class="concept-card-title">マルチステークホルダー対応</div>
+          <div class="concept-card-desc">一般ユーザー（読者・愛好家）と企業・法人（広告主・パートナー）の両方に最適化したページ設計と導線を整備する。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer-sm"></div>
+
+    <div class="sec">
+      <div class="sec-label">POSITIONING</div>
+      <h2>戦略的ポジショニング</h2>
+      <div class="two-col">
+        <div>
+          <h3>ユーザー向け価値</h3>
+          <p>マリンの「知りたい」に全て答えるワンストップ専門メディア。記事・マリーナ検索・商品購入・コミュニティ参加まで、一つのサイトで完結できる体験を提供。</p>
+        </div>
+        <div>
+          <h3>企業・法人向け価値</h3>
+          <p>マリン業界に特化した圧倒的なリーチ。購買力の高いマリンオーナー・愛好家へのダイレクトアプローチを実現。誌面×Web×EC×会員の4つのチャネルを一括提供。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>4</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 5: IA / SITEMAP ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">03 — INFORMATION ARCHITECTURE</div>
+        <div class="phead-title">サイト全体構成</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">SITEMAP — PROPOSED STRUCTURE</div>
+      <h2>提案サイトマップ</h2>
+    </div>
+
+    <div class="sitemap-wrap">
+      <!-- TOP -->
+      <div class="sitemap-row">
+        <div class="sitemap-top">TOP</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">ヒーローバナー</span>
+          <span class="sitemap-item">新着ニュース</span>
+          <span class="sitemap-item">カテゴリーナビ</span>
+          <span class="sitemap-item">人気記事ランキング</span>
+          <span class="sitemap-item">Sea Dream Club CTA</span>
+          <span class="sitemap-item">メーカー一覧</span>
+          <span class="sitemap-item">マリーナマップ</span>
+        </div>
+      </div>
+
+      <!-- NEWS -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">ニュース</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">新着ニュース</span>
+          <span class="sitemap-item">新製品・新着</span>
+          <span class="sitemap-item">イベント情報</span>
+          <span class="sitemap-item">人気ランキング</span>
+          <span class="sitemap-item">展示会</span>
+        </div>
+      </div>
+
+      <!-- FISHING -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">フィッシング</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">ルアーフィッシング</span>
+          <span class="sitemap-item">タックル・ギア</span>
+          <span class="sitemap-item">魚種別ガイド</span>
+          <span class="sitemap-item">フィッシング入門</span>
+        </div>
+      </div>
+
+      <!-- GEAR -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">マリングッズ・ギア</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">マリンウェア</span>
+          <span class="sitemap-item">ライフジャケット・安全器具</span>
+          <span class="sitemap-item">パドルスポーツ用品</span>
+          <span class="sitemap-item">マリングッズ一覧</span>
+        </div>
+      </div>
+
+      <!-- YACHT -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">ヨット</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">最新ヨットレビュー</span>
+          <span class="sitemap-item">セーリング技術</span>
+          <span class="sitemap-item">レース情報</span>
+          <span class="sitemap-item">購入ガイド</span>
+        </div>
+      </div>
+
+      <!-- BOAT -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">ボート</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">ボートレビュー</span>
+          <span class="sitemap-item">操縦テクニック</span>
+          <span class="sitemap-item">2馬力ボート特集</span>
+          <span class="sitemap-item">トレーラブルボート</span>
+          <span class="sitemap-item">購入ガイド</span>
+        </div>
+      </div>
+
+      <!-- MARINA -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">マリーナ</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">全国マリーナ一覧</span>
+          <span class="sitemap-item">エリア別マリーナ検索</span>
+          <span class="sitemap-item">マリーナマップ（地図）</span>
+        </div>
+      </div>
+
+      <!-- LIFESTYLE -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat">ライフスタイル</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">マリンウェア・ファッション</span>
+          <span class="sitemap-item">グルメ</span>
+          <span class="sitemap-item">ホテル・リゾート</span>
+          <span class="sitemap-item">トラベル</span>
+          <span class="sitemap-item">グッズ</span>
+          <span class="sitemap-item">マリンカレンダー</span>
+        </div>
+      </div>
+
+      <div class="spacer-sm"></div>
+
+      <!-- SERVICES -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat light">サービス・会員</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item">Sea Dream Club</span>
+          <span class="sitemap-item">KAZIシープラザ（EC）</span>
+          <span class="sitemap-item">月刊Kazi</span>
+          <span class="sitemap-item">メーカー＆ビルダー</span>
+          <span class="sitemap-item">エントリーガイド</span>
+        </div>
+      </div>
+
+      <!-- CORPORATE -->
+      <div class="sitemap-row">
+        <div class="sitemap-cat light">コーポレート</div>
+        <div class="sitemap-items">
+          <span class="sitemap-item new">会社概要（強化）</span>
+          <span class="sitemap-item new">企業向けお問い合わせ（新設）</span>
+          <span class="sitemap-item">お問い合わせ</span>
+          <span class="sitemap-item">プライバシーポリシー</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer-sm"></div>
+    <div class="note">
+      <span class="badge">強化</span> 既存ページを大幅リニューアル &nbsp;
+      <span class="badge-light">新設</span> 新規追加ページ。特に「企業向けお問い合わせ」は会社概要内に統合し、B2B導線を一本化。
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>5</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 6: WIREFRAME OVERVIEW 1 ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">04 — WIREFRAME OVERVIEW</div>
+        <div class="phead-title">主要ページ ワイヤーフレーム概要（1/2）</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="wf-overview-grid">
+
+      <!-- TOP -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div class="mini-hero"><span>HERO</span></div>
+            <div class="mini-row">
+              <div class="mini-block dark"></div><div class="mini-block dark"></div><div class="mini-block dark"></div>
+              <div class="mini-block dark"></div><div class="mini-block dark"></div>
+            </div>
+            <div class="mini-grid">
+              <div class="mini-card"></div><div class="mini-card"></div><div class="mini-card"></div>
+              <div class="mini-card"></div><div class="mini-card"></div><div class="mini-card"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">TOP（トップページ）</div>
+          <div class="wf-card-desc">ヒーローバナー・新着ニュース・カテゴリーナビ・ランキング・Sea Dream Club CTA・メーカー紹介</div>
+        </div>
+      </div>
+
+      <!-- NEWS -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#555; height:8px; margin-bottom:2px;"></div>
+            <div class="mini-row" style="gap:2px;">
+              <div style="flex:1; display:flex; flex-direction:column; gap:1px;">
+                <div style="background:#ddd; height:10px;"></div>
+                <div style="background:#eee; height:4px;"></div>
+                <div style="background:#eee; height:4px;"></div>
+              </div>
+              <div class="mini-sidebar"></div>
+            </div>
+            <div class="mini-row" style="gap:2px;">
+              <div style="flex:1; background:#ddd; height:10px;"></div>
+              <div class="mini-sidebar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">ニュース一覧 / 詳細</div>
+          <div class="wf-card-desc">新着・新製品・イベント・展示会の4タブ切替。サイドバーでランキング・タグ表示。</div>
+        </div>
+      </div>
+
+      <!-- ARTICLE -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#555; height:6px;"></div>
+            <div class="mini-row" style="gap:2px;">
+              <div style="flex:3; display:flex; flex-direction:column; gap:1px;">
+                <div style="background:#e0e0e0; height:12px;"></div>
+                <div style="background:#f0f0f0; height:3px;"></div>
+                <div style="background:#f0f0f0; height:3px;"></div>
+                <div style="background:#f0f0f0; height:3px;"></div>
+              </div>
+              <div style="flex:1; background:#f5f5f5; border:1px solid #ddd;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">記事ページ</div>
+          <div class="wf-card-desc">本文2カラム・関連記事・著者情報・シェアボタン。Sea Dream Club会員向けプレミアムコンテンツ対応。</div>
+        </div>
+      </div>
+
+      <!-- FISHING -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#333; height:8px; margin-bottom:2px;"></div>
+            <div class="mini-row" style="gap:1.5px;">
+              <div style="background:#e8e8e8; height:8px; flex:1;"></div>
+              <div style="background:#e8e8e8; height:8px; flex:1;"></div>
+              <div style="background:#e8e8e8; height:8px; flex:1;"></div>
+              <div style="background:#e8e8e8; height:8px; flex:1;"></div>
+            </div>
+            <div class="mini-grid">
+              <div class="mini-card"></div><div class="mini-card"></div><div class="mini-card"></div>
+              <div class="mini-card"></div><div class="mini-card"></div><div class="mini-card"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">フィッシング</div>
+          <div class="wf-card-desc">ルアー・タックル・魚種別・入門の4サブカテゴリー。ビギナーからプロまで対応した専門コンテンツ設計。</div>
+        </div>
+      </div>
+
+      <!-- BOAT/YACHT -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#444; height:9px; margin-bottom:2px;"></div>
+            <div class="mini-row" style="gap:1.5px; margin-bottom:2px;">
+              <div style="background:#555; height:6px; flex:1;"></div>
+              <div style="background:#555; height:6px; flex:1;"></div>
+              <div style="background:#555; height:6px; flex:1;"></div>
+              <div style="background:#555; height:6px; flex:1;"></div>
+              <div style="background:#555; height:6px; flex:1;"></div>
+            </div>
+            <div class="mini-row" style="gap:1.5px;">
+              <div style="background:#e0e0e0; height:10px; flex:1;"></div>
+              <div style="background:#e0e0e0; height:10px; flex:1;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">ボート / ヨット</div>
+          <div class="wf-card-desc">レビュー・テクニック・購入ガイド・特集ページで構成。2馬力・トレーラブルなどニッチ訴求も対応。</div>
+        </div>
+      </div>
+
+      <!-- MARINA -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#333; height:7px; margin-bottom:2px;"></div>
+            <div style="display:flex; gap:2px; flex:1;">
+              <div style="background:#e0e0e0; flex:2; display:flex; align-items:center; justify-content:center;">
+                <span style="font-size:5pt; color:#aaa;">MAP</span>
+              </div>
+              <div style="flex:1; display:flex; flex-direction:column; gap:1px;">
+                <div style="background:#f0f0f0; height:6px; border:1px solid #ddd;"></div>
+                <div style="background:#f0f0f0; height:6px; border:1px solid #ddd;"></div>
+                <div style="background:#f0f0f0; height:6px; border:1px solid #ddd;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">マリーナ</div>
+          <div class="wf-card-desc">全国551カ所の地図連携マリーナ検索。エリア別一覧・詳細ページ・設備情報の3層構造。</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>6</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 7: WIREFRAME OVERVIEW 2 ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">04 — WIREFRAME OVERVIEW</div>
+        <div class="phead-title">主要ページ ワイヤーフレーム概要（2/2）</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="wf-overview-grid">
+
+      <!-- LIFESTYLE -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#555; height:8px; margin-bottom:2px;"></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5px; margin-bottom:2px;">
+              <div style="background:#ddd; height:8px;"></div>
+              <div style="background:#ddd; height:8px;"></div>
+              <div style="background:#ddd; height:8px;"></div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5px;">
+              <div style="background:#e8e8e8; height:10px;"></div>
+              <div style="background:#e8e8e8; height:10px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">ライフスタイル</div>
+          <div class="wf-card-desc">ファッション・グルメ・ホテル・トラベル・グッズ・カレンダーの6サブカテゴリー。海を軸にしたライフスタイル提案。</div>
+        </div>
+      </div>
+
+      <!-- SDC -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#1a1a1a; height:16px; display:flex; align-items:center; justify-content:center; margin-bottom:2px;">
+              <span style="font-size:5pt; color:#fff; letter-spacing:1px;">Sea Dream Club</span>
+            </div>
+            <div class="mini-row" style="gap:1.5px;">
+              <div style="background:#f0f0f0; border:1px solid #ddd; flex:1; height:7px;"></div>
+              <div style="background:#f0f0f0; border:1px solid #ddd; flex:1; height:7px;"></div>
+              <div style="background:#f0f0f0; border:1px solid #ddd; flex:1; height:7px;"></div>
+            </div>
+            <div style="background:#333; height:5px;"></div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">Sea Dream Club（会員）</div>
+          <div class="wf-card-desc">会員メリット訴求・無料登録フォーム・会員限定コンテンツプレビュー。登録CTAを最上部に配置し離脱を防止。</div>
+        </div>
+      </div>
+
+      <!-- MAKER -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#444; height:6px; margin-bottom:2px;"></div>
+            <div class="mini-row" style="gap:1px; flex-wrap:wrap; align-content:flex-start;">
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+              <div style="background:#eee; border:1px solid #ddd; width:18%; height:8px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">メーカー＆ビルダー</div>
+          <div class="wf-card-desc">国内外のマリン関連メーカー・ビルダーを網羅したディレクトリ。ロゴ一覧から各メーカーページへリンク。</div>
+        </div>
+      </div>
+
+      <!-- COMPANY -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#1a1a1a; height:14px; display:flex; align-items:center; justify-content:center; margin-bottom:2px;">
+              <span style="font-size:5pt; color:#aaa;">SERVICE STATEMENT</span>
+            </div>
+            <div class="mini-row" style="gap:1.5px; margin-bottom:2px;">
+              <div style="background:#555; flex:1; height:5px;"></div>
+              <div style="background:#555; flex:1; height:5px;"></div>
+              <div style="background:#555; flex:1; height:5px;"></div>
+              <div style="background:#555; flex:1; height:5px;"></div>
+              <div style="background:#555; flex:1; height:5px;"></div>
+            </div>
+            <div style="background:#1a1a1a; height:6px;"></div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">会社概要（大幅強化）</div>
+          <div class="wf-card-desc">サービスステートメント・実績数値・サービス紹介・企業向けサービス4種・B2B問い合わせフォームを一体化。</div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:#444; height:6px; margin-bottom:2px;"></div>
+            <div style="display:flex; flex-direction:column; gap:1.5px;">
+              <div style="background:#f5f5f5; border:1px solid #ddd; height:4px;"></div>
+              <div style="background:#f5f5f5; border:1px solid #ddd; height:4px;"></div>
+              <div style="background:#f5f5f5; border:1px solid #ddd; height:4px;"></div>
+              <div style="background:#f5f5f5; border:1px solid #ddd; height:4px;"></div>
+              <div style="background:#1a1a1a; height:5px; margin-top:1px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">お問い合わせ</div>
+          <div class="wf-card-desc">一般問い合わせ・広告・取材・採用を種別選択で振り分け。企業向けは会社概要内の専用フォームへ誘導。</div>
+        </div>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="wf-card">
+        <div class="wf-card-thumb">
+          <div style="width:100%; height:100%; padding:3px; display:flex; flex-direction:column; gap:2px;">
+            <div class="mini-header"></div>
+            <div style="background:rgba(0,0,0,0.5); flex:1; display:flex; align-items:center; justify-content:center; padding:3px;">
+              <div style="background:#fff; border:1px solid #999; width:100%; padding:3px;">
+                <div style="background:#eee; height:4px; margin-bottom:1.5px;"></div>
+                <div style="display:flex; gap:1px; flex-wrap:wrap;">
+                  <div style="background:#f0f0f0; border:1px solid #ddd; width:20%; height:4px;"></div>
+                  <div style="background:#f0f0f0; border:1px solid #ddd; width:20%; height:4px;"></div>
+                  <div style="background:#f0f0f0; border:1px solid #ddd; width:20%; height:4px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-card-body">
+          <div class="wf-card-name">検索ポップアップ</div>
+          <div class="wf-card-desc">全ページ共通のオーバーレイ検索。よく検索されるキーワード・カテゴリー・Sea Dream Club誘導・注目記事を表示。</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="note" style="margin-top:3mm;">
+      全<strong>45ページ</strong>分のワイヤーフレームHTMLを作成済み。すべてのページが相互リンクで接続されており、ブラウザ上でサイト全体のUXを体験・確認可能。
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>7</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 8: B2B ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">05 — BUSINESS SOLUTIONS</div>
+        <div class="phead-title">企業・法人向けサービス強化</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <p>
+        リニューアルの重要施策として、会社概要ページを単なる基本情報の掲載から「企業向けランディングページ」へと転換します。
+        サービスステートメント・実績数値・サービス一覧・4つの企業向けサービス・お問い合わせフォームを一体化し、
+        企業担当者が「ここで全て解決できる」と感じる設計にします。
+      </p>
+    </div>
+
+    <div class="b2b-grid">
+      <div class="b2b-card">
+        <div class="b2b-card-tag">SERVICE 01 — ADVERTISING</div>
+        <div class="b2b-card-title">広告掲載</div>
+        <div class="b2b-card-desc">月刊Kazi誌面・KAZI ONLINEへの広告出稿。購買力の高いマリン愛好家層に効率よくリーチ。</div>
+        <ul class="b2b-card-list">
+          <li>月刊誌 全面・半面・1/4面広告</li>
+          <li>Webバナー広告（トップ・記事内）</li>
+          <li>メルマガ広告</li>
+          <li>Sea Dream Club会員向け配信</li>
+        </ul>
+      </div>
+
+      <div class="b2b-card">
+        <div class="b2b-card-tag">SERVICE 02 — CONTENT</div>
+        <div class="b2b-card-title">タイアップ・記事制作</div>
+        <div class="b2b-card-desc">編集部制作のタイアップ記事・特集。読者に信頼されるコンテンツで自然な訴求が可能。</div>
+        <ul class="b2b-card-list">
+          <li>タイアップ記事（誌面・Web）</li>
+          <li>製品インプレッション記事</li>
+          <li>ブランドストーリー特集</li>
+          <li>SNS連動コンテンツ制作</li>
+        </ul>
+      </div>
+
+      <div class="b2b-card">
+        <div class="b2b-card-tag">SERVICE 03 — EVENT</div>
+        <div class="b2b-card-title">イベント・展示会</div>
+        <div class="b2b-card-desc">舵社主催イベント・展示会への協賛・出展。マリン愛好家と直接コネクトできる機会。</div>
+        <ul class="b2b-card-list">
+          <li>ジャパンインターナショナルボートショー</li>
+          <li>マリン関連展示会・イベント協賛</li>
+          <li>Sea Dream Club会員向けイベント</li>
+          <li>メーカー向け出展サポート</li>
+        </ul>
+      </div>
+
+      <div class="b2b-card">
+        <div class="b2b-card-tag">SERVICE 04 — PR</div>
+        <div class="b2b-card-title">取材・プレスリリース</div>
+        <div class="b2b-card-desc">新製品・新サービスの取材・プレスリリース受付。マリン専門読者に向けて確実に情報を届ける。</div>
+        <ul class="b2b-card-list">
+          <li>新製品発表・取材対応</li>
+          <li>プレスリリース掲載</li>
+          <li>展示会・発表会の取材</li>
+          <li>インプレッション撮影・試乗取材</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <div class="cta-box-text">
+        <h3>企業・法人向けお問い合わせフォームを新設</h3>
+        <p>会社名・部署・担当者名・電話番号・問い合わせ種別・内容を入力できる専用フォームを会社概要ページ内に設置。<br>「通常2営業日以内にご返信」の記載でレスポンスの信頼感を担保。メディアガイドPDFのダウンロードCTAも併設。</p>
+      </div>
+      <div class="cta-box-btn">→ フォームへ</div>
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>8</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 9: EFFECTS / KPI ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">06 — EXPECTED RESULTS</div>
+        <div class="phead-title">期待される効果・KPI</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">KEY METRICS</div>
+      <h2>主要KPI目標（リニューアル後12ヶ月）</h2>
+      <div class="kpi-row">
+        <div class="kpi-box-light">
+          <div class="kpi-box-num">+30<span class="kpi-box-unit">%</span></div>
+          <div class="kpi-box-label">月間PV向上<br>（UX改善・SEO強化）</div>
+        </div>
+        <div class="kpi-box-light">
+          <div class="kpi-box-num">+50<span class="kpi-box-unit">%</span></div>
+          <div class="kpi-box-label">B2B問い合わせ増加<br>（企業向け導線新設）</div>
+        </div>
+        <div class="kpi-box-light">
+          <div class="kpi-box-num">+40<span class="kpi-box-unit">%</span></div>
+          <div class="kpi-box-label">Sea Dream Club<br>会員登録数増加</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer-sm"></div>
+
+    <div class="sec">
+      <div class="sec-label">IMPACT BY AREA</div>
+      <h2>領域別の期待効果</h2>
+      <table class="effect-table">
+        <thead>
+          <tr>
+            <th style="width:22mm;">領域</th>
+            <th style="width:28mm;">施策</th>
+            <th>期待される効果</th>
+            <th style="width:16mm;">優先度</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>UX / ナビ</strong></td>
+            <td>7カテゴリー×サブナビ整理</td>
+            <td>回遊率向上・直帰率低下。ユーザーが目的のコンテンツに最短到達できる設計により、セッション時間延長。</td>
+            <td><span class="tag-up">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>SEO</strong></td>
+            <td>専門サブカテゴリーの新設</td>
+            <td>「ルアーフィッシング」「2馬力ボート」「トレーラブルボート」等のロングテールキーワードで検索流入増加。</td>
+            <td><span class="tag-up">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>B2B収益</strong></td>
+            <td>会社概要のLP化・フォーム設置</td>
+            <td>企業から自発的な問い合わせが発生。広告・タイアップ・イベント協賛の商談数増加。</td>
+            <td><span class="tag-up">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>会員獲得</strong></td>
+            <td>Sea Dream Club CTAの強化</td>
+            <td>全ページ固定CTAボタン＋検索ポップアップ内バナーにより、会員登録の認知度・転換率向上。</td>
+            <td><span class="tag-up">MID</span></td>
+          </tr>
+          <tr>
+            <td><strong>EC（シープラザ）</strong></td>
+            <td>カテゴリー記事からEC誘導</td>
+            <td>ギア・フィッシングカテゴリーの記事から直接商品ページへの導線を設置。コンテンツ経由のEC売上向上。</td>
+            <td><span class="tag-up">MID</span></td>
+          </tr>
+          <tr>
+            <td><strong>マリーナ情報</strong></td>
+            <td>地図連携マリーナ検索</td>
+            <td>全国551カ所のマリーナが地図から検索可能に。マリーナとのパートナーシップ強化・掲載料収益化の検討。</td>
+            <td><span class="tag-new">NEW</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>9</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 10: SCHEDULE ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">07 — ROADMAP</div>
+        <div class="phead-title">推進スケジュール（案）</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">6-MONTH ROADMAP</div>
+      <h2>フェーズ別ロードマップ</h2>
+    </div>
+
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th style="width:28mm;">フェーズ</th>
+          <th style="width:20mm;">期間</th>
+          <th>主な作業内容</th>
+          <th style="width:16mm;">成果物</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="phase">Ph.1<br>情報設計・確認</td>
+          <td style="text-align:center; font-size:8pt;">Month 1</td>
+          <td style="font-size:8pt;">
+            ・ワイヤーフレーム全ページのクライアント確認・フィードバック収集<br>
+            ・サイトマップの最終確定<br>
+            ・コンテンツ棚卸し・移行計画策定
+          </td>
+          <td style="font-size:7.5pt; text-align:center;">確定IA<br>修正WF</td>
+        </tr>
+        <tr>
+          <td class="phase">Ph.2<br>ビジュアルデザイン</td>
+          <td style="text-align:center; font-size:8pt;">Month 2–3</td>
+          <td style="font-size:8pt;">
+            ・トップページ・主要カテゴリーのビジュアルデザイン制作<br>
+            ・デザインシステム（カラー・フォント・コンポーネント）策定<br>
+            ・モバイル対応デザイン確認
+          </td>
+          <td style="font-size:7.5pt; text-align:center;">デザイン<br>カンプ</td>
+        </tr>
+        <tr>
+          <td class="phase">Ph.3<br>フロントエンド実装</td>
+          <td style="text-align:center; font-size:8pt;">Month 3–4</td>
+          <td style="font-size:8pt;">
+            ・HTMLコーディング・CMS組み込み<br>
+            ・検索機能・マリーナマップ実装<br>
+            ・B2B問い合わせフォーム・Sea Dream Club会員登録連携
+          </td>
+          <td style="font-size:7.5pt; text-align:center;">実装<br>ステージング</td>
+        </tr>
+        <tr>
+          <td class="phase">Ph.4<br>コンテンツ移行・QA</td>
+          <td style="text-align:center; font-size:8pt;">Month 5</td>
+          <td style="font-size:8pt;">
+            ・既存コンテンツの移行・整理<br>
+            ・ブラウザ・デバイステスト<br>
+            ・SEO設定（メタタグ・OGP・サイトマップXML）<br>
+            ・アクセス解析タグ設定
+          </td>
+          <td style="font-size:7.5pt; text-align:center;">QA報告書<br>本番準備</td>
+        </tr>
+        <tr>
+          <td class="phase">Ph.5<br>公開・運用支援</td>
+          <td style="text-align:center; font-size:8pt;">Month 6〜</td>
+          <td style="font-size:8pt;">
+            ・本番公開・切り替え<br>
+            ・公開後モニタリング（1ヶ月）<br>
+            ・KPI測定・改善提案<br>
+            ・運用マニュアル納品
+          </td>
+          <td style="font-size:7.5pt; text-align:center;">公開<br>運用開始</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="spacer-sm"></div>
+
+    <div class="sec">
+      <div class="sec-label">CURRENT STATUS</div>
+      <h2>現在の進捗</h2>
+      <div class="two-col">
+        <div>
+          <h3>完了済み ✓</h3>
+          <p style="font-size:8.5pt;">
+            全45ページのワイヤーフレームHTML作成完了。トップページ・各カテゴリートップ・サブカテゴリー・
+            記事ページ・会社概要（B2B強化版）・お問い合わせ・会員ページまで全ページが相互リンクで接続。
+            ブラウザ上でサイト全体のUXを確認可能な状態。
+          </p>
+        </div>
+        <div>
+          <h3>次のアクション</h3>
+          <p style="font-size:8.5pt;">
+            クライアントによるワイヤーフレーム全体のレビュー・フィードバックをいただき、
+            情報設計の最終確定に進みます。修正点を反映後、ビジュアルデザインフェーズへ移行します。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>10</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 11: NEXT STEPS ============================= -->
+<div class="page">
+  <div class="page-inner">
+    <div class="phead">
+      <div>
+        <div class="phead-section">08 — NEXT STEPS</div>
+        <div class="phead-title">次のステップ・ご確認事項</div>
+      </div>
+      <div class="phead-brand">KAZI ONLINE RENEWAL PROPOSAL</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">ACTION ITEMS</div>
+      <h2>クライアント側のアクション</h2>
+    </div>
+
+    <ul class="steps">
+      <li class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">ワイヤーフレーム全体のレビュー</div>
+          <div class="step-desc">
+            作成済み45ページのワイヤーフレームHTMLをブラウザで確認いただき、ページ構成・コンテンツ配置・
+            導線設計についてフィードバックをお寄せください。修正・追加ページがあればお知らせください。<br>
+            <strong>確認URL：</strong>file:///Users/yoichikimura/scripts/mail_to_sheets/wireframe_top.html
+          </div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">コンテンツ・データの棚卸し確認</div>
+          <div class="step-desc">
+            現行サイトのコンテンツ（記事・画像・マリーナデータ等）の移行可否・優先順位を社内で確認してください。
+            特にマリーナ551カ所のデータ形式・権利関係の確認をお願いします。
+          </div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">企業向けサービスの情報整理</div>
+          <div class="step-desc">
+            会社概要ページに掲載する広告料金・タイアップ費用・イベント協賛金額などの情報を整理してください。
+            また、メディアガイドPDFの有無・作成意向についてもご確認ください。
+          </div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">デザイン方向性の確認</div>
+          <div class="step-desc">
+            現在のワイヤーフレームはモノクローム基調のプロフェッショナルデザインを採用しています。
+            ブランドカラー・フォント・写真の使い方など、ビジュアルデザインの方向性についての
+            ご意向（参考サイト等）をお聞かせください。
+          </div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">スケジュール・予算の合意</div>
+          <div class="step-desc">
+            提案スケジュールをご確認いただき、公開目標時期・予算についてご確認ください。
+            フェーズを分けた段階的な進め方も対応可能です。
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="spacer-sm"></div>
+
+    <div class="cta-box">
+      <div class="cta-box-text">
+        <h3>ご不明点・ご質問はお気軽に</h3>
+        <p>
+          本提案書の内容・ワイヤーフレームの詳細・スケジュール・費用など、<br>
+          お気軽にご相談ください。オンライン打ち合わせも随時対応いたします。
+        </p>
+      </div>
+      <div style="flex-shrink:0; text-align:right; font-size:8.5pt; color:#aaa; line-height:2;">
+        <div style="color:#fff; font-size:10pt; font-weight:bold; margin-bottom:2mm;">お問い合わせ</div>
+        担当：○○ ○○<br>
+        Email：xxx@xxx.co.jp<br>
+        Tel：03-XXXX-XXXX
+      </div>
+    </div>
+
+    <div class="spacer-sm"></div>
+    <div class="note">
+      本提案書に記載されている数値・スケジュール・サービス内容は提案段階のものです。
+      クライアントとの協議を経て最終確定します。ワイヤーフレームHTMLの著作権は提案者に帰属しますが、
+      本提案採用後は制作物として移転します。
+    </div>
+
+    <div class="pfooter">
+      <span>KAZI ONLINE リニューアル提案書 — 2026</span>
+      <span>11</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>広告バナー配置モデル - KAZI ONLINE ワイヤーフレーム</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #f5f5f5; color: #333; font-size: 14px; }
+
+  /* ===== Page Header ===== */
+  .page-header {
+    background: #0a0f1a; color: #fff; padding: 56px 40px 48px; text-align: center;
+  }
+  .page-header-eyebrow {
+    font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 6px;
+    color: #2c5f8a; margin-bottom: 16px; font-weight: 600;
+  }
+  .page-header h1 {
+    font-family: 'Noto Serif JP', serif; font-size: 28px; font-weight: 400;
+    margin-bottom: 12px; letter-spacing: 2px;
+  }
+  .page-header p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .page-header .stats {
+    display: flex; justify-content: center; gap: 32px; margin-top: 24px;
+    font-family: 'Inter', sans-serif;
+  }
+  .page-header .stat-item { text-align: center; }
+  .page-header .stat-num { font-size: 28px; font-weight: 700; color: #3a7ab5; }
+  .page-header .stat-label { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; margin-top: 4px; }
+
+  /* ===== Section ===== */
+  .section {
+    max-width: 1200px; margin: 0 auto; padding: 56px 40px;
+  }
+  .section-title {
+    font-size: 18px; font-weight: 700; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title .badge {
+    font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
+    background: #1e3a5f; color: #fff; padding: 3px 10px; border-radius: 2px;
+    letter-spacing: 1px;
+  }
+  .section-desc { font-size: 13px; color: #888; margin-bottom: 32px; }
+
+  /* ===== PC Layout Mockup ===== */
+  .layout-mockup {
+    display: grid; grid-template-columns: 1fr 300px; gap: 0;
+    background: #fff; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;
+    max-width: 1000px; margin: 0 auto;
+  }
+
+  .mock-header {
+    grid-column: 1 / -1; background: #1a1a1a; color: #fff;
+    padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px;
+  }
+  .mock-header .mock-logo { font-weight: 700; font-size: 16px; letter-spacing: 2px; }
+  .mock-header .mock-nav { display: flex; gap: 16px; font-size: 11px; color: #aaa; }
+
+  .mock-banner-full {
+    grid-column: 1 / -1;
+  }
+
+  .ad-slot {
+    border: 2px dashed; padding: 20px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; min-height: 90px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .ad-slot:hover {
+    transform: scale(1.02); box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 2;
+  }
+
+  .ad-slot-premium {
+    border-color: #e74c3c; background: rgba(231,76,60,0.06);
+    min-height: 100px;
+  }
+  .ad-slot-sidebar-top {
+    border-color: #3498db; background: rgba(52,152,219,0.06);
+    min-height: 250px;
+  }
+  .ad-slot-sidebar-bottom {
+    border-color: #2ecc71; background: rgba(46,204,113,0.06);
+    min-height: 250px;
+  }
+  .ad-slot-article {
+    border-color: #f39c12; background: rgba(243,156,18,0.06);
+    min-height: 100px;
+  }
+  .ad-slot-footer {
+    border-color: #9b59b6; background: rgba(155,89,182,0.06);
+    min-height: 90px;
+  }
+
+  .ad-slot .slot-number {
+    position: absolute; top: 8px; left: 8px;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .ad-slot-premium .slot-number { background: #e74c3c; }
+  .ad-slot-sidebar-top .slot-number { background: #3498db; }
+  .ad-slot-sidebar-bottom .slot-number { background: #2ecc71; }
+  .ad-slot-article .slot-number { background: #f39c12; }
+  .ad-slot-footer .slot-number { background: #9b59b6; }
+
+  .ad-slot .slot-name {
+    font-size: 13px; font-weight: 700; margin-bottom: 4px;
+  }
+  .ad-slot-premium .slot-name { color: #e74c3c; }
+  .ad-slot-sidebar-top .slot-name { color: #3498db; }
+  .ad-slot-sidebar-bottom .slot-name { color: #2ecc71; }
+  .ad-slot-article .slot-name { color: #f39c12; }
+  .ad-slot-footer .slot-name { color: #9b59b6; }
+
+  .ad-slot .slot-price {
+    font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 2px;
+  }
+  .ad-slot .slot-detail {
+    font-size: 11px; color: #999;
+  }
+  .ad-slot .slot-imp {
+    font-family: 'Inter', sans-serif; font-size: 11px; color: #666;
+    background: rgba(0,0,0,0.04); padding: 3px 10px; border-radius: 10px; margin-top: 6px;
+  }
+
+  /* Mock content areas */
+  .mock-content {
+    padding: 0;
+  }
+  .mock-content-block {
+    padding: 24px;
+  }
+  .mock-text-line {
+    height: 10px; background: #eee; border-radius: 2px; margin-bottom: 8px;
+  }
+  .mock-text-line:nth-child(odd) { width: 100%; }
+  .mock-text-line:nth-child(even) { width: 85%; }
+  .mock-text-line.short { width: 60%; }
+  .mock-text-heading {
+    height: 16px; background: #ddd; border-radius: 2px; margin-bottom: 16px; width: 70%;
+  }
+  .mock-img {
+    height: 200px; background: #e8e8e8; border-radius: 4px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #bbb;
+  }
+
+  .mock-sidebar {
+    border-left: 1px solid #eee; padding: 0;
+  }
+  .mock-sidebar-block {
+    padding: 16px;
+  }
+  .mock-sidebar .mock-widget {
+    background: #f5f5f5; border-radius: 4px; padding: 16px; margin-bottom: 12px;
+  }
+  .mock-sidebar .mock-widget-title {
+    height: 12px; background: #ddd; width: 60%; border-radius: 2px; margin-bottom: 12px;
+  }
+  .mock-sidebar .mock-widget-item {
+    height: 8px; background: #e8e8e8; border-radius: 2px; margin-bottom: 6px;
+  }
+
+  .mock-footer-area {
+    grid-column: 1 / -1; background: #f0f0f0; border-top: 1px solid #ddd;
+  }
+
+  /* Divider in content */
+  .mock-divider {
+    height: 1px; background: #eee; margin: 0;
+  }
+
+  /* ===== SP Layout Mockup ===== */
+  .sp-mockup-wrap {
+    display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+  }
+  .sp-mockup {
+    width: 375px; background: #fff; border: 2px solid #ddd; border-radius: 24px;
+    overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+  .sp-mock-header {
+    background: #1a1a1a; color: #fff; padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px;
+  }
+  .sp-mock-header .mock-logo { font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+
+  .sp-ad-slot {
+    border: 2px dashed; padding: 16px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; margin: 0;
+  }
+
+  .sp-ad-slot-header {
+    border-color: #e74c3c; background: rgba(231,76,60,0.06);
+    min-height: 60px;
+  }
+  .sp-ad-slot-article {
+    border-color: #f39c12; background: rgba(243,156,18,0.06);
+    min-height: 160px;
+  }
+  .sp-ad-slot-bottom {
+    border-color: #2ecc71; background: rgba(46,204,113,0.06);
+    min-height: 160px;
+  }
+
+  .sp-ad-slot .slot-number {
+    position: absolute; top: 6px; left: 6px;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; color: #fff;
+  }
+  .sp-ad-slot-header .slot-number { background: #e74c3c; }
+  .sp-ad-slot-article .slot-number { background: #f39c12; }
+  .sp-ad-slot-bottom .slot-number { background: #2ecc71; }
+
+  .sp-ad-slot .slot-name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+  .sp-ad-slot-header .slot-name { color: #e74c3c; }
+  .sp-ad-slot-article .slot-name { color: #f39c12; }
+  .sp-ad-slot-bottom .slot-name { color: #2ecc71; }
+  .sp-ad-slot .slot-price { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; }
+  .sp-ad-slot .slot-detail { font-size: 10px; color: #999; }
+  .sp-ad-slot .slot-imp {
+    font-family: 'Inter', sans-serif; font-size: 10px; color: #666;
+    background: rgba(0,0,0,0.04); padding: 2px 8px; border-radius: 10px; margin-top: 4px;
+  }
+
+  .sp-mock-content { padding: 16px; }
+  .sp-mock-footer { background: #f0f0f0; padding: 16px; text-align: center; font-size: 10px; color: #aaa; }
+
+  /* ===== Price Table ===== */
+  .price-table-wrap {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .price-table {
+    background: #fff; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .price-table-header {
+    padding: 20px 24px; color: #fff; font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .price-table-header .icon { font-size: 20px; }
+  .price-table-pc .price-table-header { background: #1e3a5f; }
+  .price-table-sp .price-table-header { background: #2c5f8a; }
+
+  .price-row {
+    display: grid; grid-template-columns: 20px 1fr auto auto;
+    gap: 12px; align-items: center;
+    padding: 14px 24px; border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+  }
+  .price-row:last-child { border-bottom: none; }
+  .price-row:hover { background: #fafafa; }
+
+  .price-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .price-name { font-weight: 400; }
+  .price-val {
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px;
+    text-align: right;
+  }
+  .price-imp {
+    font-family: 'Inter', sans-serif; font-size: 11px; color: #999;
+    text-align: right; min-width: 80px;
+  }
+
+  /* ===== Summary Cards ===== */
+  .summary-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .summary-card {
+    background: #fff; border-radius: 8px; padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center;
+  }
+  .summary-card .card-label {
+    font-size: 11px; color: #999; letter-spacing: 1px;
+    font-family: 'Inter', sans-serif; margin-bottom: 8px;
+  }
+  .summary-card .card-value {
+    font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 700;
+    color: #1e3a5f; margin-bottom: 4px;
+  }
+  .summary-card .card-unit { font-size: 12px; color: #aaa; }
+
+  /* ===== Note ===== */
+  .note-box {
+    max-width: 1000px; margin: 32px auto 0;
+    background: #fff; border-left: 4px solid #2c5f8a;
+    padding: 20px 24px; border-radius: 0 8px 8px 0;
+    font-size: 12px; color: #666; line-height: 2.0;
+  }
+  .note-box strong { color: #1e3a5f; }
+
+  /* ===== Back Link ===== */
+  .back-link {
+    text-align: center; padding: 48px 20px;
+  }
+  .back-link a {
+    display: inline-block; padding: 12px 32px;
+    background: #1e3a5f; color: #fff; text-decoration: none;
+    font-size: 13px; border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .back-link a:hover { background: #2c5f8a; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .section { padding: 40px 16px; }
+    .layout-mockup { grid-template-columns: 1fr; }
+    .mock-sidebar { border-left: none; border-top: 1px solid #eee; }
+    .price-table-wrap { grid-template-columns: 1fr; }
+    .summary-cards { grid-template-columns: 1fr; }
+    .sp-mockup-wrap { gap: 24px; }
+    .page-header .stats { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+  <div class="page-header-eyebrow">AD PLACEMENT MODEL</div>
+  <h1>広告バナー配置モデル</h1>
+  <p>kazi-online リニューアル — 純広告バナー枠の配置と料金</p>
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">PC BANNER SLOTS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">SP BANNER SLOTS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">MYPAGE SLOTS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">¥510K</div>
+      <div class="stat-label">TOTAL / MONTH</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PC BANNER LAYOUT ===== -->
+<div class="section">
+  <div class="section-title">PC版 バナー配置<span class="badge">5 SLOTS</span></div>
+  <div class="section-desc">記事ページでの広告バナー配置。各枠1社独占・月額固定。</div>
+
+  <div class="layout-mockup">
+    <!-- Header -->
+    <div class="mock-header">
+      <div class="mock-logo">KAZI ONLINE</div>
+      <div class="mock-nav">
+        <span>ニュース</span><span>フィッシング</span><span>ヨット</span><span>ボート</span><span>マリーナ</span><span>ライフスタイル</span>
+      </div>
+    </div>
+
+    <!-- ❶ Premium Banner (Header下) -->
+    <div class="mock-banner-full">
+      <div class="ad-slot ad-slot-premium">
+        <div class="slot-number">1</div>
+        <div class="slot-name">プレミアム（ヘッダー下）</div>
+        <div class="slot-price">¥80,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">全ページ表示・1社独占 — 728×90 または 970×90</div>
+        <div class="slot-imp">保証 80,000 imp / CPM ¥1,000</div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="mock-content">
+      <!-- Article hero -->
+      <div class="mock-content-block">
+        <div class="mock-img">記事メイン画像</div>
+        <div class="mock-text-heading"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line short"></div>
+      </div>
+
+      <!-- ❹ Article Mid Banner -->
+      <div class="ad-slot ad-slot-article">
+        <div class="slot-number">4</div>
+        <div class="slot-name">記事中バナー</div>
+        <div class="slot-price">¥40,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">本文の中間に挿入 — 728×90</div>
+        <div class="slot-imp">保証 50,000 imp / CPM ¥800</div>
+      </div>
+
+      <!-- More article content -->
+      <div class="mock-content-block">
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line short"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line short"></div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="mock-sidebar">
+      <!-- ❷ Sidebar Top -->
+      <div class="ad-slot ad-slot-sidebar-top">
+        <div class="slot-number">2</div>
+        <div class="slot-name">サイドバー上</div>
+        <div class="slot-price">¥50,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">右カラム上部 — 300×250</div>
+        <div class="slot-imp">保証 60,000 imp / CPM ¥833</div>
+      </div>
+
+      <!-- Sidebar widgets -->
+      <div class="mock-sidebar-block">
+        <div class="mock-widget">
+          <div class="mock-widget-title"></div>
+          <div class="mock-widget-item"></div>
+          <div class="mock-widget-item" style="width:80%"></div>
+          <div class="mock-widget-item" style="width:65%"></div>
+        </div>
+        <div class="mock-widget">
+          <div class="mock-widget-title"></div>
+          <div class="mock-widget-item"></div>
+          <div class="mock-widget-item" style="width:70%"></div>
+        </div>
+      </div>
+
+      <!-- ❸ Sidebar Bottom -->
+      <div class="ad-slot ad-slot-sidebar-bottom">
+        <div class="slot-number">3</div>
+        <div class="slot-name">サイドバー下</div>
+        <div class="slot-price">¥30,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">右カラム下部 — 300×250</div>
+        <div class="slot-imp">保証 40,000 imp / CPM ¥750</div>
+      </div>
+    </div>
+
+    <!-- ❺ Footer Banner -->
+    <div class="mock-footer-area">
+      <div class="ad-slot ad-slot-footer">
+        <div class="slot-number">5</div>
+        <div class="slot-name">フッター</div>
+        <div class="slot-price">¥20,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">ページ最下部 — 728×90</div>
+        <div class="slot-imp">保証 30,000 imp / CPM ¥667</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SP BANNER LAYOUT ===== -->
+<div class="section" style="background:#fff; padding-top:56px; padding-bottom:56px;">
+  <div class="section-title">SP版 バナー配置<span class="badge">4 SLOTS</span></div>
+  <div class="section-desc">スマートフォン表示での広告バナー配置。モバイルPVは全体の約50%。</div>
+
+  <div class="sp-mockup-wrap">
+    <div class="sp-mockup">
+      <!-- SP Header -->
+      <div class="sp-mock-header">
+        <div class="mock-logo">KAZI ONLINE</div>
+        <span style="font-size:16px">☰</span>
+      </div>
+
+      <!-- ❶ SP Header下 -->
+      <div class="sp-ad-slot sp-ad-slot-header">
+        <div class="slot-number">1</div>
+        <div class="slot-name">ヘッダー下</div>
+        <div class="slot-price">¥60,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">320×100 — 全ページ上部</div>
+        <div class="slot-imp">保証 50,000 imp / CPM ¥1,200</div>
+      </div>
+
+      <!-- SP Content -->
+      <div class="sp-mock-content">
+        <div class="mock-img" style="height:160px;">記事画像</div>
+        <div class="mock-text-heading" style="width:90%;"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line short"></div>
+      </div>
+
+      <!-- ❷ SP 記事中 -->
+      <div class="sp-ad-slot sp-ad-slot-article">
+        <div class="slot-number">2</div>
+        <div class="slot-name">記事中バナー</div>
+        <div class="slot-price">¥40,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">300×250 — 本文中間</div>
+        <div class="slot-imp">保証 35,000 imp / CPM ¥1,143</div>
+      </div>
+
+      <!-- More SP content -->
+      <div class="sp-mock-content">
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line"></div>
+        <div class="mock-text-line short"></div>
+      </div>
+
+      <!-- ❸ SP 記事下 -->
+      <div class="sp-ad-slot sp-ad-slot-bottom">
+        <div class="slot-number">3</div>
+        <div class="slot-name">記事下</div>
+        <div class="slot-price">¥30,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">300×250 — 記事本文直後</div>
+        <div class="slot-imp">保証 25,000 imp / CPM ¥1,200</div>
+      </div>
+
+      <!-- ❹ SP フッター -->
+      <div class="sp-ad-slot sp-ad-slot-bottom" style="border-color:#9b59b6; background:rgba(155,89,182,0.06);">
+        <div class="slot-number" style="background:#9b59b6">4</div>
+        <div class="slot-name" style="color:#9b59b6">フッター</div>
+        <div class="slot-price">¥20,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">320×50 — ページ最下部</div>
+        <div class="slot-imp">保証 20,000 imp / CPM ¥1,000</div>
+      </div>
+
+      <!-- SP Footer -->
+      <div class="sp-mock-footer">© KAZI Online</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MYPAGE AD LAYOUT ===== -->
+<div class="section">
+  <div class="section-title">マイページ内 広告配置<span class="badge">3 SLOTS</span></div>
+  <div class="section-desc">KAZI SeaDream Club 会員専用マイページ内の広告枠。高エンゲージメントな会員への直接リーチ。</div>
+
+  <div class="layout-mockup" style="grid-template-columns:200px 1fr; max-width:900px;">
+    <!-- Mypage Header -->
+    <div class="mock-header" style="grid-column:1/-1;">
+      <div class="mock-logo">マイページ</div>
+      <div class="mock-nav">
+        <span>ブックマーク</span><span>閲覧履歴</span><span>デジタル雑誌</span><span>設定</span>
+      </div>
+    </div>
+
+    <!-- Sidebar Nav -->
+    <div style="background:#f8f8f8; border-right:1px solid #eee; padding:16px 0;">
+      <div style="padding:12px 16px; font-size:11px; font-weight:700; color:#1e3a5f; border-left:3px solid #1e3a5f; margin-bottom:4px;">ブックマーク</div>
+      <div style="padding:10px 16px; font-size:11px; color:#666;">閲覧履歴</div>
+      <div style="padding:10px 16px; font-size:11px; color:#666;">デジタル雑誌</div>
+      <div style="padding:10px 16px; font-size:11px; color:#666;">マリーナ</div>
+      <div style="padding:10px 16px; font-size:11px; color:#666;">会員情報</div>
+
+      <!-- ❸ サイドナビ下 -->
+      <div style="padding:8px;">
+        <div class="ad-slot" style="border-color:#2ecc71; background:rgba(46,204,113,0.06); min-height:200px;">
+          <div class="slot-number" style="background:#2ecc71">3</div>
+          <div class="slot-name" style="color:#2ecc71">サイドナビ下</div>
+          <div class="slot-price">¥40,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+          <div class="slot-detail">200×200</div>
+          <div class="slot-imp">会員限定リーチ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding:0;">
+      <!-- ❶ コンテンツ上部 -->
+      <div class="ad-slot ad-slot-premium" style="min-height:70px;">
+        <div class="slot-number">1</div>
+        <div class="slot-name" style="color:#e74c3c">コンテンツ上部バナー</div>
+        <div class="slot-price">¥60,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">728×90 — マイページ全セクション表示</div>
+        <div class="slot-imp">会員ログイン毎に表示 — 高CVR</div>
+      </div>
+
+      <!-- Mock Bookmark Content -->
+      <div style="padding:20px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:12px; color:#333;">ブックマークした記事</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;">
+          <div style="background:#e8e8e8; height:80px; border-radius:4px;"></div>
+          <div style="background:#e8e8e8; height:80px; border-radius:4px;"></div>
+          <div style="background:#e8e8e8; height:80px; border-radius:4px;"></div>
+        </div>
+      </div>
+
+      <!-- ❷ コンテンツ中間 -->
+      <div class="ad-slot" style="border-color:#f39c12; background:rgba(243,156,18,0.06); min-height:80px; margin:0 20px;">
+        <div class="slot-number" style="background:#f39c12">2</div>
+        <div class="slot-name" style="color:#f39c12">コンテンツ中間バナー</div>
+        <div class="slot-price">¥40,000<span style="font-size:11px;font-weight:400;color:#999">/月</span></div>
+        <div class="slot-detail">300×250 — ブックマーク・履歴セクション間</div>
+        <div class="slot-imp">ネイティブ広告形式も可</div>
+      </div>
+
+      <!-- More content -->
+      <div style="padding:20px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:12px; color:#333;">閲覧履歴</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+          <div style="background:#e8e8e8; height:80px; border-radius:4px;"></div>
+          <div style="background:#e8e8e8; height:80px; border-radius:4px;"></div>
+          <div style="background:#e8e8e8; height:80px; border-radius:4px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:24px;">
+    <strong>マイページ広告の強み:</strong> ログイン済み会員への限定表示。ユーザー属性（ヨットオーナー/ボートオーナー/フィッシング等）に基づくターゲティング配信が可能。<br>
+    <strong>広告フォーマット:</strong> バナー広告に加え、ネイティブ広告（おすすめ記事風）形式も対応。<br>
+    <strong>想定CTR:</strong> 一般ページの2〜3倍（ログイン会員の高エンゲージメント）。
+  </div>
+</div>
+
+<!-- ===== PRICE SUMMARY ===== -->
+<div class="section">
+  <div class="section-title">料金一覧<span class="badge">TAX EXCLUDED</span></div>
+  <div class="section-desc">全枠1社独占。同業種の競合広告が隣に表示されることはありません。</div>
+
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-label">PC TOTAL（5枠全稼働）</div>
+      <div class="card-value">¥220K</div>
+      <div class="card-unit">/ 月（税別）</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">SP TOTAL（4枠全稼働）</div>
+      <div class="card-value">¥150K</div>
+      <div class="card-unit">/ 月（税別）</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">MYPAGE（3枠全稼働）</div>
+      <div class="card-value">¥140K</div>
+      <div class="card-unit">/ 月（税別）</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">全12枠 合計</div>
+      <div class="card-value">¥510K</div>
+      <div class="card-unit">/ 月（税別）</div>
+    </div>
+  </div>
+
+  <div style="height:32px"></div>
+
+  <div class="price-table-wrap">
+    <!-- PC Table -->
+    <div class="price-table price-table-pc">
+      <div class="price-table-header"><span class="icon">🖥</span> PC版バナー（5枠）</div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#e74c3c"></div>
+        <div class="price-name">プレミアム（ヘッダー下）</div>
+        <div class="price-val">¥80,000</div>
+        <div class="price-imp">80K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#3498db"></div>
+        <div class="price-name">サイドバー上</div>
+        <div class="price-val">¥50,000</div>
+        <div class="price-imp">60K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#f39c12"></div>
+        <div class="price-name">記事中バナー</div>
+        <div class="price-val">¥40,000</div>
+        <div class="price-imp">50K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#2ecc71"></div>
+        <div class="price-name">サイドバー下</div>
+        <div class="price-val">¥30,000</div>
+        <div class="price-imp">40K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#9b59b6"></div>
+        <div class="price-name">フッター</div>
+        <div class="price-val">¥20,000</div>
+        <div class="price-imp">30K imp</div>
+      </div>
+    </div>
+
+    <!-- SP Table -->
+    <div class="price-table price-table-sp">
+      <div class="price-table-header"><span class="icon">📱</span> SP版バナー（4枠）</div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#e74c3c"></div>
+        <div class="price-name">ヘッダー下（320×100）</div>
+        <div class="price-val">¥60,000</div>
+        <div class="price-imp">50K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#f39c12"></div>
+        <div class="price-name">記事中（300×250）</div>
+        <div class="price-val">¥40,000</div>
+        <div class="price-imp">35K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#2ecc71"></div>
+        <div class="price-name">記事下（300×250）</div>
+        <div class="price-val">¥30,000</div>
+        <div class="price-imp">25K imp</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#9b59b6"></div>
+        <div class="price-name">フッター（320×50）</div>
+        <div class="price-val">¥20,000</div>
+        <div class="price-imp">20K imp</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:20px"></div>
+
+  <div class="price-table-wrap" style="grid-template-columns:1fr">
+    <!-- Mypage Table -->
+    <div class="price-table" style="border-top:3px solid #1e3a5f">
+      <div class="price-table-header" style="background:#0a0f1a"><span class="icon">👤</span> マイページ内バナー（3枠）</div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#e74c3c"></div>
+        <div class="price-name">コンテンツ上部（728×90）</div>
+        <div class="price-val">¥60,000</div>
+        <div class="price-imp">会員限定</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#f39c12"></div>
+        <div class="price-name">コンテンツ中間（300×250）</div>
+        <div class="price-val">¥40,000</div>
+        <div class="price-imp">ネイティブ可</div>
+      </div>
+      <div class="price-row">
+        <div class="price-dot" style="background:#2ecc71"></div>
+        <div class="price-name">サイドナビ下（200×200）</div>
+        <div class="price-val">¥40,000</div>
+        <div class="price-imp">常時表示</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>インプレッション保証:</strong> 月間PV 10万を基準に各枠の視認率・スクロール到達率から算出。未達時は翌月に不足分を追加掲載で補填（返金ではなく掲載延長）。<br>
+    <strong>計測方法:</strong> Google Analytics + 自社広告配信ログによるダブルチェック。月次レポートを毎月5営業日以内にPDFで提出。<br>
+    <strong>販売方式:</strong> 1枠1社独占・月額固定。同業種の競合排除により広告主に高い希少価値を提供。
+  </div>
+</div>
+
+<!-- ===== Back ===== -->
+<div class="back-link">
+  <a href="index.html">← サイトマップに戻る</a>
+</div>
+
+</body>
+</html>

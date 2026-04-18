@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聞こえる＋αを得る喜び｜フォナック補聴器【後編】 - KAZI ONLINE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #ffffff; color: #444; font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #bgCanvas {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999; pointer-events: none;
+    mix-blend-mode: multiply;
+    transition: opacity 0.15s;
+    opacity: 0;
+  }
+
+  .wf-label {
+    text-align: center; padding: 6px;
+    background: #eee; border-bottom: 1px solid #ccc;
+    font-size: 11px; color: #666;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: sticky; top: 0; background: #fff; z-index: 200;
+    box-shadow: 0 1px 0 #e8e8e8;
+    border-top: 2px solid; border-image: linear-gradient(to right, #1e3a5f, #2c5f8a, #3a7ab5) 1;
+  }
+  .header-top {
+    display: flex; align-items: center;
+    max-width: 1600px; margin: 0 auto;
+    padding: 18px 40px; gap: 32px;
+    transition: padding 0.3s;
+  }
+  .logo {
+    display: flex; align-items: center;
+    text-decoration: none; cursor: pointer;
+    flex-shrink: 0; padding: 0; border: none; background: none;
+    transition: opacity 0.3s;
+  }
+  .logo img { height: 22px; width: auto; }
+  .logo:hover { opacity: 0.6; background: none; }
+  .global-nav {
+    display: flex; flex: 1; gap: 0; position: relative;
+    min-width: 0; border: none; align-items: center; justify-content: center;
+  }
+  .nav-item { position: relative; }
+  .nav-item > a {
+    display: block; text-align: center; padding: 8px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px; font-weight: 600; color: #1a1a1a; text-decoration: none;
+    cursor: pointer; white-space: nowrap; transition: color 0.3s;
+    position: relative; border: none; letter-spacing: 0.04em;
+  }
+  .nav-item > a::after {
+    content: ''; position: absolute; bottom: 0; left: 50%;
+    width: 0; height: 1px; background: #1a1a1a;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  .nav-item > a:hover::after, .nav-item:hover > a::after { width: 100%; left: 0; }
+  .nav-item:last-child > a { border-right: none; }
+  .nav-item > a:hover, .nav-item:hover > a { color: #1a1a1a; background: transparent; }
+  .nav-item > a.has-sub::after {
+    content: ''; width: 0; height: 0; position: static;
+    display: inline-block; vertical-align: middle;
+    border-left: 4px solid transparent; border-right: 4px solid transparent;
+    border-top: 4px solid #2c5f8a; margin-left: 5px;
+    transition: transform 0.2s; background: none;
+  }
+  .nav-item:hover > a.has-sub::after, .nav-item > a.has-sub.active::after {
+    transform: rotate(180deg); border-top-color: #2c5f8a; width: 0; left: auto;
+  }
+  .nav-item > a.has-sub.active { color: #2c5f8a; }
+  .mega-menu {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: #fff; z-index: 500;
+    border-bottom: 1px solid #e0e0e0; box-shadow: 0 8px 32px rgba(0,0,0,.1);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+  .mega-menu.open { clip-path: inset(0 0 0 0); pointer-events: auto; }
+  .mega-menu-header {
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 48px; border-bottom: 1px solid #e8e8e8; position: relative;
+  }
+  .mega-menu-header .mega-title {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 16px; font-weight: 700; color: #1a1a1a;
+  }
+  .mega-menu-header .mega-title::before { content: '\203A'; margin-right: 8px; color: #2c5f8a; }
+  .mega-menu-body {
+    display: flex; gap: 48px; padding: 32px 64px 40px; max-width: 1200px; margin: 0 auto;
+  }
+  .mega-col { flex: 1; }
+  .mega-col-title {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700; color: #1a1a1a;
+    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #e8e8e8;
+  }
+  .mega-col a {
+    display: block; padding: 7px 0; font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 600; color: #444; text-decoration: none; transition: color 0.2s;
+  }
+  .mega-col a::before { content: '\203A'; margin-right: 8px; color: #2c5f8a; }
+  .mega-col a:hover { color: #2c5f8a; }
+  .mega-menu-footer {
+    text-align: center; padding: 14px; border-top: 1px solid #e8e8e8;
+    cursor: pointer; font-size: 13px; color: #666; transition: background 0.2s;
+  }
+  .mega-menu-footer:hover { background: #f7f7f5; }
+  .mega-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 499; }
+  .mega-overlay.open { display: block; }
+  .dropdown { display: none !important; }
+  .hamburger-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.3); z-index: 599; opacity: 0; transition: opacity 0.4s;
+  }
+  .hamburger-backdrop.open { display: block; opacity: 1; }
+  .hamburger-panel {
+    position: fixed; top: 0; right: 0; bottom: 0; left: 240px;
+    background: #fff; z-index: 600; overflow-y: auto;
+    flex-direction: column; display: flex;
+    clip-path: inset(0 0 0 100%);
+    transition: clip-path 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .hamburger-panel.open { clip-path: inset(0 0 0 0); }
+  .hamburger-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 48px; border-bottom: 1px solid #e8e8e8;
+  }
+  .hamburger-panel-header .logo-ham { height: 18px; width: auto; }
+  .hamburger-close {
+    border: none; background: none; cursor: pointer;
+    font-size: 32px; color: #1a1a1a; line-height: 1;
+    padding: 4px 8px; transition: opacity 0.3s;
+  }
+  .hamburger-close:hover { opacity: 0.5; }
+  .hamburger-panel-body { display: flex; padding: 48px; flex: 1; }
+  .hamburger-nav { flex: 1; min-width: 0; margin-right: 40px; }
+  .hamburger-nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 40px; }
+  .hamburger-nav-group > a {
+    display: block; font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px; font-weight: 700; color: #1a1a1a;
+    text-decoration: none; padding-bottom: 10px; margin-bottom: 10px;
+    border-bottom: 1px solid #e8e8e8; letter-spacing: 0.04em; transition: color 0.2s;
+  }
+  .hamburger-nav-group > a:hover { color: #2c5f8a; }
+  .hamburger-nav-group .ham-sub a {
+    display: block; font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 600; color: #666;
+    text-decoration: none; padding: 5px 0; transition: color 0.2s;
+  }
+  .hamburger-nav-group .ham-sub a::before { content: '\203A'; margin-right: 6px; color: #2c5f8a; }
+  .hamburger-nav-group .ham-sub a:hover { color: #2c5f8a; }
+  .hamburger-aside {
+    flex: 1; min-width: 0; padding-left: 40px;
+    border-left: 1px solid #e8e8e8;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .hamburger-member-banner {
+    background: #0a0a0a; color: #fff; padding: 32px 24px; text-align: center;
+    text-decoration: none; display: block; transition: background 0.3s;
+  }
+  .hamburger-member-banner:hover { background: #1a1a1a; }
+  .hamburger-member-banner .ham-member-label {
+    font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.15em;
+    color: rgba(255,255,255,.5); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .hamburger-member-banner .ham-member-title {
+    font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 600;
+    line-height: 1.5; margin-bottom: 8px;
+  }
+  .hamburger-member-banner .ham-member-desc {
+    font-size: 12px; color: rgba(255,255,255,.7); line-height: 1.6; margin-bottom: 16px;
+  }
+  .hamburger-member-banner .ham-member-btn {
+    display: inline-block; border: 1px solid #fff; padding: 10px 28px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #fff; transition: all 0.3s;
+  }
+  .hamburger-member-banner:hover .ham-member-btn { background: #fff; color: #0a0a0a; }
+  .hamburger-search { margin-bottom: 32px; }
+  .hamburger-search-label {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; color: #1a1a1a;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .hamburger-search-box { display: flex; gap: 0; }
+  .hamburger-search-box input {
+    flex: 1; border: 1px solid #e0e0e0; border-right: none;
+    padding: 12px 16px; font-size: 14px; font-family: 'Noto Sans JP', sans-serif; outline: none;
+  }
+  .hamburger-search-box input:focus { border-color: #2c5f8a; }
+  .hamburger-search-box button {
+    border: none; background: #1a1a1a; color: #fff;
+    padding: 12px 24px; font-size: 13px; font-weight: 700;
+    font-family: 'Noto Sans JP', sans-serif; cursor: pointer; transition: background 0.3s;
+  }
+  .hamburger-search-box button:hover { background: #333; }
+  .hamburger-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .hamburger-tags a {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 600; color: #fff;
+    background: #2c5f8a; border-radius: 20px; padding: 6px 16px;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .hamburger-tags a:hover { background: #2a5d8a; }
+  .header-actions { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+  .btn-search {
+    border: none; background: none; padding: 8px; color: #1a1a1a; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: opacity 0.3s;
+  }
+  .btn-search svg { width: 18px; height: 18px; }
+  .btn-search:hover { opacity: 0.5; }
+  .btn-login {
+    border: none; background: #1a1a1a; color: #fff;
+    padding: 8px 20px; font-size: 11px; cursor: pointer;
+    text-decoration: none; white-space: nowrap;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em; border-radius: 20px; transition: background 0.3s;
+  }
+  .btn-login:hover { background: #333; }
+  .btn-hamburger {
+    display: none; border: none; background: none;
+    padding: 8px; cursor: pointer; flex-shrink: 0;
+    flex-direction: column; justify-content: center; align-items: center;
+    gap: 5px; width: 36px; height: 36px;
+  }
+  .btn-hamburger span {
+    display: block; width: 20px; height: 2px; background: #1a1a1a;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .logo-small { display: none; }
+  header.scrolled {
+    background: transparent; box-shadow: none; border-top: none; pointer-events: none;
+  }
+  header.scrolled .header-top { padding: 10px 40px; }
+  header.scrolled .logo { pointer-events: auto; margin-right: auto; }
+  header.scrolled .global-nav { display: none; }
+  header.scrolled .header-actions { pointer-events: auto; }
+  header.scrolled .btn-hamburger { display: flex; pointer-events: auto; }
+  header.scrolled .logo-full { display: none; }
+  header.scrolled .logo-small { display: block; height: 20px; width: auto; }
+
+  /* ===== 記事ヘッダー（2カラム：左画像 + 右タイトル） ===== */
+  .article-header {
+    display: grid; grid-template-columns: 580px 1fr; gap: 0;
+    max-width: 1600px; margin: 0 auto; padding: 40px 40px;
+    align-items: center;
+  }
+  .article-header-img {
+    aspect-ratio: 4/3;
+    background-size: cover; background-position: center;
+    background-color: #e0ddd8;
+  }
+  .article-header-info {
+    padding: 0 0 0 48px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  /* ===== 記事コンテンツ（1カラム）===== */
+  .article-wrap {
+    max-width: 900px; margin: 0 auto; padding: 48px 24px 80px;
+  }
+
+  /* パンくず（ヘッダー内） */
+  .article-header .breadcrumb {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 300; color: #999; margin-bottom: 20px;
+  }
+  .article-header .breadcrumb a {
+    color: #999; text-decoration: none; transition: color .15s;
+  }
+  .article-header .breadcrumb a:hover { color: #666; text-decoration: underline; }
+
+  /* カテゴリーバッジ */
+  .article-cat-badge {
+    display: inline-block;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px; font-weight: 600; color: #1a1a1a;
+    letter-spacing: 0.04em;
+    background: #b8ecff; border-radius: 0;
+    padding: 3px 10px; margin-bottom: 16px;
+    align-self: flex-start;
+  }
+
+  /* タイトル */
+  .article-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px; font-weight: 600; color: #1a1a1a;
+    line-height: 1.55; letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  /* リード文 */
+  .article-lead {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px; font-weight: 300; color: #666;
+    line-height: 1.8; margin-bottom: 20px;
+  }
+
+  /* 著者行 */
+  .article-byline {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 300; color: #999;
+    margin-bottom: 16px;
+  }
+  .article-byline-logo {
+    width: 20px; height: 20px; background: #2c5f8a; border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif; font-size: 8px; color: #fff; font-weight: 600;
+  }
+
+  /* メタ情報（日付 + いいね） */
+  .article-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 300; color: #999;
+    margin-top: auto; padding-top: 16px;
+  }
+  .article-like {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 13px; color: #c00; cursor: pointer;
+  }
+  .article-like svg { width: 16px; height: 16px; fill: none; stroke: #c00; stroke-width: 2; }
+
+  /* ===== 上部シェアボタン ===== */
+  .share-top {
+    display: flex; align-items: center; gap: 0;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .share-top span {
+    font-size: 11px; color: #999; margin-right: 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400; letter-spacing: 0.04em;
+  }
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid #e0e0e0; padding: 6px 16px;
+    font-size: 11px; color: #555; cursor: pointer; background: #fff;
+    text-decoration: none;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 500;
+    transition: background .2s, color .2s, border-color .2s;
+    letter-spacing: 0.02em;
+  }
+  .share-btn:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .share-btn + .share-btn { margin-left: 8px; }
+  .share-btn + .share-btn::before { content: none; }
+  .share-btn svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+  /* タグ */
+  .article-tags {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px;
+  }
+  .article-tag {
+    background: #fff; border: 1px solid #d0d0d0; padding: 6px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 500; color: #555;
+    text-decoration: none; cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .article-tag:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+  /* ===== 目次ボックス ===== */
+  .toc-box {
+    background: #f7f7f5;
+    padding: 32px 36px; margin-bottom: 48px;
+    border-left: 3px solid #2c5f8a;
+  }
+  .toc-box-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px; font-weight: 600; color: #1a1a1a;
+    margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #ddd;
+    letter-spacing: 0.06em;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .toc-box ol {
+    padding-left: 24px; list-style: decimal;
+  }
+  .toc-box ol li {
+    margin-bottom: 12px; font-size: 14px; line-height: 1.7;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 400;
+  }
+  .toc-box ol li ol {
+    margin-top: 10px; list-style: decimal; padding-left: 24px;
+  }
+  .toc-box ol li ol li { margin-bottom: 8px; font-size: 13px; }
+  .toc-box a {
+    color: #444; text-decoration: none; transition: color .2s;
+  }
+  .toc-box a:hover { color: #2c5f8a; }
+  .toc-toggle {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; font-weight: 400; color: #999; cursor: pointer;
+    transition: color .15s; flex-shrink: 0;
+  }
+  .toc-toggle:hover { color: #2c5f8a; }
+
+  /* ===== 記事本文 ===== */
+  .article-body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px; line-height: 2.0; color: #444; margin-bottom: 40px;
+  }
+  .article-body p { margin-bottom: 24px; }
+  .article-body h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px; font-weight: 600; color: #1a1a1a;
+    margin: 56px 0 24px;
+    padding: 16px 24px;
+    background: none;
+    border-left: 3px solid #2c5f8a;
+    scroll-margin-top: 80px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+  }
+  .article-body h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px; font-weight: 600; color: #1a1a1a;
+    margin: 40px 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #2c5f8a;
+    scroll-margin-top: 80px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+  }
+  .article-img-inline { width: 100%; aspect-ratio: 4/3; background-size: cover; background-position: center; margin: 24px 0 8px; }
+  .article-img-caption {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; color: #999; margin-bottom: 28px; text-align: center;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* ===== 記事内広告バナー ===== */
+  .ad-banner {
+    margin: 40px 0;
+    text-align: center;
+  }
+  .ad-banner-inner {
+    display: inline-block;
+    background: #f7f7f5;
+    border: 1px solid #e8e8e8;
+    position: relative;
+    overflow: hidden;
+  }
+  .ad-banner-label {
+    position: absolute; top: 0; right: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px; color: #bbb; letter-spacing: 0.08em;
+    padding: 3px 8px;
+    background: #f5d623; color: #1a1a1a;
+  }
+  .ad-banner-leaderboard .ad-banner-inner {
+    width: 728px; max-width: 100%; aspect-ratio: 728/90;
+  }
+  .ad-banner-rectangle .ad-banner-inner {
+    width: 300px; aspect-ratio: 300/250;
+  }
+  .ad-banner-wide .ad-banner-inner {
+    width: 100%; aspect-ratio: 8/1;
+  }
+
+  /* ===== 記事内CTAバナー ===== */
+  .in-article-cta {
+    background: #1a1a1a;
+    padding: 32px 36px; margin: 40px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    border-radius: 4px;
+  }
+  .in-article-cta .cta-text h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 17px; font-weight: 400; color: #fff; margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .in-article-cta .cta-text p {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; color: rgba(255,255,255,.65); font-weight: 300;
+  }
+  .in-article-cta .cta-btn {
+    border: 1px solid #fff; background: transparent; color: #fff;
+    padding: 12px 32px; font-size: 13px; cursor: pointer;
+    text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 400;
+    border-radius: 2px;
+    transition: background .2s, color .2s;
+  }
+  .in-article-cta .cta-btn:hover { background: #fff; color: #1a1a1a; }
+
+  /* ===== 製品スペック表 ===== */
+  .product-spec {
+    background: #f7f7f5; padding: 32px; margin: 32px 0 40px;
+  }
+  .product-spec-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px; font-weight: 600; color: #1a1a1a;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 2px solid #2c5f8a;
+  }
+  .product-spec table {
+    width: 100%; border-collapse: collapse;
+  }
+  .product-spec th {
+    text-align: left; padding: 10px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 500; color: #1a1a1a;
+    background: #eee; border-bottom: 1px solid #ddd;
+    width: 35%; vertical-align: top;
+  }
+  .product-spec td {
+    padding: 10px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 400; color: #444;
+    border-bottom: 1px solid #e8e8e8;
+    line-height: 1.7;
+  }
+  .product-spec .spec-price {
+    font-weight: 600; color: #c00; font-size: 14px;
+  }
+
+  /* ===== 引用ブロック ===== */
+  .article-body blockquote {
+    border-left: 3px solid #2c5f8a;
+    background: #f7f7f5;
+    padding: 24px 28px;
+    margin: 32px 0;
+    font-style: italic;
+    color: #555;
+    line-height: 1.9;
+  }
+
+  /* ===== 監修者情報 ===== */
+  .supervisor-box {
+    background: #f7f7f5;
+    padding: 32px 36px; margin-bottom: 32px;
+    display: flex; gap: 20px; align-items: flex-start;
+    position: relative;
+  }
+  .supervisor-label {
+    position: absolute; top: 0; left: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px; font-weight: 600; color: #fff; background: #2c5f8a;
+    padding: 5px 14px; letter-spacing: 0.06em;
+  }
+  .supervisor-avatar {
+    width: 64px; height: 64px; background: #d0cdc8; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #aaa;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .supervisor-info { flex: 1; }
+  .supervisor-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;
+    line-height: 1.5;
+  }
+  .supervisor-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; font-weight: 400; color: #888; margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+  .supervisor-bio {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 400; color: #555; line-height: 1.9;
+  }
+
+  /* ===== 著者プロフィール ===== */
+  .author-profile {
+    background: #f7f7f5;
+    padding: 36px; margin-bottom: 32px;
+    display: flex; gap: 28px; align-items: flex-start;
+  }
+  .author-avatar {
+    width: 80px; height: 80px; background: #d0cdc8; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #aaa;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .author-info { flex: 1; }
+  .author-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; font-weight: 400; color: #999; margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+  .author-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;
+  }
+  .author-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 400; color: #888; margin-bottom: 14px;
+  }
+  .author-bio {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 400; color: #555; line-height: 1.9; margin-bottom: 18px;
+  }
+  .author-link {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 600; color: #2c5f8a;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+    transition: color .15s;
+  }
+  .author-link:hover { color: #1e4a6f; }
+
+  /* ===== 下部シェアボタン ===== */
+  .share-bottom {
+    border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8;
+    padding: 24px 0; margin-bottom: 48px;
+    display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+  }
+  .share-bottom span {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; font-weight: 400; color: #999;
+    margin-right: 16px; letter-spacing: 0.04em;
+  }
+
+  /* ===== 前後記事ナビ ===== */
+  .article-pager {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 56px;
+  }
+  .pager-btn {
+    padding: 24px 0; display: block;
+    text-decoration: none; color: #888; transition: color .2s;
+    border-top: 1px solid #e8e8e8;
+  }
+  .pager-btn:hover { color: #2c5f8a; }
+  .pager-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; font-weight: 400; color: #999; margin-bottom: 8px;
+    letter-spacing: 0.03em;
+  }
+  .pager-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px; color: #1a1a1a; line-height: 1.6;
+    font-weight: 500;
+  }
+  .pager-btn:hover .pager-title { color: #2c5f8a; }
+  .pager-btn.prev { padding-right: 32px; border-right: 1px solid #e8e8e8; }
+  .pager-btn.next { text-align: right; padding-left: 32px; }
+
+  /* ===== 関連記事 ===== */
+  .article-related { margin-bottom: 48px; }
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; color: #1a1a1a;
+    margin-bottom: 24px;
+    padding-bottom: 14px; border-bottom: 2px solid #2c5f8a;
+    letter-spacing: 0.06em;
+  }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: #fff; cursor: pointer;
+    text-decoration: none; color: inherit; display: block;
+    border: none; transition: opacity 0.2s;
+  }
+  .card:hover { opacity: 0.8; }
+  .card-img {
+    background: #e0ddd8; aspect-ratio: 4/3; width: 100%;
+    overflow: hidden; position: relative;
+    background-size: cover; background-position: center;
+  }
+  .card-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.4s;
+  }
+  .card:hover .card-img img { transform: scale(1.05); }
+  .card-body { padding: 14px 0 0; }
+  .card-cat {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px; color: #1a1a1a;
+    display: inline-block; margin-bottom: 6px;
+    letter-spacing: 0.04em; font-weight: 600;
+    background: #b8ecff; border-radius: 0;
+    padding: 2px 8px; border: none;
+  }
+  .card-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px; color: #1a1a1a; line-height: 1.5;
+    font-weight: 600;
+  }
+  .card:hover .card-title { color: #2c5f8a; }
+  .card-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; color: #999; margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== タグ一覧ブロック ===== */
+  .tags-block { margin-bottom: 40px; }
+  .tags-block-inner {
+    background: #f7f7f5; padding: 24px 28px;
+  }
+  .tags-block-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; font-weight: 400; color: #999; margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+  .tags-block .article-tags { margin-bottom: 0; }
+  .tags-block .article-tag { background: #fff; }
+
+  /* ===== クレジット ===== */
+  .article-credit {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 400; color: #999;
+    margin-bottom: 32px; padding: 16px 0;
+    border-top: 1px solid #e8e8e8;
+    line-height: 1.8;
+  }
+
+
+  /* ===== FOOTER ===== */
+  footer { background: #1a1a1a; margin-top: 0; border-top: none; }
+  .footer-inner { max-width: 1600px; margin: 0 auto; }
+  .footer-sitemap {
+    padding: 56px 40px 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-col {}
+  .footer-col-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; color: #fff; font-weight: 600;
+    margin-bottom: 12px; letter-spacing: 0.04em;
+  }
+  .footer-col-title a { color: #fff; text-decoration: none; }
+  .footer-col-title a:hover { opacity: 0.8; }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; }
+  .footer-col li { margin-bottom: 6px; }
+  .footer-col li a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
+    font-weight: 600; transition: color 0.2s;
+  }
+  .footer-col li a:hover { color: #fff; }
+  .footer-links {
+    padding: 24px 40px;
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-links a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
+    font-weight: 600; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: #fff; }
+  .footer-links .sep { display: none; }
+  .footer-bottom {
+    text-align: center; padding: 28px 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.3);
+    letter-spacing: 0.08em;
+  }
+
+  /* ===== ページトップへ戻るボタン ===== */
+  .back-to-top {
+    position: fixed; bottom: 32px; right: 100px;
+    background: #1a1a1a; color: #fff; border: none;
+    width: 48px; height: 48px; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 250; text-decoration: none;
+    opacity: 0; transition: opacity .3s, background .2s; pointer-events: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    border-radius: 50%;
+  }
+  .back-to-top.show { opacity: 1; pointer-events: auto; }
+  .back-to-top:hover { background: #333; }
+
+  /* トースト */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #1a1a1a; color: #fff; padding: 12px 24px; font-size: 13px;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 300;
+    opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 999;
+    white-space: nowrap; border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  }
+  #toast.show { opacity: 1; }
+
+  /* ===== Sidebar Layout ===== */
+  .content-with-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 280px !important;
+    gap: 48px;
+    max-width: 1600px; margin: 0 auto; padding: 0 40px;
+  }
+  .content-main { min-width: 0; }
+  .content-sidebar { position: relative; }
+  .sidebar-sticky { position: sticky; top: 80px; margin-top: 24px; }
+  .sidebar-sdclub {
+    background: #0a0a0a; color: #fff; padding: 64px 28px 72px;
+    text-align: center; text-decoration: none; display: block;
+    transition: background 0.3s;
+  }
+  .sidebar-sdclub:hover { background: #1a1a1a; }
+  .sidebar-sdclub .sidebar-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,.5);
+    margin-bottom: 20px; text-transform: uppercase;
+  }
+  .sidebar-sdclub .sidebar-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 26px; font-weight: 600; line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .sidebar-sdclub .sidebar-desc {
+    font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.8;
+    margin-bottom: 28px; font-weight: 600;
+  }
+  .sidebar-sdclub .sidebar-btn {
+    display: inline-block; border: 1px solid rgba(255,255,255,.35);
+    padding: 12px 28px; font-size: 11px; color: #fff;
+    letter-spacing: 0.1em; transition: all 0.3s;
+  }
+  .sidebar-sdclub:hover .sidebar-btn { border-color: #fff; }
+
+  /* ===== Scroll Reveal Animation ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.25,0.46,0.45,0.94),
+                transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal .card {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible .card {
+    opacity: 1; transform: translateY(0);
+  }
+  .reveal.visible .card:nth-child(1) { transition-delay: 0.05s; }
+  .reveal.visible .card:nth-child(2) { transition-delay: 0.1s; }
+  .reveal.visible .card:nth-child(3) { transition-delay: 0.15s; }
+  /* ===== Search Overlay (TOP統一版) ===== */
+  .search-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 500;
+    align-items: center; justify-content: center;
+    padding: 24px; backdrop-filter: blur(4px);
+  }
+  .search-overlay.open { display: flex; }
+  .search-box {
+    background: #fff;
+    padding: 40px 48px 48px;
+    width: 840px; max-width: 94vw;
+    max-height: 88vh; overflow-y: auto;
+    border: none; box-shadow: 0 16px 48px rgba(0,0,0,.12);
+  }
+  .search-box-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 28px;
+  }
+  .search-box-header h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; color: #1a1a1a;
+  }
+  .search-close {
+    font-size: 20px; color: #ccc; cursor: pointer; line-height: 1;
+    transition: color 0.2s;
+  }
+  .search-close:hover { color: #1a1a1a; }
+  .search-input-row { display: flex; gap: 0; margin-bottom: 32px; }
+  .search-input-row input {
+    flex: 1; border: 1px solid #e8e8e8; border-right: none;
+    padding: 14px 20px; font-size: 15px; outline: none;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    transition: border-color 0.3s;
+  }
+  .search-input-row input:focus { border-color: #2c5f8a; }
+  .search-input-row button {
+    border: 1px solid #1a1a1a; background: #1a1a1a; color: #fff;
+    padding: 14px 36px; font-size: 13px; cursor: pointer; white-space: nowrap;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em; transition: background 0.3s;
+  }
+  .search-input-row button:hover { background: #333; }
+  .search-section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; color: #999; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; margin-bottom: 14px;
+  }
+  .search-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .search-tag {
+    border: 1px solid #e8e8e8; padding: 6px 16px;
+    font-size: 12px; color: #666; cursor: pointer; text-decoration: none;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .search-tag:hover { background: #f7f7f5; border-color: #ccc; color: #1a1a1a; }
+  .search-cats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+  .search-cat-btn {
+    flex: 1; min-width: 90px; max-width: 120px;
+    border: 1px solid #e8e8e8; padding: 16px 8px;
+    text-align: center; cursor: pointer; text-decoration: none;
+    color: #1a1a1a; font-size: 12px; background: #fff;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    transition: all 0.25s;
+  }
+  .search-cat-btn:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .search-cat-symbol {
+    font-family: 'Inter', sans-serif; font-size: 16px;
+    margin-bottom: 8px; color: #999; display: block;
+    font-weight: 600; letter-spacing: 0.08em;
+  }
+  .search-cat-btn:hover .search-cat-symbol { color: #fff; }
+  .search-sdc-banner {
+    border: none; background: #1a1a1a; color: #fff;
+    padding: 28px 32px; margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .search-sdc-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; color: #666; letter-spacing: 0.15em; margin-bottom: 6px;
+  }
+  .search-sdc-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px;
+  }
+  .search-sdc-desc { font-size: 12px; color: #999; font-weight: 600; }
+  .search-sdc-btn {
+    border: 1px solid rgba(255,255,255,.3); color: #fff; background: transparent;
+    padding: 10px 24px; font-size: 12px; white-space: nowrap;
+    cursor: pointer; text-decoration: none; flex-shrink: 0;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em; transition: all 0.3s;
+  }
+  .search-sdc-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); }
+  /* Featured Articles — サムネイル小・タイトル大バージョン */
+  .search-featured { }
+  .search-feat-card {
+    display: flex; gap: 16px; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: opacity 0.3s;
+  }
+  .search-feat-card:last-child { border-bottom: none; }
+  .search-feat-card:hover { opacity: 0.7; }
+  .search-feat-img {
+    width: 80px; height: 54px; flex-shrink: 0;
+    background: #e0ddd8; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #bbb;
+  }
+  .search-feat-body { flex: 1; min-width: 0; }
+  .search-feat-cat {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; color: #2c5f8a; margin-bottom: 4px;
+    letter-spacing: 0.08em;
+  }
+  .search-feat-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px; color: #1a1a1a; line-height: 1.5; font-weight: 600;
+  }
+</style>
+<link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+<canvas id="bgCanvas" width="1920" height="1080"></canvas>
+
+<div class="wf-label">WIREFRAME — KAZI ONLINE 記事詳細ページ（フォナック補聴器 後編）</div>
+
+<a class="back-to-top" id="backToTop" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&#9650;</a>
+
+<!-- 検索ポップアップ（TOP統一版） -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+    <div class="search-box-header">
+      <h3>サイト内検索</h3>
+      <span class="search-close" onclick="closeSearchBox()">&#10005;</span>
+    </div>
+    <div class="search-input-row">
+      <input type="text" id="searchInput" placeholder="キーワードを入力してください（例：ルアー釣り、ボート免許、マリーナ）" />
+      <button onclick="toast('検索：「'+document.getElementById('searchInput').value+'」')">検索</button>
+    </div>
+    <div class="search-section-title">よく検索されるキーワード</div>
+    <div class="search-tags">
+      <a class="search-tag" href="#" onclick="fillSearch('ルアー釣り');return false;">ルアー釣り</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリンウェア');return false;">マリンウェア</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ボート免許');return false;">ボート免許</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリーナ 関東');return false;">マリーナ 関東</a>
+      <a class="search-tag" href="#" onclick="fillSearch('カヤック 入門');return false;">カヤック 入門</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ヤマハ ボート');return false;">ヤマハ ボート</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ライフジャケット');return false;">ライフジャケット</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ヨット 購入');return false;">ヨット 購入</a>
+      <a class="search-tag" href="#" onclick="fillSearch('釣り 初心者');return false;">釣り 初心者</a>
+      <a class="search-tag" href="#" onclick="fillSearch('KAZI SeaDream Club');return false;">KAZI SeaDream Club</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリンカレンダー');return false;">マリンカレンダー</a>
+      <a class="search-tag" href="#" onclick="fillSearch('インプレッション');return false;">インプレッション</a>
+    </div>
+    <div class="search-section-title">カテゴリーから探す</div>
+    <div class="search-cats">
+      <a class="search-cat-btn" href="wireframe_news.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ N ]</span>ニュース
+      </a>
+      <a class="search-cat-btn" href="wireframe_fishing.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ F ]</span>フィッシング
+      </a>
+      <a class="search-cat-btn" href="wireframe_gear.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ G ]</span>マリングッズ
+      </a>
+      <a class="search-cat-btn" href="wireframe_yacht.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ Y ]</span>ヨット
+      </a>
+      <a class="search-cat-btn" href="wireframe_boat.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ B ]</span>ボート
+      </a>
+      <a class="search-cat-btn" href="wireframe_marina.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ M ]</span>マリーナ
+      </a>
+      <a class="search-cat-btn" href="wireframe_lifestyle.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ L ]</span>ライフスタイル
+      </a>
+    </div>
+    <div class="search-sdc-banner">
+      <div class="search-sdc-text">
+        <div class="search-sdc-label">MEMBER'S CLUB</div>
+        <div class="search-sdc-title">KAZI SeaDream Club</div>
+        <div class="search-sdc-desc">海を愛する人のための特別なメンバーシップ — 入会金・年会費は無料です</div>
+      </div>
+      <a class="search-sdc-btn" href="wireframe_sdclub.html" onclick="closeSearchBox()">無料登録はこちら</a>
+    </div>
+    <div class="search-section-title">注目の記事</div>
+    <div class="search-featured">
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0&title=%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0%E5%AE%8C%E5%85%A8%E3%82%AC%E3%82%A4%E3%83%89">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">フィッシング</div>
+          <div class="search-feat-title">ルアーフィッシング完全ガイド：タックル選びから釣り方まで</div>
+        </div>
+      </a>
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%9C%E3%83%BC%E3%83%88&title=2025%E5%B9%B4%E6%9C%80%E6%96%B0%E3%83%9C%E3%83%BC%E3%83%88%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">ボート</div>
+          <div class="search-feat-title">2025年最新ボートインプレッション</div>
+        </div>
+      </a>
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%9E%E3%83%AA%E3%83%BC%E3%83%8A&title=%E3%83%9E%E3%83%AA%E3%83%BC%E3%83%8A%E3%83%9E%E3%83%83%E3%83%97%E3%81%A7%E6%8E%A2%E3%81%99%E5%85%A8%E5%9B%BD551%E3%82%AB%E6%89%80">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">マリーナ</div>
+          <div class="search-feat-title">マリーナマップで探す全国551カ所</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-top">
+    <a class="logo" href="wireframe_top.html"><img class="logo-full" src="kazilogo.svg" alt="KAZI ONLINE"><img class="logo-small" src="kazilogo_s.svg" alt="KAZI"></a>
+    <nav class="global-nav">
+      <div class="nav-item"><a href="wireframe_news.html" class="has-sub">ニュース</a></div>
+      <div class="nav-item"><a href="wireframe_fishing.html" class="has-sub">フィッシング</a></div>
+      <div class="nav-item"><a href="wireframe_gear.html" class="has-sub">マリングッズ・ギア</a></div>
+      <div class="nav-item"><a href="wireframe_yacht.html" class="has-sub">ヨット</a></div>
+      <div class="nav-item"><a href="wireframe_boat.html" class="has-sub">ボート</a></div>
+      <div class="nav-item"><a href="wireframe_marina.html" class="has-sub">マリーナ</a></div>
+      <div class="nav-item"><a href="wireframe_lifestyle.html" class="has-sub">ライフスタイル</a></div>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-hamburger" onclick="toggleHamburger()"><span></span><span></span><span></span></button>
+      <div class="btn-search" onclick="openSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
+      <a class="btn-login" href="wireframe_login.html">KAZI SeaDream Club ログイン</a>
+      <a class="btn-sitemap" href="index.html" title="サイトマップ（管理用）">MAP</a>
+    </div>
+  </div>
+</header>
+
+<!-- Full-screen Hamburger Menu -->
+<div class="hamburger-backdrop" id="hamburgerBackdrop" onclick="closeHamburger()"></div>
+<div class="hamburger-panel" id="hamburgerPanel">
+  <div class="hamburger-panel-header">
+    <img class="logo-ham" src="kazilogo.svg" alt="KAZI ONLINE">
+    <button class="hamburger-close" onclick="closeHamburger()">&times;</button>
+  </div>
+  <div class="hamburger-panel-body">
+    <div class="hamburger-nav">
+      <div class="hamburger-nav-grid">
+        <div class="hamburger-nav-group"><a href="wireframe_news.html">ニュース</a></div>
+        <div class="hamburger-nav-group"><a href="wireframe_fishing.html">フィッシング</a></div>
+        <div class="hamburger-nav-group"><a href="wireframe_yacht.html">ヨット</a></div>
+        <div class="hamburger-nav-group"><a href="wireframe_boat.html">ボート</a></div>
+        <div class="hamburger-nav-group"><a href="wireframe_gear.html">マリングッズ・ギア</a></div>
+        <div class="hamburger-nav-group"><a href="wireframe_marina.html">マリーナ</a></div>
+        <div class="hamburger-nav-group"><a href="wireframe_lifestyle.html">ライフスタイル</a></div>
+      </div>
+    </div>
+    <div class="hamburger-aside">
+      <a class="hamburger-member-banner" href="wireframe_sdclub.html">
+        <div class="ham-member-label">KAZI SeaDream Club</div>
+        <div class="ham-member-title">KAZI SeaDream Club</div>
+        <div class="ham-member-desc">海を愛する人のための<br>特別なメンバーシップ。<br>入会金・年会費は無料です。</div>
+        <span class="ham-member-btn">入会する（無料）</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Mega Menu Overlay -->
+<div class="mega-overlay" id="megaOverlay" onclick="closeMega()"></div>
+
+
+<!-- ===== 記事ヘッダー ===== -->
+<div class="article-header">
+  <div class="article-header-img" style="background-image:url('photos/lifestyle_main.jpg')"></div>
+  <div class="article-header-info">
+    <div class="breadcrumb">
+      <a href="wireframe_top.html">TOP</a> &gt;
+      <a href="wireframe_lifestyle.html">ライフスタイル</a> &gt;
+      <span>聞こえる＋αを得る喜び｜フォナック補聴器...</span>
+    </div>
+    <div class="article-cat-badge">ライフスタイル</div>
+    <h1 class="article-title">聞こえる＋αを得る喜び｜フォナック補聴器【後編】</h1>
+    <div class="article-lead">左耳の聞こえの低下を経験した著者が、フォナック最新補聴器「インフィニオ」を体験。セーリングクルーザーでの洋上テストを含む、マリンライフと補聴器の親和性をレポート。</div>
+    <div class="article-byline">
+      <span class="article-byline-logo">K</span>
+      <span>by 田久保雅己（Sea Dream編集長）</span>
+    </div>
+    <div class="article-meta">
+      <span>2025.03.06</span>
+      <span class="article-like" onclick="toast('いいね！');return false;">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        24
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 記事コンテンツ ===== -->
+<div class="content-with-sidebar">
+<div class="content-main">
+<div class="article-wrap">
+  <article>
+
+    <!-- 上部シェアボタン -->
+    <div class="share-top">
+      <span>シェア</span>
+      <a class="share-btn" href="#" onclick="toast('X(Twitter)でシェア');return false;"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
+      <a class="share-btn" href="#" onclick="toast('Facebookでシェア');return false;"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a>
+      <a class="share-btn" href="#" onclick="toast('LINEでシェア');return false;"><svg viewBox="0 0 24 24"><path d="M19.365 9.864c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108h-2.028v.708h2.028c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108h-3.408c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h3.408zm-4.932 0c.058 0 .104.048.104.108v3.564c0 .06-.046.108-.104.108h-1.272c-.042 0-.078-.024-.094-.058l-1.932-2.616v2.566c0 .06-.046.108-.104.108H9.758c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h1.272c.042 0 .078.024.094.058l1.932 2.616V9.972c0-.06.046-.108.104-.108h1.273zm-5.34 0c.058 0 .104.048.104.108v3.564c0 .06-.046.108-.104.108H7.82c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h1.273zm-2.94 0c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108H4.122v.708h2.028c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108H3.742c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h3.408zM24 10.666C24 4.774 18.627.001 12 .001S0 4.774 0 10.666c0 5.276 4.68 9.692 10.998 10.53.428.092 1.01.282 1.158.648.132.33.086.848.042 1.182l-.188 1.122c-.056.33-.262 1.292 1.132.704 1.394-.588 7.518-4.428 10.26-7.58C24.766 15.678 24 13.282 24 10.666z"/></svg>LINE</a>
+      <a class="share-btn" href="#" onclick="toast('URLをコピー');return false;"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>URLコピー</a>
+    </div>
+
+    <!-- タグ -->
+    <div class="article-tags">
+      <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#ライフスタイル</a>
+      <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#健康・ヘルス</a>
+      <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#月刊Kazi</a>
+      <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#アメリカズカップ</a>
+    </div>
+
+    <!-- 目次 -->
+    <div class="toc-box reveal">
+      <div class="toc-box-title">
+        <span>目次</span>
+        <span class="toc-toggle" onclick="toggleToc()">[閉じる]</span>
+      </div>
+      <div id="tocContent">
+        <ol>
+          <li><a href="#sec1" onclick="scrollToSec('sec1');return false;">「聞こえにくさ」を認めるまで</a></li>
+          <li>
+            <a href="#sec2" onclick="scrollToSec('sec2');return false;">フォナック「インフィニオ」体験レポート</a>
+            <ol>
+              <li><a href="#sec2-1" onclick="scrollToSec('sec2-1');return false;">ワールド・オブ・ヒヤリングでの体験</a></li>
+              <li><a href="#sec2-2" onclick="scrollToSec('sec2-2');return false;">装着感と日常での変化</a></li>
+            </ol>
+          </li>
+          <li><a href="#sec3" onclick="scrollToSec('sec3');return false;">洋上テスト ── ヨットとの親和性</a></li>
+          <li><a href="#sec4" onclick="scrollToSec('sec4');return false;">ロジャーシステム ── アメリカズカップの技術</a></li>
+          <li><a href="#sec5" onclick="scrollToSec('sec5');return false;">製品スペック</a></li>
+          <li><a href="#sec6" onclick="scrollToSec('sec6');return false;">KAZI SeaDream Club体験会レポート</a></li>
+          <li><a href="#sec7" onclick="scrollToSec('sec7');return false;">まとめ ── 聞こえにくさは恥ずかしくない</a></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- 本文 -->
+    <div class="article-body reveal">
+      <p>前編に引き続き、フォナック補聴器「インフィニオ」の体験レポートをお届けする。左耳の聞こえの低下を自覚しながらも、「聞こえにくさを周囲に知られたくない」という心理を抱えていた筆者が、体験を通じてその考えがどう変わったのか。マリンライフとの意外な親和性も含めてレポートする。</p>
+
+      <h2 id="sec1">「聞こえにくさ」を認めるまで</h2>
+      <p>聞こえの低下は、ゆっくりと忍び寄る。テレビの音量が以前より大きくなっていること、会議で聞き返す回数が増えたこと、風の強い日の会話が辛くなったこと。それでも「まだ大丈夫」と自分に言い聞かせていた。</p>
+      <p>特にマリンスポーツの現場では、エンジン音や風切り音の中でクルーとのコミュニケーションが重要になる。安全に関わる情報を聞き逃すことへの不安が、体験への一歩を後押しした。</p>
+
+      <div class="article-img-inline" style="background:url('photos/lifestyle_01.jpg') center/cover no-repeat"></div>
+      <p class="article-img-caption">東京・中目黒のフォナック「ワールド・オブ・ヒヤリング」にて</p>
+
+      <!-- 広告バナー① (横長) -->
+      <div class="ad-banner ad-banner-leaderboard">
+        <div class="ad-banner-inner" style="background-image:url('photos/gear_main.jpg'); background-size:cover; background-position:center;">
+          <span class="ad-banner-label">AD</span>
+        </div>
+      </div>
+
+      <h2 id="sec2">フォナック「インフィニオ」体験レポート</h2>
+
+      <h3 id="sec2-1">ワールド・オブ・ヒヤリングでの体験</h3>
+      <p>東京・中目黒にあるフォナックの体験施設「ワールド・オブ・ヒヤリング」を訪れた。体験の流れは以下の通りだ。</p>
+      <p>まず日常の聞こえについてのカウンセリングからスタート。聞こえにくい場面や困っている状況を丁寧にヒアリングしてもらう。続いて防音室に移動し、精密な聴覚測定を実施。パソコンでオーダーメイドの調整を行い、スマートフォンアプリ「myPhonak」との同期まで、所要時間は約1時間。想像以上にスムーズなプロセスだった。</p>
+
+      <h3 id="sec2-2">装着感と日常での変化</h3>
+      <p>インフィニオの第一印象は「軽い」。装着していることを忘れるほどの軽量感が印象的だった。</p>
+      <p>日常生活での変化はすぐに実感できた。信号音やアナウンスがクリアに聞こえるようになり、ビジネスシーンでの会話もスムーズに。喧噪の中での1対1の会話で、相手の言葉がはっきり届くようになったことには正直驚いた。</p>
+      <p>スマートフォンとの連動もスムーズで、ハンズフリー通話や音楽再生が可能。補聴器という枠を超え、高性能なヒアリングデバイスとしての進化を感じた。</p>
+    </div>
+
+    <!-- 記事内CTAバナー -->
+    <div class="in-article-cta reveal">
+      <div class="cta-text">
+        <h4>KAZI SeaDream Club に参加しませんか？</h4>
+        <p>会員限定コンテンツ・イベント招待・特別特典をいち早くお届け</p>
+      </div>
+      <a class="cta-btn" href="#" onclick="toast('KAZI SeaDream Club 登録ページへ移動');return false;">無料登録はこちら</a>
+    </div>
+
+    <!-- 広告バナー② (レクタングル) -->
+    <div class="ad-banner ad-banner-rectangle reveal">
+      <div class="ad-banner-inner" style="background-image:url('photos/boat_main.jpg'); background-size:cover; background-position:center;">
+        <span class="ad-banner-label">AD</span>
+      </div>
+    </div>
+
+    <div class="article-body reveal">
+      <h2 id="sec3">洋上テスト ── ヨットとの親和性</h2>
+      <p>体験のハイライトは、セーリングクルーザーでの洋上テストだった。ヨットの上は風切り音、波の音、セールのはためきなど、騒音環境としては厳しい条件だ。</p>
+      <p>インフィニオは「IP68を超えるウォーターブロック機能」を備えており、水しぶきを浴びるマリンスポーツシーンでも安心して使用できる。さらに風切り音を軽減する機能が搭載されており、ヨットとの親和性は予想以上に高かった。</p>
+      <p>デッキ上での会話が自然にできること、ヘルムスマンの指示がクリアに聞こえること。これは安全航行に直結する大きなメリットだ。</p>
+
+      <div class="article-img-inline" style="background:url('photos/lifestyle_02.jpg') center/cover no-repeat"></div>
+      <p class="article-img-caption">セーリングクルーザーでの洋上テスト。風切り音の中でも会話がクリアに</p>
+
+      <h2 id="sec4">ロジャーシステム ── アメリカズカップの技術</h2>
+      <p>さらに注目すべきは「ロジャー」マイクロホンの存在だ。このシステムはアメリカズカップのチームでも採用されている通信技術をベースにしている。</p>
+
+      <blockquote>
+        大声で叫ばなくても普通の声で作業指示ができ、クルーからの情報もはっきり聞こえる。ハンズフリーの通信システムにより、安全運航につながる正確な情報交換が可能になった。
+      </blockquote>
+
+      <p>ヨットレースでは、バウマンからの波の報告、トリマーのセール状態の報告、タクティシャンの指示など、複数のクルー間で正確な情報伝達が求められる。ロジャーシステムは、まさにそのニーズに応える技術だ。</p>
+
+      <h2 id="sec5">製品スペック</h2>
+    </div>
+
+    <!-- 製品スペック表 -->
+    <div class="product-spec reveal">
+      <div class="product-spec-title">オーデオ インフィニオ スフィア</div>
+      <table>
+        <tr><th>チップ</th><td>深いニューラルネットワークチップ搭載（世界初：2024年8月時点）</td></tr>
+        <tr><th>聞き取り性能</th><td>あらゆる方向からの言葉の聞き取りを向上</td></tr>
+        <tr><th>接続性</th><td>ユニバーサル接続（iOS / Android対応）</td></tr>
+        <tr><th>電源</th><td>リチウムイオン充電式</td></tr>
+        <tr><th>動作時間</th><td>約18時間</td></tr>
+        <tr><th>防水性能</th><td>IP68を超えるウォーターブロック機能</td></tr>
+        <tr><th>適応聴力</th><td>軽度〜重度難聴</td></tr>
+        <tr><th>カラー</th><td>4色展開</td></tr>
+        <tr><th>価格</th><td class="spec-price">片耳 512,000円〜（税込）</td></tr>
+      </table>
+    </div>
+
+    <div class="product-spec reveal">
+      <div class="product-spec-title">ロジャー オン 3</div>
+      <table>
+        <tr><th>充電時間</th><td>約3時間</td></tr>
+        <tr><th>使用可能時間</th><td>約8時間</td></tr>
+        <tr><th>使用可能距離</th><td>最大約25m</td></tr>
+        <tr><th>重量</th><td>27g</td></tr>
+        <tr><th>価格</th><td class="spec-price">209,000円（税込）</td></tr>
+      </table>
+    </div>
+
+    <div class="article-body reveal">
+      <h2 id="sec6">KAZI SeaDream Club体験会レポート</h2>
+      <p>2025年1月19日、東京夢の島マリーナにて「KAZI SeaDream Club」主催のフォナック体験会が開催された。マリンスポーツ愛好家を中心に多くの参加者が集まり、実際にインフィニオとロジャーシステムを体験した。</p>
+      <p>参加者からは「補聴器に対する暗いイメージが、明るいイメージへと変わった」という声が多く聞かれた。特に、スマートフォンとの連携機能やデザイン性の高さに驚く声が印象的だった。</p>
+
+      <div class="article-img-inline" style="background:url('photos/lifestyle_03.jpg') center/cover no-repeat"></div>
+      <p class="article-img-caption">東京夢の島マリーナで開催されたKAZI SeaDream Club主催のフォナック体験会</p>
+
+      <h2 id="sec7">まとめ ── 聞こえにくさは恥ずかしくない</h2>
+      <p>今回の体験を通じて、もっとも大きく変わったのは「聞こえにくさに対する意識」だった。補聴器は弱さの象徴ではなく、マリンライフをより豊かにするためのツールである。</p>
+      <p>聞こえにくさは恥ずかしいことではない。むしろ、早めに対処することで、安全で快適なマリンライフを長く楽しむことができる。まずは耳鼻咽喉科での聴力検査を受けてみてほしい。</p>
+      <p>フォナック「インフィニオ」は、「聞こえる」だけでなく「聞こえる＋α」を提供してくれる。その＋αとは、安心感であり、コミュニケーションの喜びであり、海の上で感じる新たな世界との出会いだ。</p>
+    </div>
+
+    <!-- 広告バナー③ (ワイド) -->
+    <div class="ad-banner ad-banner-wide reveal">
+      <div class="ad-banner-inner" style="background-image:url('photos/marina_main.jpg'); background-size:cover; background-position:center;">
+        <span class="ad-banner-label">AD</span>
+      </div>
+    </div>
+
+    <!-- クレジット -->
+    <div class="article-credit reveal">
+      文：田久保雅己（Sea Dream編集長／Kazi元編集長）<br>
+      撮影：落合明人（Kazi）<br>
+      取材協力：東京ヨットクラブ、東京夢の島マリーナ
+    </div>
+
+    <!-- 監修者情報 -->
+    <div class="supervisor-box reveal">
+      <div class="supervisor-label">監修</div>
+      <div class="supervisor-avatar">顔写真</div>
+      <div class="supervisor-info">
+        <div class="supervisor-name">田久保 雅己（たくぼ まさみ）</div>
+        <div class="supervisor-title">Sea Dream編集長 / Kazi元編集長</div>
+        <div class="supervisor-bio">長年にわたりマリンメディアの第一線で活躍。ヨット・ボートを中心としたマリンライフの魅力を発信し続けている。自身もセーラーとして国内外のレースに参加。</div>
+      </div>
+    </div>
+
+    <!-- 著者プロフィール -->
+    <div class="author-profile reveal">
+      <div class="author-avatar">顔写真</div>
+      <div class="author-info">
+        <div class="author-label">この記事を書いた人</div>
+        <div class="author-name">田久保 雅己</div>
+        <div class="author-title">Sea Dream編集長／Kazi元編集長</div>
+        <div class="author-bio">ボート・ヨット・フィッシングを中心に、マリンスポーツ全般の最新情報をお届けしています。1990年のKazi創刊以来、国内最大のマリンメディアとして情報発信を続けています。</div>
+        <a class="author-link" href="wireframe_author.html">この著者の記事一覧 &rarr;</a>
+      </div>
+    </div>
+
+    <!-- タグ一覧ブロック -->
+    <div class="tags-block reveal">
+      <div class="tags-block-inner">
+        <div class="tags-block-label">この記事のタグ</div>
+        <div class="article-tags">
+          <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#ライフスタイル</a>
+          <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#健康・ヘルス</a>
+          <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#月刊Kazi</a>
+          <a class="article-tag" href="#" onclick="toast('#タグで絞り込み');return false;">#アメリカズカップ</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 下部シェアボタン -->
+    <div class="share-bottom reveal">
+      <span>この記事をシェア</span>
+      <a class="share-btn" href="#" onclick="toast('X(Twitter)でシェア');return false;"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
+      <a class="share-btn" href="#" onclick="toast('Facebookでシェア');return false;"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a>
+      <a class="share-btn" href="#" onclick="toast('LINEでシェア');return false;"><svg viewBox="0 0 24 24"><path d="M19.365 9.864c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108h-2.028v.708h2.028c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108h-3.408c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h3.408zm-4.932 0c.058 0 .104.048.104.108v3.564c0 .06-.046.108-.104.108h-1.272c-.042 0-.078-.024-.094-.058l-1.932-2.616v2.566c0 .06-.046.108-.104.108H9.758c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h1.272c.042 0 .078.024.094.058l1.932 2.616V9.972c0-.06.046-.108.104-.108h1.273zm-5.34 0c.058 0 .104.048.104.108v3.564c0 .06-.046.108-.104.108H7.82c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h1.273zm-2.94 0c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108H4.122v.708h2.028c.058 0 .104.048.104.108v1.272c0 .06-.046.108-.104.108H3.742c-.058 0-.104-.048-.104-.108V9.972c0-.06.046-.108.104-.108h3.408zM24 10.666C24 4.774 18.627.001 12 .001S0 4.774 0 10.666c0 5.276 4.68 9.692 10.998 10.53.428.092 1.01.282 1.158.648.132.33.086.848.042 1.182l-.188 1.122c-.056.33-.262 1.292 1.132.704 1.394-.588 7.518-4.428 10.26-7.58C24.766 15.678 24 13.282 24 10.666z"/></svg>LINE</a>
+      <a class="share-btn" href="#" onclick="toast('URLをコピー');return false;"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>URLコピー</a>
+      <a class="share-btn" href="#" onclick="toast('印刷');return false;"><svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>印刷</a>
+    </div>
+
+    <!-- 前後記事ナビ -->
+    <div class="article-pager reveal">
+      <a class="pager-btn prev" href="wireframe_article.html?cat=ライフスタイル&title=豊かな聞こえがもたらす、豊かなマリンライフ｜フォナック補聴器【前編】">
+        <div class="pager-label">&larr; 前の記事</div>
+        <div class="pager-title">豊かな聞こえがもたらす、豊かなマリンライフ｜フォナック補聴器【前編】</div>
+      </a>
+      <a class="pager-btn next" href="wireframe_article.html?cat=ライフスタイル&title=海が見えるレストラン・カフェ特集｜ドライブがてら訪れたい絶景グルメスポット">
+        <div class="pager-label">次の記事 &rarr;</div>
+        <div class="pager-title">海が見えるレストラン・カフェ特集｜ドライブがてら訪れたい絶景グルメスポット</div>
+      </a>
+    </div>
+
+    <!-- 関連記事 -->
+    <div class="article-related reveal">
+      <div class="section-title">関連記事</div>
+      <div class="grid-3 reveal">
+        <a class="card" href="wireframe_article.html?cat=ライフスタイル&title=豊かな聞こえがもたらす、豊かなマリンライフ｜フォナック補聴器【前編】">
+          <div class="card-img" style="background-image:url('photos/lifestyle_main.jpg')"></div>
+          <div class="card-body">
+            <span class="card-cat">ライフスタイル</span>
+            <div class="card-title">豊かな聞こえがもたらす、豊かなマリンライフ｜フォナック補聴器【前編】</div>
+            <div class="card-excerpt">最新の補聴器テクノロジーが、マリンスポーツの楽しみ方を変える。海の上でのコミュニケーションを革新。</div>
+            <div class="card-meta">2025.02.20</div>
+          </div>
+        </a>
+        <a class="card" href="wireframe_article.html?cat=ライフスタイル&title=マリンライフを彩るインテリアアイデア">
+          <div class="card-img" style="background-image:url('photos/lifestyle_01.jpg')"></div>
+          <div class="card-body">
+            <span class="card-cat">ライフスタイル</span>
+            <div class="card-title">マリンライフを彩るインテリアアイデア。海をテーマにした空間づくり</div>
+            <div class="card-excerpt">海辺の暮らしにインスピレーションを受けたインテリアコーディネート術をご紹介。</div>
+            <div class="card-meta">2025.02.15</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </article>
+</div>
+</div><!-- /.content-main -->
+<aside class="content-sidebar">
+  <div class="sidebar-sticky">
+    <a class="sidebar-sdclub" href="wireframe_sdclub.html">
+      <div class="sidebar-label">MEMBERSHIP</div>
+      <div class="sidebar-title">KAZI SeaDream<br>Club</div>
+      <div class="sidebar-desc">海を愛する人のための特別なメンバーシップ。選び抜かれたイベント、特別な体験、上質なライフスタイル。</div>
+      <span class="sidebar-btn">入会する（無料）</span>
+    </a>
+    <a class="sidebar-ad" href="#" onclick="toast('広告クリック');return false;" style="background-image:url('photos/boat_main.jpg')">
+      <span class="sidebar-ad-label">AD</span>
+    </a>
+  </div>
+</aside>
+</div><!-- /.content-with-sidebar -->
+
+<!-- FOOTER -->
+
+<div class="big-cta">
+  <h2>KAZI SeaDream Club 発足。</h2>
+  <p>
+    海を愛する人のための特別なメンバーシップ。<br>
+    選び抜かれたイベントや特別な体験、上質なライフスタイルをお届けします。<br>
+    入会金・年会費は無料です。
+  </p>
+  <a class="big-cta-btn" href="wireframe_sdclub_register.html">KAZI SeaDream Club に入会する</a>
+  <div class="big-cta-note">すでに会員の方は <a href="wireframe_login.html">こちらからログイン</a></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-sitemap">
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_news.html">ニュース</a></div>
+        <ul>
+          <li><a href="wireframe_news.html">新着ニュース</a></li>
+          <li><a href="wireframe_news_products.html">新製品・新着</a></li>
+          <li><a href="wireframe_news_events.html">イベント情報</a></li>
+          <li><a href="wireframe_news_ranking.html">人気ランキング</a></li>
+          <li><a href="wireframe_news_exhibition.html">展示会</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_fishing.html">フィッシング</a></div>
+        <ul>
+          <li><a href="wireframe_fishing_lure.html">ルアーフィッシング</a></li>
+          <li><a href="wireframe_fishing_tackle.html">タックル・ギア</a></li>
+          <li><a href="wireframe_fishing_species.html">魚種別ガイド</a></li>
+          <li><a href="wireframe_fishing_beginner.html">フィッシング入門</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_gear.html">マリングッズ・ギア</a></div>
+        <ul>
+          <li><a href="wireframe_gear_wear.html">マリンウェア（機能系）</a></li>
+          <li><a href="wireframe_gear_lifejacket.html">ライフジャケット・安全器具</a></li>
+          <li><a href="wireframe_gear_paddle.html">パドルスポーツ用品</a></li>
+          <li><a href="wireframe_gear_list.html">マリングッズ一覧</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_yacht.html">ヨット</a></div>
+        <ul>
+          <li><a href="wireframe_yacht_review.html">最新ヨットレビュー</a></li>
+          <li><a href="wireframe_yacht_technique.html">セーリング技術</a></li>
+          <li><a href="wireframe_yacht_race.html">レース情報</a></li>
+          <li><a href="wireframe_yacht_guide.html">購入ガイド</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_boat.html">ボート</a></div>
+        <ul>
+          <li><a href="wireframe_boat_review.html">ボートレビュー</a></li>
+          <li><a href="wireframe_boat_technique.html">操縦テクニック</a></li>
+          <li><a href="wireframe_boat_2hp.html">2馬力ボート特集</a></li>
+          <li><a href="wireframe_boat_trailable.html">トレーラブルボート</a></li>
+          <li><a href="wireframe_boat_guide.html">購入ガイド</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_marina.html">マリーナ</a></div>
+        <ul>
+          <li><a href="wireframe_marina_list.html">全国マリーナ一覧</a></li>
+          <li><a href="wireframe_marina_area.html">エリア別マリーナ検索</a></li>
+          <li><a href="wireframe_marina_map.html">マリーナマップ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_lifestyle.html">ライフスタイル</a></div>
+        <ul>
+          <li><a href="wireframe_lifestyle_fashion.html">マリンウェア・ファッション</a></li>
+          <li><a href="wireframe_lifestyle_gourmet.html">グルメ</a></li>
+          <li><a href="wireframe_lifestyle_hotel.html">ホテル・リゾート</a></li>
+          <li><a href="wireframe_lifestyle_travel.html">トラベル</a></li>
+          <li><a href="wireframe_lifestyle_goods.html">グッズ</a></li>
+          <li><a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">サービス</div>
+        <ul>
+          <li><a href="wireframe_sdclub.html">KAZI SeaDream Club</a></li>
+          <li><a href="wireframe_entry.html">エントリーガイド</a></li>
+          <li><a href="wireframe_maker.html">メーカー&amp;ビルダー</a></li>
+          <li><a href="wireframe_company.html">会社概要</a></li>
+          <li><a href="wireframe_contact.html">お問い合わせ</a></li>
+          <li><a href="wireframe_privacy.html">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; KAZI Online All Rights Reserved.</div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+  // 目次の開閉
+  let tocOpen = true;
+  function toggleToc() {
+    tocOpen = !tocOpen;
+    document.getElementById('tocContent').style.display = tocOpen ? '' : 'none';
+    document.querySelector('.toc-toggle').textContent = tocOpen ? '[閉じる]' : '[開く]';
+  }
+
+  // 目次スクロール
+  function scrollToSec(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ページトップへ戻るボタン
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backBtn.classList.toggle('show', window.scrollY > 400);
+  });
+
+  // 検索ポップアップ
+  function openSearch() {
+    document.getElementById('searchOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('searchInput').focus(), 100);
+  }
+  function closeSearchBox() {
+    document.getElementById('searchOverlay').classList.remove('open');
+  }
+  function closeSearch(e) {
+    if (e.target === document.getElementById('searchOverlay')) closeSearchBox();
+  }
+  function fillSearch(word) {
+    document.getElementById('searchInput').value = word;
+    document.getElementById('searchInput').focus();
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSearchBox();
+  });
+
+  // トースト
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = '\u2192 ' + msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+  }
+
+  // ドロップダウン クリック開閉
+  document.querySelectorAll('.nav-item > a.has-sub').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var item = this.closest('.nav-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.nav-item').forEach(function(i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item')) {
+      document.querySelectorAll('.nav-item').forEach(function(i) { i.classList.remove('open'); });
+    }
+  });
+
+  // Scroll Reveal
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // Mega Menu
+  let activeMega = null;
+  function closeMega() {
+    document.querySelectorAll('.mega-menu').forEach(m => m.classList.remove('open'));
+    var overlay = document.getElementById('megaOverlay');
+    if (overlay) overlay.classList.remove('open');
+    document.querySelectorAll('.nav-item > a.has-sub').forEach(a => a.classList.remove('active'));
+    activeMega = null;
+  }
+
+  // Scrolled Header
+  (function() {
+    var header = document.querySelector('header');
+    var threshold = 80;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > threshold) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  })();
+
+  function toggleHamburger() {
+    var panel = document.getElementById('hamburgerPanel');
+    var backdrop = document.getElementById('hamburgerBackdrop');
+    if (panel.classList.contains('open')) { closeHamburger(); } else {
+      panel.classList.add('open'); backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeHamburger() {
+    document.getElementById('hamburgerPanel').classList.remove('open');
+    document.getElementById('hamburgerBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Background Diagonal Stripe Animation
+  (function() {
+    var bgc = document.getElementById('bgCanvas');
+    if (!bgc) return;
+    var bgctx = bgc.getContext('2d');
+    bgc.width = window.innerWidth; bgc.height = window.innerHeight;
+    window.addEventListener('resize', function() {
+      bgc.width = window.innerWidth; bgc.height = window.innerHeight;
+      stripeRender();
+    });
+    var ANGLE = 35 * Math.PI / 180;
+    var stripes = [
+      [-0.05, 1, 0.15, 180, 0.012],
+      [ 0.30,-1, 0.25,  60, 0.035],
+      [ 0.50, 1, 0.18,   4, 0.12],
+      [ 0.60, 1, 0.12, 140, 0.01],
+      [ 0.90,-1, 0.30,  45, 0.04],
+    ];
+    var sPos=[],sWm=[]; for(var i=0;i<stripes.length;i++){sPos.push(0);sWm.push(1);}
+    var sVel=0, sSmooth=0, sRaf=null, sLastY=0;
+    window.addEventListener('scroll', function() {
+      var y=window.scrollY, dy=y-sLastY; sLastY=y;
+      sVel += dy * 0.6;
+      if (!sRaf) sRaf = requestAnimationFrame(stripeLoop);
+    });
+    function stripeLoop() {
+      sRaf=null;
+      sSmooth += (sVel-sSmooth)*0.3; sVel *= 0.5;
+      for(var i=0;i<stripes.length;i++){
+        sPos[i]+=sSmooth*stripes[i][2]*stripes[i][1]*0.3;
+        var tw=1+Math.abs(sSmooth)*0.003; sWm[i]+=(tw-sWm[i])*0.1;
+      }
+      stripeRender();
+      if(Math.abs(sSmooth)>1.0||Math.abs(sVel)>1.0){
+        sRaf=requestAnimationFrame(stripeLoop);
+      } else {
+        sSmooth=0;sVel=0;
+        for(var i=0;i<stripes.length;i++) sWm[i]=1;
+        stripeRender(); bgc.style.opacity=0;
+      }
+    }
+    function stripeRender() {
+      var W=bgc.width,H=bgc.height,d=Math.sqrt(W*W+H*H)*1.4;
+      bgctx.clearRect(0,0,W,H);
+      for(var i=0;i<stripes.length;i++){
+        var cx=stripes[i][0]*W+sPos[i]; cx=((cx%W)+W)%W;
+        var w=Math.max(4,stripes[i][3]*sWm[i]);
+        bgctx.save(); bgctx.translate(cx,H/2); bgctx.rotate(ANGLE);
+        bgctx.fillStyle="rgba(44,95,138,"+stripes[i][4]+")";
+        bgctx.fillRect(-w/2,-d/2,w,d); bgctx.restore();
+      }
+    }
+    stripeRender();
+  })();
+</script>
+</body>
+</html>

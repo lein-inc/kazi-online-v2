@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サイトマップ - KAZI ONLINE ワイヤーフレーム</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #fff; color: #333; font-size: 13px; }
+
+  .wf-label {
+    text-align: center; padding: 6px;
+    background: #eee; border-bottom: 1px solid #ccc;
+    font-size: 11px; color: #666;
+  }
+
+  .page-header {
+    background: #111; color: #fff;
+    padding: 48px 20px; text-align: center;
+  }
+  .page-header-eyebrow {
+    font-size: 11px; letter-spacing: 4px; color: #aaa;
+    border: 1px solid #555; display: inline-block;
+    padding: 4px 16px; margin-bottom: 16px;
+  }
+  .page-header h1 { font-size: 28px; font-weight: bold; margin-bottom: 10px; letter-spacing: 2px; }
+  .page-header p { font-size: 13px; color: #aaa; }
+  .page-count { margin-top: 12px; font-size: 12px; color: #666; display: inline-block; background: #222; padding: 4px 14px; border: 1px solid #444; }
+
+  .sitemap-wrap {
+    max-width: 1100px; margin: 0 auto;
+    padding: 40px 20px 64px;
+  }
+
+  .sitemap-section { margin-bottom: 40px; }
+  .sitemap-section-title {
+    font-size: 15px; font-weight: bold; color: #222;
+    padding: 10px 16px; background: #f5f5f5;
+    border-left: 4px solid #333; margin-bottom: 16px;
+  }
+  .sitemap-section-title .badge {
+    display: inline-block; font-size: 10px; font-weight: normal;
+    color: #fff; background: #888; padding: 2px 8px;
+    margin-left: 8px; vertical-align: middle; letter-spacing: 0;
+  }
+
+  .sitemap-list { list-style: none; }
+  .sitemap-list li {
+    border-bottom: 1px solid #eee;
+  }
+  .sitemap-list li a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; color: #333; text-decoration: none;
+    transition: background .15s;
+  }
+  .sitemap-list li a:hover { background: #f9f9f9; }
+
+  .sitemap-list .page-name {
+    font-size: 13px; font-weight: bold; flex: 1; min-width: 0;
+  }
+  .sitemap-list .page-file {
+    font-size: 11px; color: #999; font-family: monospace;
+    flex-shrink: 0;
+  }
+  .sitemap-list .page-arrow {
+    color: #ccc; font-size: 14px; flex-shrink: 0;
+  }
+
+  .sitemap-list .sub { padding-left: 32px; }
+  .sitemap-list .sub .page-name { font-weight: normal; }
+  .sitemap-list .sub .page-name::before {
+    content: "└ "; color: #ccc; font-family: monospace;
+  }
+
+  footer { border-top: 2px solid #333; margin-top: 0; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-bottom { text-align: center; padding: 24px; font-size: 12px; color: #aaa; }
+</style>
+<link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+
+<div class="wf-label">WIREFRAME — サイトマップ（全53ページ）</div>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+  <div class="page-header-eyebrow">WIREFRAME</div>
+  <h1>KAZI ONLINE サイトマップ</h1>
+  <p>全ワイヤーフレーム一覧 - 各項目をクリックして該当ページへ遷移できます</p>
+  <div class="page-count">全 53 ページ</div>
+</div>
+
+<!-- ===== SITEMAP ===== -->
+<div class="sitemap-wrap">
+
+  <!-- トップ -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">トップページ</div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_top.html"><span class="page-name">トップページ</span><span class="page-file">wireframe_top.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ニュース -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">ニュース <span class="badge">5 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_news.html"><span class="page-name">ニュース トップ</span><span class="page-file">wireframe_news.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_news_products.html" class="sub"><span class="page-name">新製品</span><span class="page-file">wireframe_news_products.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_news_events.html" class="sub"><span class="page-name">イベント</span><span class="page-file">wireframe_news_events.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_news_exhibition.html" class="sub"><span class="page-name">展示会・ボートショー</span><span class="page-file">wireframe_news_exhibition.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_news_ranking.html" class="sub"><span class="page-name">ランキング</span><span class="page-file">wireframe_news_ranking.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- フィッシング -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">フィッシング <span class="badge">5 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_fishing.html"><span class="page-name">フィッシング トップ</span><span class="page-file">wireframe_fishing.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_fishing_beginner.html" class="sub"><span class="page-name">入門ガイド</span><span class="page-file">wireframe_fishing_beginner.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_fishing_species.html" class="sub"><span class="page-name">魚種別攻略</span><span class="page-file">wireframe_fishing_species.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_fishing_tackle.html" class="sub"><span class="page-name">タックル</span><span class="page-file">wireframe_fishing_tackle.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_fishing_lure.html" class="sub"><span class="page-name">ルアー</span><span class="page-file">wireframe_fishing_lure.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- マリングッズ・ギア -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">マリングッズ・ギア <span class="badge">5 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_gear.html"><span class="page-name">マリングッズ・ギア トップ</span><span class="page-file">wireframe_gear.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_gear_list.html" class="sub"><span class="page-name">商品一覧</span><span class="page-file">wireframe_gear_list.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_gear_lifejacket.html" class="sub"><span class="page-name">ライフジャケット</span><span class="page-file">wireframe_gear_lifejacket.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_gear_wear.html" class="sub"><span class="page-name">マリンウェア</span><span class="page-file">wireframe_gear_wear.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_gear_paddle.html" class="sub"><span class="page-name">パドル・オール</span><span class="page-file">wireframe_gear_paddle.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ヨット -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">ヨット <span class="badge">5 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_yacht.html"><span class="page-name">ヨット トップ</span><span class="page-file">wireframe_yacht.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_yacht_guide.html" class="sub"><span class="page-name">入門ガイド</span><span class="page-file">wireframe_yacht_guide.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_yacht_technique.html" class="sub"><span class="page-name">テクニック</span><span class="page-file">wireframe_yacht_technique.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_yacht_race.html" class="sub"><span class="page-name">レース</span><span class="page-file">wireframe_yacht_race.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_yacht_review.html" class="sub"><span class="page-name">艇レビュー</span><span class="page-file">wireframe_yacht_review.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ボート -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">ボート <span class="badge">6 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_boat.html"><span class="page-name">ボート トップ</span><span class="page-file">wireframe_boat.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_boat_guide.html" class="sub"><span class="page-name">入門ガイド</span><span class="page-file">wireframe_boat_guide.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_boat_technique.html" class="sub"><span class="page-name">テクニック</span><span class="page-file">wireframe_boat_technique.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_boat_review.html" class="sub"><span class="page-name">艇レビュー</span><span class="page-file">wireframe_boat_review.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_boat_2hp.html" class="sub"><span class="page-name">2馬力ボート</span><span class="page-file">wireframe_boat_2hp.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_boat_trailable.html" class="sub"><span class="page-name">トレーラブルボート</span><span class="page-file">wireframe_boat_trailable.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- マリーナ -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">マリーナ <span class="badge">4 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_marina.html"><span class="page-name">マリーナ トップ</span><span class="page-file">wireframe_marina.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_marina_list.html" class="sub"><span class="page-name">マリーナ一覧</span><span class="page-file">wireframe_marina_list.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_marina_area.html" class="sub"><span class="page-name">エリア別</span><span class="page-file">wireframe_marina_area.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_marina_map.html" class="sub"><span class="page-name">マップ検索</span><span class="page-file">wireframe_marina_map.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ライフスタイル -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">ライフスタイル <span class="badge">7 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_lifestyle.html"><span class="page-name">ライフスタイル トップ</span><span class="page-file">wireframe_lifestyle.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_lifestyle_travel.html" class="sub"><span class="page-name">旅・クルーズ</span><span class="page-file">wireframe_lifestyle_travel.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_lifestyle_gourmet.html" class="sub"><span class="page-name">グルメ</span><span class="page-file">wireframe_lifestyle_gourmet.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_lifestyle_fashion.html" class="sub"><span class="page-name">ファッション</span><span class="page-file">wireframe_lifestyle_fashion.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_lifestyle_hotel.html" class="sub"><span class="page-name">ホテル・宿</span><span class="page-file">wireframe_lifestyle_hotel.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_lifestyle_goods.html" class="sub"><span class="page-name">グッズ</span><span class="page-file">wireframe_lifestyle_goods.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_lifestyle_calendar.html" class="sub"><span class="page-name">イベントカレンダー</span><span class="page-file">wireframe_lifestyle_calendar.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- 記事 -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">記事テンプレート <span class="badge">4 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_article.html"><span class="page-name">記事詳細（SDCポップアップ付き）</span><span class="page-file">wireframe_article.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_article_member.html"><span class="page-name">記事詳細（会員限定）</span><span class="page-file">wireframe_article_member.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_article_phonak.html"><span class="page-name">記事詳細（タイアップ）</span><span class="page-file">wireframe_article_phonak.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_author.html"><span class="page-name">著者記事一覧</span><span class="page-file">wireframe_author.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- Sea Dream Club -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">Sea Dream Club（会員） <span class="badge">5 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_sdclub.html"><span class="page-name">Sea Dream Club トップ</span><span class="page-file">wireframe_sdclub.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_sdclub_register.html" class="sub"><span class="page-name">会員登録フォーム</span><span class="page-file">wireframe_sdclub_register.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_sdclub_confirm.html" class="sub"><span class="page-name">登録確認</span><span class="page-file">wireframe_sdclub_confirm.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_sdclub_complete.html" class="sub"><span class="page-name">登録完了</span><span class="page-file">wireframe_sdclub_complete.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_sdclub_mypage.html" class="sub"><span class="page-name">マイページ</span><span class="page-file">wireframe_sdclub_mypage.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ログイン・認証 -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">ログイン・認証 <span class="badge">3 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_login.html"><span class="page-name">ログイン</span><span class="page-file">wireframe_login.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_reset_password.html" class="sub"><span class="page-name">パスワード再設定（メール送信）</span><span class="page-file">wireframe_reset_password.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_reset_confirm.html" class="sub"><span class="page-name">新しいパスワード設定</span><span class="page-file">wireframe_reset_confirm.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- 広告モデル -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">広告モデル <span class="badge">1 page</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_ad_banner.html"><span class="page-name">広告バナー配置モデル</span><span class="page-file">wireframe_ad_banner.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+  <!-- その他 -->
+  <div class="sitemap-section">
+    <div class="sitemap-section-title">その他 <span class="badge">5 pages</span></div>
+    <ul class="sitemap-list">
+      <li><a href="wireframe_entry.html"><span class="page-name">エントリーガイド</span><span class="page-file">wireframe_entry.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_maker.html"><span class="page-name">メーカー＆ビルダー</span><span class="page-file">wireframe_maker.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_company.html"><span class="page-name">会社概要</span><span class="page-file">wireframe_company.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_contact.html"><span class="page-name">お問い合わせ</span><span class="page-file">wireframe_contact.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+      <li><a href="wireframe_privacy.html"><span class="page-name">プライバシーポリシー</span><span class="page-file">wireframe_privacy.html</span><span class="page-arrow">&rsaquo;</span></a></li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-bottom">&copy; KAZI Online All Rights Reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>

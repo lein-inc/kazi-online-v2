@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAZI ONLINE - TOPページ ワイヤーフレーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #ffffff; color: #1a1a1a;
+    font-size: 15px; font-weight: 600;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  #bgCanvas {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999; pointer-events: none;
+    mix-blend-mode: multiply;
+    transition: opacity 0.15s;
+    opacity: 0;
+  }
+
+  .wf-label {
+    text-align: center; padding: 6px;
+    background: #eee; border-bottom: 1px solid #ccc;
+    font-size: 11px; color: #666;
+    font-family: 'Noto Sans JP', sans-serif;
+    position: relative; z-index: 300;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: sticky; top: 0; background: #fff; z-index: 200;
+    box-shadow: 0 1px 0 #e8e8e8;
+    border-top: 2px solid; border-image: linear-gradient(to right, #1e3a5f, #2c5f8a, #3a7ab5) 1;
+  }
+  .main-wrap header {
+    /* header sticks within the scrolling content layer */
+  }
+  .header-top {
+    display: flex; align-items: center;
+    max-width: 1600px; margin: 0 auto;
+    padding: 18px 40px; gap: 32px;
+    transition: padding 0.3s;
+  }
+  .logo {
+    display: flex; align-items: center;
+    text-decoration: none; cursor: pointer;
+    flex-shrink: 0; padding: 0; border: none; background: none;
+    transition: opacity 0.3s;
+  }
+  .logo img {
+    height: 22px; width: auto;
+  }
+  .logo:hover { opacity: 0.6; background: none; }
+
+  /* Global Nav */
+  .global-nav {
+    display: flex; flex: 1; gap: 0; position: relative;
+    min-width: 0; border: none; align-items: center;
+    justify-content: center;
+  }
+  .nav-item { position: relative; }
+  .nav-item > a {
+    display: block; text-align: center;
+    padding: 8px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: #1a1a1a; text-decoration: none;
+    cursor: pointer; white-space: nowrap;
+    transition: color 0.3s;
+    position: relative; border: none;
+    letter-spacing: 0.04em;
+  }
+  .nav-item > a::after {
+    content: ''; position: absolute; bottom: 0; left: 50%;
+    width: 0; height: 1px; background: #1a1a1a;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  .nav-item > a:hover::after,
+  .nav-item:hover > a::after {
+    width: 100%; left: 0;
+  }
+  .nav-item:last-child > a { border-right: none; }
+  .nav-item > a:hover, .nav-item:hover > a {
+    color: #1a1a1a; background: transparent;
+  }
+  .nav-item > a.has-sub::after {
+    content: ''; width: 0; height: 0; position: static;
+    display: inline-block; vertical-align: middle;
+    border-left: 4px solid transparent; border-right: 4px solid transparent;
+    border-top: 4px solid #2c5f8a; margin-left: 5px;
+    transition: transform 0.2s;
+    background: none;
+  }
+  .nav-item:hover > a.has-sub::after,
+  .nav-item > a.has-sub.active::after {
+    transform: rotate(180deg); border-top-color: #2c5f8a;
+    width: 0; left: auto;
+  }
+  .nav-item > a.has-sub.active {
+    color: #2c5f8a;
+  }
+
+  /* Mega Menu */
+  .mega-menu {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: #fff; z-index: 500;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 8px 32px rgba(0,0,0,.1);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+  .mega-menu.open {
+    clip-path: inset(0 0 0 0);
+    pointer-events: auto;
+  }
+  .mega-menu-header {
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 48px; border-bottom: 1px solid #e8e8e8;
+    position: relative;
+  }
+  .mega-menu-header .mega-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px; font-weight: 700; color: #1a1a1a;
+  }
+  .mega-menu-header .mega-title::before {
+    content: '\203A'; margin-right: 8px; color: #2c5f8a;
+  }
+  .mega-menu-body {
+    display: flex; gap: 48px; padding: 32px 64px 40px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .mega-col { flex: 1; }
+  .mega-col-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 700; color: #1a1a1a;
+    margin-bottom: 16px; padding-bottom: 8px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .mega-col a {
+    display: block; padding: 7px 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: #444; text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mega-col a::before {
+    content: '\203A'; margin-right: 8px; color: #2c5f8a;
+  }
+  .mega-col a:hover { color: #2c5f8a; }
+  .mega-menu-footer {
+    text-align: center; padding: 14px;
+    border-top: 1px solid #e8e8e8;
+    cursor: pointer; font-size: 13px; color: #666;
+    transition: background 0.2s;
+  }
+  .mega-menu-footer:hover { background: #f7f7f5; }
+  .mega-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.3); z-index: 499;
+  }
+  .mega-overlay.open { display: block; }
+
+  /* Hide old dropdown */
+  .dropdown { display: none !important; }
+
+  /* ===== Full-screen Hamburger Menu ===== */
+  .hamburger-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.3); z-index: 599;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .hamburger-backdrop.open { display: block; opacity: 1; }
+  .hamburger-panel {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    left: 240px;
+    background: #fff; z-index: 600;
+    overflow-y: auto;
+    flex-direction: column;
+    /* right-to-left slide */
+    display: flex;
+    clip-path: inset(0 0 0 100%);
+    transition: clip-path 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .hamburger-panel.open {
+    clip-path: inset(0 0 0 0);
+  }
+  .hamburger-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .hamburger-panel-header .logo-ham {
+    height: 18px; width: auto;
+  }
+  .hamburger-close {
+    border: none; background: none; cursor: pointer;
+    font-size: 32px; color: #1a1a1a; line-height: 1;
+    padding: 4px 8px; transition: opacity 0.3s;
+  }
+  .hamburger-close:hover { opacity: 0.5; }
+  .hamburger-panel-body {
+    display: flex; padding: 48px;
+    flex: 1;
+  }
+  .hamburger-nav {
+    flex: 1; min-width: 0; margin-right: 40px;
+  }
+  .hamburger-nav-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 32px 40px;
+  }
+  .hamburger-nav-group {}
+  .hamburger-nav-group > a {
+    display: block;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px; font-weight: 700; color: #1a1a1a;
+    text-decoration: none; padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e8e8e8;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .hamburger-nav-group > a:hover { color: #2c5f8a; }
+  .hamburger-nav-group .ham-sub a {
+    display: block;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; font-weight: 600; color: #666;
+    text-decoration: none; padding: 5px 0;
+    transition: color 0.2s;
+  }
+  .hamburger-nav-group .ham-sub a::before {
+    content: '\203A'; margin-right: 6px; color: #2c5f8a;
+  }
+  .hamburger-nav-group .ham-sub a:hover { color: #2c5f8a; }
+  .hamburger-aside {
+    flex: 1; min-width: 0; padding-left: 40px;
+    border-left: 1px solid #e8e8e8;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .hamburger-search {
+    margin-bottom: 32px;
+  }
+  .hamburger-search-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 700; color: #1a1a1a;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hamburger-search-box {
+    display: flex; gap: 0;
+  }
+  .hamburger-search-box input {
+    flex: 1; border: 1px solid #e0e0e0; border-right: none;
+    padding: 12px 16px; font-size: 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+    outline: none;
+  }
+  .hamburger-search-box input:focus { border-color: #2c5f8a; }
+  .hamburger-search-box button {
+    border: none; background: #1a1a1a; color: #fff;
+    padding: 12px 24px; font-size: 13px; font-weight: 700;
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer; transition: background 0.3s;
+  }
+  .hamburger-search-box button:hover { background: #333; }
+  .hamburger-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 16px;
+  }
+  .hamburger-tags a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 600; color: #fff;
+    background: #2c5f8a; border-radius: 20px;
+    padding: 6px 16px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .hamburger-tags a:hover { background: #2a5d8a; }
+  .hamburger-latest {
+    margin-top: 40px;
+  }
+  .hamburger-latest-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 700; color: #1a1a1a;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 1px solid #e8e8e8;
+  }
+  .hamburger-latest-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid #f0f0f0;
+    text-decoration: none; color: inherit;
+    transition: opacity 0.2s;
+  }
+  .hamburger-latest-item:hover { opacity: 0.7; }
+  .hamburger-latest-img {
+    width: 100px; height: 68px; background: #e0ddd8;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .hamburger-latest-img img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .hamburger-latest-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px; font-weight: 600; color: #1a1a1a;
+    line-height: 1.5;
+  }
+  .hamburger-latest-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; color: #999; margin-top: 4px;
+  }
+  .hamburger-member-banner {
+    background: #0a0a0a; color: #fff;
+    padding: 32px 24px; text-align: center;
+    text-decoration: none; display: block;
+    transition: background 0.3s;
+  }
+  .hamburger-member-banner:hover { background: #1a1a1a; }
+  .hamburger-member-banner .ham-member-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,.5);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .hamburger-member-banner .ham-member-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px; font-weight: 600; line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .hamburger-member-banner .ham-member-desc {
+    font-size: 12px; color: rgba(255,255,255,.7); line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .hamburger-member-banner .ham-member-btn {
+    display: inline-block;
+    border: 1px solid #fff; padding: 10px 28px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+    color: #fff; transition: all 0.3s;
+  }
+  .hamburger-member-banner:hover .ham-member-btn {
+    background: #fff; color: #0a0a0a;
+  }
+
+  /* Header Actions */
+  .header-actions { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+  .btn-search {
+    border: none; background: none;
+    padding: 8px; color: #1a1a1a; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.3s;
+  }
+  .btn-search svg { width: 18px; height: 18px; }
+  .btn-search:hover { opacity: 0.5; }
+  .btn-login {
+    border: none; background: #1a1a1a; color: #fff;
+    padding: 8px 20px; font-size: 11px; cursor: pointer;
+    text-decoration: none; white-space: nowrap;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em;
+    border-radius: 20px;
+    transition: background 0.3s;
+  }
+  .btn-login:hover { background: #333; }
+
+  /* Hamburger button (hidden by default, shown on scroll) */
+  .btn-hamburger {
+    display: none; border: none; background: none;
+    padding: 8px; cursor: pointer; flex-shrink: 0;
+    flex-direction: column; justify-content: center; align-items: center;
+    gap: 5px; width: 36px; height: 36px;
+  }
+  .btn-hamburger span {
+    display: block; width: 20px; height: 2px; background: #1a1a1a;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* Small logo (hidden by default) */
+  .logo-small { display: none; }
+
+  /* Scrolled compact header */
+  header.scrolled {
+    background: transparent;
+    box-shadow: none;
+    border-top: none;
+    pointer-events: none;
+  }
+  header.scrolled .header-top {
+    padding: 10px 40px;
+  }
+  header.scrolled .logo {
+    pointer-events: auto;
+    margin-right: auto;
+  }
+  header.scrolled .global-nav { display: none; }
+  header.scrolled .header-actions {
+    pointer-events: auto;
+  }
+  header.scrolled .btn-hamburger { display: flex; pointer-events: auto; }
+  header.scrolled .logo-full { display: none; }
+  header.scrolled .logo-small { display: block; height: 20px; width: auto; }
+
+  /* ===== Content + Sidebar layout ===== */
+  .content-with-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 280px !important;
+    gap: 48px;
+    max-width: 1600px; margin: 0 auto; padding: 0 40px;
+  }
+  .content-main { min-width: 0; }
+  .content-sidebar {
+    position: relative;
+  }
+  .sidebar-sticky {
+    position: sticky; top: 80px; margin-top: 80px;
+  }
+  .sidebar-sdclub {
+    background: #0a0a0a; color: #fff; padding: 64px 28px 72px;
+    text-align: center; text-decoration: none; display: block;
+    transition: background 0.3s;
+  }
+  .sidebar-sdclub:hover { background: #1a1a1a; }
+  .sidebar-sdclub .sidebar-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,.5);
+    margin-bottom: 20px; text-transform: uppercase;
+  }
+  .sidebar-sdclub .sidebar-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 26px; font-weight: 600; line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .sidebar-sdclub .sidebar-desc {
+    font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.8;
+    margin-bottom: 28px; font-weight: 600;
+  }
+  .sidebar-sdclub .sidebar-btn {
+    display: inline-block; border: 1px solid rgba(255,255,255,.35);
+    padding: 12px 28px; font-size: 11px; color: #fff;
+    letter-spacing: 0.1em; transition: all 0.3s;
+  }
+  .sidebar-sdclub:hover .sidebar-btn { border-color: #fff; }
+
+  /* ===== Native Ad Banner ===== */
+  .ad-grid {
+    display: flex; flex-direction: column; gap: 0;
+    margin: 0;
+  }
+  .ad-banner {
+    background: #f7f7f5; padding: 20px 28px;
+    display: flex; align-items: center; gap: 24px;
+    margin: 0; border: none; border-bottom: 1px solid #eee;
+    text-decoration: none; color: inherit;
+    transition: background 0.2s;
+  }
+  .ad-banner:last-child { border-bottom: none; }
+  .ad-banner:hover { background: #f0eeeb; }
+  .ad-banner-img {
+    width: 240px; height: 150px; flex-shrink: 0;
+    background: #e0ddd8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #bbb;
+  }
+  .ad-banner-body { flex: 1; }
+  .ad-banner-sponsor {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px; color: #999; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .ad-banner-title {
+    font-size: 14px; color: #1a1a1a; font-weight: 600; line-height: 1.5;
+  }
+  .ad-banner-desc {
+    font-size: 12px; color: #666; margin-top: 4px; font-weight: 600;
+  }
+
+  /* AD icon badge */
+  .ad-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+    color: #fff; background: #999;
+    padding: 2px 6px; border-radius: 3px;
+    line-height: 1; vertical-align: middle;
+  }
+  .ad-banner .ad-icon {
+    position: absolute; top: 8px; right: 8px;
+  }
+  .ad-banner {
+    position: relative;
+  }
+  .card-featured .ad-icon,
+  .card-list .ad-icon {
+    margin-left: 6px;
+  }
+
+  /* ===== YouTube / Publication sections ===== */
+  .sec-youtube {
+    padding: 80px 0; border-top: 1px solid #e8e8e8;
+  }
+  .youtube-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    align-items: start;
+  }
+  .youtube-embed {
+    background: #1a1a1a; aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    color: #666; font-size: 12px; position: relative;
+  }
+  .youtube-play {
+    width: 60px; height: 42px; background: red; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    position: absolute;
+  }
+  .youtube-play::after {
+    content: ''; width: 0; height: 0;
+    border-left: 18px solid #fff; border-top: 11px solid transparent; border-bottom: 11px solid transparent;
+    margin-left: 4px;
+  }
+  .youtube-text h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; margin-bottom: 16px;
+  }
+  .youtube-text p {
+    font-size: 13px; color: #444; line-height: 1.8; font-weight: 600;
+  }
+  .youtube-stats {
+    display: flex; gap: 32px; margin-top: 20px;
+    padding-top: 20px; border-top: 1px solid #e8e8e8;
+  }
+  .youtube-stat {
+    text-align: center;
+  }
+  .youtube-stat-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px; font-weight: 700; color: #1a1a1a;
+    letter-spacing: -0.02em;
+  }
+  .youtube-stat-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: #999; margin-top: 4px;
+    font-weight: 600;
+  }
+  .youtube-embed iframe {
+    width: 100%; height: 100%; position: absolute;
+    top: 0; left: 0; border: none;
+  }
+  .youtube-embed {
+    position: relative;
+  }
+
+  .sec-publication {
+    padding: 80px 0; border-top: 1px solid #e8e8e8;
+  }
+  .pub-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px;
+    margin-top: 40px;
+  }
+  .pub-item {
+    text-align: center; text-decoration: none; color: inherit;
+    cursor: pointer; display: block;
+  }
+  .pub-item:hover { opacity: 0.8; }
+  .pub-cover {
+    aspect-ratio: 3/4; width: 100%; overflow: hidden;
+    margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+  .pub-cover img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .pub-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.7); font-family: 'Noto Serif JP', serif;
+    font-size: 14px; font-weight: 400; letter-spacing: 1px;
+  }
+  .pub-name {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: #1a1a1a; font-weight: 600;
+  }
+
+  /* ===== Sitemap Footer ===== */
+  .footer-sitemap {
+    padding: 56px 40px 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-col {}
+  .footer-col-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; color: #fff; font-weight: 600;
+    margin-bottom: 12px; letter-spacing: 0.04em;
+  }
+  .footer-col-title a {
+    color: #fff; text-decoration: none;
+  }
+  .footer-col-title a:hover { opacity: 0.8; }
+  .footer-col ul {
+    list-style: none; padding: 0; margin: 0;
+  }
+  .footer-col li { margin-bottom: 6px; }
+  .footer-col li a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
+    font-weight: 600; transition: color 0.2s;
+  }
+  .footer-col li a:hover { color: #fff; }
+
+  /* ===== Search Overlay ===== */
+  .search-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 500;
+    align-items: center; justify-content: center;
+    padding: 24px; backdrop-filter: blur(4px);
+  }
+  .search-overlay.open { display: flex; }
+  .search-box {
+    background: #fff;
+    padding: 40px 48px 48px;
+    width: 840px; max-width: 94vw;
+    max-height: 88vh; overflow-y: auto;
+    border: none; box-shadow: 0 16px 48px rgba(0,0,0,.12);
+  }
+  .search-box-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 28px;
+  }
+  .search-box-header h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; color: #1a1a1a;
+  }
+  .search-close {
+    font-size: 20px; color: #ccc; cursor: pointer; line-height: 1;
+    transition: color 0.2s;
+  }
+  .search-close:hover { color: #1a1a1a; }
+  .search-input-row { display: flex; gap: 0; margin-bottom: 32px; }
+  .search-input-row input {
+    flex: 1; border: 1px solid #e8e8e8; border-right: none;
+    padding: 14px 20px; font-size: 15px; outline: none;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    transition: border-color 0.3s;
+  }
+  .search-input-row input:focus { border-color: #2c5f8a; }
+  .search-input-row button {
+    border: 1px solid #1a1a1a; background: #1a1a1a; color: #fff;
+    padding: 14px 36px; font-size: 13px; cursor: pointer; white-space: nowrap;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em; transition: background 0.3s;
+  }
+  .search-input-row button:hover { background: #333; }
+
+  .search-section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; color: #999; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; margin-bottom: 14px;
+  }
+  .search-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .search-tag {
+    border: 1px solid #e8e8e8; padding: 6px 16px;
+    font-size: 12px; color: #666; cursor: pointer; text-decoration: none;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .search-tag:hover { background: #f7f7f5; border-color: #ccc; color: #1a1a1a; }
+
+  /* Category Grid (Search) */
+  .search-cats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+  .search-cat-btn {
+    flex: 1; min-width: 90px; max-width: 120px;
+    border: 1px solid #e8e8e8; padding: 16px 8px;
+    text-align: center; cursor: pointer; text-decoration: none;
+    color: #1a1a1a; font-size: 12px; background: #fff;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    transition: all 0.25s;
+  }
+  .search-cat-btn:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .search-cat-symbol {
+    font-family: 'Inter', sans-serif; font-size: 16px;
+    margin-bottom: 8px; color: #999; display: block;
+    font-weight: 600; letter-spacing: 0.08em;
+  }
+  .search-cat-btn:hover .search-cat-symbol { color: #fff; }
+
+  /* KAZI SeaDream Club Banner (Search) */
+  .search-sdc-banner {
+    border: none; background: #1a1a1a; color: #fff;
+    padding: 28px 32px; margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .search-sdc-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; color: #666; letter-spacing: 0.15em; margin-bottom: 6px;
+  }
+  .search-sdc-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px;
+  }
+  .search-sdc-desc { font-size: 12px; color: #999; font-weight: 600; }
+  .search-sdc-btn {
+    border: 1px solid rgba(255,255,255,.3); color: #fff; background: transparent;
+    padding: 10px 24px; font-size: 12px; white-space: nowrap;
+    cursor: pointer; text-decoration: none; flex-shrink: 0;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em;
+    transition: all 0.3s;
+  }
+  .search-sdc-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); }
+
+  /* Featured Articles — サムネイル小・タイトル大バージョン */
+  .search-featured { }
+  .search-feat-card {
+    display: flex; gap: 16px; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: opacity 0.3s;
+  }
+  .search-feat-card:last-child { border-bottom: none; }
+  .search-feat-card:hover { opacity: 0.7; }
+  .search-feat-img {
+    width: 80px; height: 54px; flex-shrink: 0;
+    background: #e0ddd8; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #bbb;
+  }
+  .search-feat-body { flex: 1; min-width: 0; }
+  .search-feat-cat {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; color: #2c5f8a; margin-bottom: 4px;
+    letter-spacing: 0.08em;
+  }
+  .search-feat-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px; color: #1a1a1a; line-height: 1.5; font-weight: 600;
+  }
+
+  /* ===== HERO SLIDER ===== */
+  .hero-slider {
+    width: 100%; position: fixed; top: 0; left: 0; overflow: hidden;
+    background: #e0ddd8;
+    height: 980px; z-index: 0;
+  }
+  .hero-spacer {
+    height: 980px;
+  }
+  .slides-track {
+    display: flex; height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    will-change: transform;
+  }
+  .slide {
+    flex-shrink: 0;
+    width: 80%; margin: 0;
+    height: 100%;
+    background: #e0ddd8; border: none;
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: flex-end;
+    padding: 0 0 60px 0;
+    opacity: 1; transition: opacity 0.5s; cursor: pointer;
+    background-size: cover; background-position: center;
+    position: relative;
+  }
+  .slide.active { opacity: 1; }
+  .slide-caption-wrap {
+    position: absolute; bottom: 60px; left: 0; z-index: 1;
+    display: flex; align-items: stretch;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0s;
+  }
+  .slide.active .slide-caption-wrap {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+  }
+  .slide-caption-bar {
+    width: 6px; background: #2c5f8a; flex-shrink: 0;
+    margin-left: -100vw; padding-left: 100vw;
+  }
+  .slide-caption {
+    background: #fff;
+    padding: 28px 36px;
+    max-width: 720px;
+    position: relative; z-index: 1;
+  }
+  .slide-caption .area-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; color: #1a1a1a; font-weight: 600;
+    letter-spacing: 0.04em;
+    display: inline-block;
+    background: #b8ecff; border-radius: 0;
+    padding: 5px 16px;
+    margin-bottom: 12px;
+  }
+  .slide-caption .area-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px; font-weight: 700; color: #1a1a1a;
+    letter-spacing: 0.04em; line-height: 1.4;
+  }
+  .slide-caption .area-desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; color: #666; font-weight: 600;
+    margin-top: 8px;
+  }
+  .slider-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.4);
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: #fff; cursor: pointer; z-index: 10;
+    user-select: none; transition: all 0.3s;
+  }
+  .slider-arrow:hover { border-color: #fff; background: rgba(0,0,0,.5); }
+  .slider-arrow.prev { left: 24px; }
+  .slider-arrow.next { right: 24px; }
+  .slider-dots {
+    position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 10;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #ccc; border: none; cursor: pointer;
+    transition: background 0.3s;
+  }
+  .dot.active { background: #1a1a1a; }
+
+  /* ===== MAIN ===== */
+  main {
+    padding: 0;
+    background-color: #fff;
+    min-width: 0;
+  }
+  .main-wrap {
+    position: relative; z-index: 1;
+    background-color: #fff;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.08);
+  }
+
+  /* Sections */
+  .section { margin-bottom: 0; padding: 80px 0; scroll-margin-top: 80px; }
+  .section-header {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    margin-bottom: 48px; border-bottom: none; padding-bottom: 0;
+    position: relative;
+  }
+  .section-header .kazi-motif {
+    display: block;
+    width: 60px; height: 18px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .section-header .kazi-motif svg { width: 100%; height: 100%; }
+  .reveal .section-header .kazi-motif polygon { fill: #fff; transition: fill 0.3s; }
+  .reveal.visible .section-header .kazi-motif polygon { fill: #1a1a1a; transition: fill 0.3s 0.5s; }
+  .section-header::before {
+    content: attr(data-en);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; letter-spacing: 0.15em; color: #999;
+    text-transform: uppercase; font-weight: 600;
+    margin-bottom: 8px; display: block;
+  }
+  .section-header h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px; font-weight: 600; color: #1a1a1a;
+    letter-spacing: 0.06em;
+  }
+  .section-header::after {
+    content: '';
+    display: block; width: 40px; height: 2px;
+    background: #2c5f8a; margin-top: 16px;
+  }
+  .section-header .more { display: none; }
+  .section .more-bottom {
+    display: block; width: fit-content; margin: 32px auto 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; color: #fff; cursor: pointer; text-decoration: none;
+    font-weight: 600; letter-spacing: 0.06em;
+    background: linear-gradient(to right, #1a1a1a 50%, #1e3a5f 50%, #2c5f8a 100%);
+    background-size: 200% 100%;
+    background-position: right;
+    padding: 12px 40px;
+    border-radius: 0;
+    transition: background-position 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+  }
+  .section .more-bottom::after {
+    content: ' \2192'; display: inline-block;
+    transition: transform 0.3s;
+  }
+  .section .more-bottom:hover {
+    background-position: left;
+  }
+  .section .more-bottom:hover::after { transform: translateX(4px); }
+
+  /* Alternate section background */
+  .section-alt { background: #f7f7f5; padding-left: 40px; padding-right: 40px; }
+
+  /* ===== Pickup Layout (featured left + list right) ===== */
+  .pickup-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 32px;
+  }
+
+  /* Featured card (left large) */
+  .card-featured {
+    text-decoration: none; color: inherit; display: block; cursor: pointer;
+  }
+  .card-featured:hover { text-decoration: none; }
+  .card-featured .card-img {
+    background: #e0ddd8; aspect-ratio: 4/3; width: 100%;
+    overflow: hidden;
+  }
+  .card-featured .card-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.4s;
+  }
+  .card-featured:hover .card-img img { transform: scale(1.05); }
+  .card-featured .card-body { padding: 16px 0 0; }
+  .card-featured .card-cat {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px; color: #1a1a1a;
+    display: inline-block; margin-bottom: 8px;
+    letter-spacing: 0.04em; font-weight: 600;
+    background: #b8ecff; border-radius: 0;
+    padding: 2px 8px;
+  }
+  .card-featured .card-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 24px; color: #1a1a1a; line-height: 1.5;
+    font-weight: 600; margin-bottom: 8px;
+  }
+  .card-featured .card-excerpt {
+    font-size: 13px; color: #444; line-height: 1.7;
+    font-weight: 600;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-featured .card-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; color: #999; margin-top: 10px;
+    letter-spacing: 0.04em; font-weight: 600;
+  }
+
+  /* List cards (right side) */
+  .pickup-list {
+    display: flex; flex-direction: column;
+    border-top: 1px solid #e8e8e8;
+  }
+  .card-list {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid #e8e8e8;
+    text-decoration: none; color: inherit; cursor: pointer;
+  }
+  .card-list:hover { text-decoration: none; }
+  .card-list-body {
+    flex: 1; min-width: 0;
+  }
+  .card-list .card-cat {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px; color: #1a1a1a;
+    display: inline-block; margin-bottom: 4px;
+    letter-spacing: 0.04em; font-weight: 600;
+    background: #b8ecff; border-radius: 0;
+    padding: 2px 8px;
+  }
+  .card-list .card-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 19px; color: #1a1a1a; line-height: 1.5;
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .card-list:hover .card-title { color: #2c5f8a; }
+  .card-list .card-excerpt {
+    font-size: 12px; color: #444; line-height: 1.6;
+    font-weight: 600;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-list .card-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; color: #999; margin-top: 6px;
+    letter-spacing: 0.04em; font-weight: 600;
+  }
+  .card-list .card-img-sm {
+    width: 140px; height: 94px; flex-shrink: 0;
+    background: #e0ddd8; overflow: hidden;
+  }
+  .card-list .card-img-sm img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.3s;
+  }
+  .card-list:hover .card-img-sm img { transform: scale(1.05); }
+
+  /* Lock icon for members-only */
+  .lock-icon {
+    display: inline-block; margin-right: 4px;
+    color: #2c5f8a; font-size: 12px; vertical-align: baseline;
+  }
+
+  /* Video Icon (inline, next to title) */
+  .video-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 15px; height: 15px;
+    background: #c00; border-radius: 2px;
+    margin-right: 5px; vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .video-icon svg {
+    width: 7px; height: 7px; fill: #fff;
+    margin-left: 1px;
+  }
+
+  /* CTA Common */
+  .cta-btn {
+    border: 1px solid #fff; background: transparent;
+    padding: 14px 36px; font-size: 13px; color: #fff;
+    white-space: nowrap; cursor: pointer; text-decoration: none; flex-shrink: 0;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 600;
+    letter-spacing: 0.08em;
+    transition: background 0.3s, color 0.3s;
+  }
+  .cta-btn:hover { background: #fff; color: #1a1a1a; }
+
+  /* KAZI SeaDream Club CTA */
+  /* KAZI SeaPlaza CTA */
+  .cta-seaplaza {
+    border: none; background: #f7f7f5;
+    padding: 60px 48px;
+    margin: 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cta-seaplaza .cta-text h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px; font-weight: 600; color: #1a1a1a;
+    letter-spacing: 0.06em;
+  }
+  .cta-seaplaza .cta-text p {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px; color: #666; margin-top: 8px; font-weight: 600;
+  }
+  .cta-seaplaza .cta-btn {
+    border: 1px solid #1a1a1a; color: #1a1a1a;
+  }
+  .cta-seaplaza .cta-btn:hover {
+    background: #1a1a1a; color: #fff;
+  }
+
+  /* ===== FOOTER ===== */
+  footer { background: #1a1a1a; margin-top: 0; border-top: none; position: relative; z-index: 1; }
+  .footer-inner { max-width: 1600px; margin: 0 auto; }
+  .footer-links {
+    padding: 56px 40px 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-links a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; color: rgba(255,255,255,.6); text-decoration: none;
+    font-weight: 600; letter-spacing: 0.04em;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: #fff; text-decoration: none; }
+  .footer-links .sep { display: none; }
+  .footer-bottom {
+    text-align: center; padding: 28px 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.3);
+    letter-spacing: 0.08em;
+  }
+
+  /* Card link reset */
+  .card { text-decoration: none; color: inherit; }
+
+  /* ===== SDC 画面下部追従バナー ===== */
+  .sdc-float-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+    background: linear-gradient(135deg, #0a0f1a 0%, #1e3a5f 100%);
+    box-shadow: 0 -4px 24px rgba(0,0,0,.25);
+    padding: 14px 40px;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center; gap: 32px;
+    opacity: 0; transform: translateY(100%);
+    pointer-events: none;
+    transition: opacity .5s, transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  .sdc-float-banner.show {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+  }
+  .sdc-float-banner::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: linear-gradient(to right, transparent, #3a7ab5, transparent);
+  }
+  .sdc-float-banner-close {
+    position: absolute; top: 50%; right: 20px; transform: translateY(-50%);
+    background: none; border: none; color: rgba(255,255,255,.35);
+    font-size: 16px; cursor: pointer; line-height: 1;
+    transition: color .2s; padding: 4px;
+  }
+  .sdc-float-banner-close:hover { color: rgba(255,255,255,.7); }
+  .sdc-float-banner-eyebrow {
+    font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 500;
+    letter-spacing: 3px; color: rgba(255,255,255,.35); text-transform: uppercase;
+  }
+  .sdc-float-banner-title {
+    font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 400;
+    letter-spacing: 1px; line-height: 1.3;
+  }
+  .sdc-float-banner-left {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .sdc-float-banner-desc {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 300;
+    color: rgba(255,255,255,.5); line-height: 1.6;
+  }
+  .sdc-float-banner-btn {
+    display: inline-block; padding: 10px 32px;
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400;
+    letter-spacing: 2px; color: #fff; text-decoration: none; text-align: center;
+    border: 1px solid rgba(255,255,255,.25); white-space: nowrap;
+    transition: background .3s; flex-shrink: 0;
+  }
+  .sdc-float-banner-btn:hover { background: rgba(255,255,255,.08); }
+
+  /* ===== Toast ===== */
+  #toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    background: #1a1a1a; color: #fff; padding: 12px 28px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 999;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  }
+  #toast.show { opacity: 1; }
+
+  /* ===== Scroll Reveal Animation ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.25,0.46,0.45,0.94),
+                transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered fade-in for cards within a revealed section */
+  .reveal .card-featured,
+  .reveal .pickup-list,
+  .reveal .cta-text,
+  .reveal .cta-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible .card-featured,
+  .reveal.visible .pickup-list,
+  .reveal.visible .cta-text,
+  .reveal.visible .cta-btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.visible .card-featured { transition-delay: 0.05s; }
+  .reveal.visible .pickup-list { transition-delay: 0.2s; }
+  .reveal.visible .cta-text { transition-delay: 0.1s; }
+  .reveal.visible .cta-btn { transition-delay: 0.25s; }
+
+  /* Sections with header: section always visible, only cards fade in */
+  .section.reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .section.reveal .pickup-layout {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.25,0.46,0.45,0.94),
+                transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .section.reveal.visible .pickup-layout {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Section header — blue sweep reveal */
+  .reveal .section-header {
+    background: linear-gradient(135deg, #1e3a5f, #2c5f8a, #3a7ab5) no-repeat left / 100% 100%;
+    padding: 16px 24px;
+  }
+  .reveal .section-header::before { color: rgba(255,255,255,.7); transition: color 0.3s; }
+  .reveal .section-header h2 { color: #fff; transition: color 0.3s; }
+  .reveal .section-header::after { background: rgba(255,255,255,.5); transition: background 0.3s; }
+  .reveal.visible .section-header {
+    background-size: 0% 100%;
+    background-position: right;
+    transition: background-size 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .reveal.visible .section-header::before { color: #999; transition: color 0.3s 0.5s; }
+  .reveal.visible .section-header h2 { color: #1a1a1a; transition: color 0.3s 0.5s; }
+  .reveal.visible .section-header::after { background: #2c5f8a; transition: background 0.3s 0.5s; }
+
+  /* Hero fade-in on page load */
+  .hero-slider {
+    animation: none;
+  }
+  .hero-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(58,122,181,0.7), rgba(74,154,212,0.7), rgba(95,184,238,0.7));
+    z-index: 10;
+    animation: heroReveal 1.4s cubic-bezier(0.25,0.46,0.45,0.94) 1.0s forwards;
+  }
+  .hero-tagline {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px; font-weight: 500; letter-spacing: 0.2em;
+    color: #fff;
+    white-space: nowrap;
+  }
+  @keyframes heroReveal {
+    from { clip-path: inset(0 0 0 0); }
+    to   { clip-path: inset(0 0 0 100%); }
+  }
+
+  /* Parallax Banner */
+  .parallax-banner {
+    width: 100vw; height: 360px;
+    margin-left: calc(-50vw + 50%);
+    overflow: hidden; position: relative;
+  }
+  .parallax-banner-img {
+    position: absolute; top: -80px; left: 0; right: 0;
+    height: calc(100% + 160px);
+    background-size: cover; background-position: center;
+    will-change: transform;
+  }
+
+  /* (box-shadow merged into .main-wrap above) */
+</style>
+<link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+<canvas id="bgCanvas" width="1920" height="1080"></canvas>
+
+<div class="wf-label">WIREFRAME — KAZI ONLINE TOPページ リニューアル案（サイトマップ3 準拠）</div>
+
+<!-- SDC 画面下部追従バナー -->
+<div class="sdc-float-banner" id="sdcFloatBanner">
+  <button class="sdc-float-banner-close" onclick="closeFloatBanner()">&#10005;</button>
+  <div class="sdc-float-banner-left">
+    <div class="sdc-float-banner-eyebrow">KAZI ONLINE</div>
+    <div class="sdc-float-banner-title">KAZI SeaDream Club</div>
+  </div>
+  <div class="sdc-float-banner-desc">限定記事・デジタル誌・マリーナ優待など、海の特別な体験を。</div>
+  <a class="sdc-float-banner-btn" href="wireframe_sdclub.html">JOIN FREE</a>
+</div>
+
+<!-- Search Overlay -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="search-box-header">
+      <h3>サイト内検索</h3>
+      <span class="search-close" onclick="closeSearchBox()">&#10005;</span>
+    </div>
+
+    <!-- Search Input -->
+    <div class="search-input-row">
+      <input type="text" id="searchInput" placeholder="キーワードを入力してください（例：ルアー釣り、ボート免許、マリーナ）" />
+      <button onclick="toast('検索：「'+document.getElementById('searchInput').value+'」')">検索</button>
+    </div>
+
+    <!-- Popular Keywords -->
+    <div class="search-section-title">よく検索されるキーワード</div>
+    <div class="search-tags">
+      <a class="search-tag" href="#" onclick="fillSearch('ルアー釣り');return false;">ルアー釣り</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリンウェア');return false;">マリンウェア</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ボート免許');return false;">ボート免許</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリーナ 関東');return false;">マリーナ 関東</a>
+      <a class="search-tag" href="#" onclick="fillSearch('カヤック 入門');return false;">カヤック 入門</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ヤマハ ボート');return false;">ヤマハ ボート</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ライフジャケット');return false;">ライフジャケット</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ヨット 購入');return false;">ヨット 購入</a>
+      <a class="search-tag" href="#" onclick="fillSearch('釣り 初心者');return false;">釣り 初心者</a>
+      <a class="search-tag" href="#" onclick="fillSearch('KAZI SeaDream Club');return false;">KAZI SeaDream Club</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリンカレンダー');return false;">マリンカレンダー</a>
+      <a class="search-tag" href="#" onclick="fillSearch('インプレッション');return false;">インプレッション</a>
+    </div>
+
+    <!-- Category Search -->
+    <div class="search-section-title">カテゴリーから探す</div>
+    <div class="search-cats">
+      <a class="search-cat-btn" href="#sec-news" onclick="closeSearchBox();smoothTo(event,'sec-news')">
+        <span class="search-cat-symbol">[ N ]</span>ニュース
+      </a>
+      <a class="search-cat-btn" href="#sec-fishing" onclick="closeSearchBox();smoothTo(event,'sec-fishing')">
+        <span class="search-cat-symbol">[ F ]</span>フィッシング
+      </a>
+      <a class="search-cat-btn" href="#sec-gear" onclick="closeSearchBox();smoothTo(event,'sec-gear')">
+        <span class="search-cat-symbol">[ G ]</span>マリングッズ
+      </a>
+      <a class="search-cat-btn" href="#sec-boat" onclick="closeSearchBox();smoothTo(event,'sec-boat')">
+        <span class="search-cat-symbol">[ Y ]</span>ヨット
+      </a>
+      <a class="search-cat-btn" href="#sec-boat" onclick="closeSearchBox();smoothTo(event,'sec-boat')">
+        <span class="search-cat-symbol">[ B ]</span>ボート
+      </a>
+      <a class="search-cat-btn" href="#sec-marina" onclick="closeSearchBox();smoothTo(event,'sec-marina')">
+        <span class="search-cat-symbol">[ M ]</span>マリーナ
+      </a>
+      <a class="search-cat-btn" href="#sec-lifestyle" onclick="closeSearchBox();smoothTo(event,'sec-lifestyle')">
+        <span class="search-cat-symbol">[ L ]</span>ライフスタイル
+      </a>
+    </div>
+
+    <!-- KAZI SeaDream Club Banner -->
+    <div class="search-sdc-banner">
+      <div class="search-sdc-text">
+        <div class="search-sdc-label">MEMBER'S CLUB</div>
+        <div class="search-sdc-title">KAZI SeaDream Club</div>
+        <div class="search-sdc-desc">海を愛する人のための特別なメンバーシップ — 入会金・年会費は無料です</div>
+      </div>
+      <a class="search-sdc-btn" href="wireframe_sdclub.html" onclick="closeSearchBox()">無料登録はこちら</a>
+    </div>
+
+    <!-- Featured Articles -->
+    <div class="search-section-title">注目の記事</div>
+    <div class="search-featured">
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0&title=%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0%E5%AE%8C%E5%85%A8%E3%82%AC%E3%82%A4%E3%83%89">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">フィッシング</div>
+          <div class="search-feat-title">ルアーフィッシング完全ガイド：タックル選びから釣り方まで</div>
+        </div>
+      </a>
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%9C%E3%83%BC%E3%83%88&title=2025%E5%B9%B4%E6%9C%80%E6%96%B0%E3%83%9C%E3%83%BC%E3%83%88%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">ボート</div>
+          <div class="search-feat-title">2025年最新ボートインプレッション</div>
+        </div>
+      </a>
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%9E%E3%83%AA%E3%83%BC%E3%83%8A&title=%E3%83%9E%E3%83%AA%E3%83%BC%E3%83%8A%E3%83%9E%E3%83%83%E3%83%97%E3%81%A7%E6%8E%A2%E3%81%99%E5%85%A8%E5%9B%BD551%E3%82%AB%E6%89%80">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">マリーナ</div>
+          <div class="search-feat-title">マリーナマップで探す全国551カ所</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== Scrolling content layer ===== -->
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-top">
+    <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img class="logo-full" src="kazilogo.svg" alt="KAZI ONLINE"><img class="logo-small" src="kazilogo_s.svg" alt="KAZI"></a>
+
+    <nav class="global-nav">
+      <!-- ニュース -->
+      <div class="nav-item">
+        <a href="wireframe_news.html" class="has-sub">ニュース</a>
+        <div class="dropdown">
+          <a href="wireframe_news.html">新着ニュース</a>
+          <a href="wireframe_news_products.html">新製品・新着</a>
+          <a href="wireframe_news_events.html">イベント情報</a>
+          <a href="wireframe_news_ranking.html">人気ランキング</a>
+          <a href="wireframe_news_exhibition.html">展示会</a>
+        </div>
+      </div>
+      <!-- フィッシング -->
+      <div class="nav-item">
+        <a href="wireframe_fishing.html" class="has-sub">フィッシング</a>
+        <div class="dropdown">
+          <a href="wireframe_fishing_lure.html">ルアーフィッシング</a>
+          <a href="wireframe_fishing_tackle.html">タックル・ギア</a>
+          <a href="wireframe_fishing_species.html">魚種別ガイド</a>
+          <a href="wireframe_fishing_beginner.html">フィッシング入門</a>
+        </div>
+      </div>
+      <!-- マリングッズ・ギア -->
+      <div class="nav-item">
+        <a href="wireframe_gear.html" class="has-sub">マリングッズ・ギア</a>
+        <div class="dropdown">
+          <a href="wireframe_gear_wear.html">マリンウェア（機能系）</a>
+          <a href="wireframe_gear_lifejacket.html">ライフジャケット・安全器具</a>
+          <a href="wireframe_gear_paddle.html">パドルスポーツ用品</a>
+          <a href="wireframe_gear_list.html">マリングッズ一覧</a>
+        </div>
+      </div>
+      <!-- ヨット -->
+      <div class="nav-item">
+        <a href="wireframe_yacht.html" class="has-sub">ヨット</a>
+        <div class="dropdown">
+          <a href="wireframe_yacht_review.html">最新ヨットレビュー</a>
+          <a href="wireframe_yacht_technique.html">セーリング技術</a>
+          <a href="wireframe_yacht_race.html">レース情報</a>
+          <a href="wireframe_yacht_guide.html">購入ガイド</a>
+        </div>
+      </div>
+      <!-- ボート -->
+      <div class="nav-item">
+        <a href="wireframe_boat.html" class="has-sub">ボート</a>
+        <div class="dropdown">
+          <a href="wireframe_boat_review.html">ボートレビュー</a>
+          <a href="wireframe_boat_technique.html">操縦テクニック</a>
+          <a href="wireframe_boat_2hp.html">2馬力ボート特集</a>
+          <a href="wireframe_boat_trailable.html">トレーラブルボート</a>
+          <a href="wireframe_boat_guide.html">購入ガイド</a>
+        </div>
+      </div>
+      <!-- マリーナ -->
+      <div class="nav-item">
+        <a href="wireframe_marina.html" class="has-sub">マリーナ</a>
+        <div class="dropdown">
+          <a href="wireframe_marina_list.html">全国マリーナ一覧</a>
+          <a href="wireframe_marina_area.html">エリア別マリーナ検索</a>
+          <a href="wireframe_marina_map.html">マリーナマップ（地図）</a>
+        </div>
+      </div>
+      <!-- ライフスタイル -->
+      <div class="nav-item">
+        <a href="wireframe_lifestyle.html" class="has-sub">ライフスタイル</a>
+        <div class="dropdown">
+          <a href="wireframe_lifestyle_fashion.html">マリンウェア・ファッション</a>
+          <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
+          <a href="wireframe_lifestyle_hotel.html">ホテル・リゾート</a>
+          <a href="wireframe_lifestyle_travel.html">トラベル</a>
+          <a href="wireframe_lifestyle_goods.html">グッズ</a>
+          <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-hamburger" onclick="toggleHamburger()"><span></span><span></span><span></span></button>
+      <div class="btn-search" onclick="openSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
+      <a class="btn-login" href="wireframe_login.html">KAZI SeaDream Club ログイン</a>
+      <a class="btn-sitemap" href="index.html" title="サイトマップ（管理用）">MAP</a>
+    </div>
+  </div>
+</header>
+
+<!-- Full-screen Hamburger Menu -->
+<div class="hamburger-backdrop" id="hamburgerBackdrop" onclick="closeHamburger()"></div>
+<div class="hamburger-panel" id="hamburgerPanel">
+  <div class="hamburger-panel-header">
+    <img class="logo-ham" src="kazilogo.svg" alt="KAZI ONLINE">
+    <button class="hamburger-close" onclick="closeHamburger()">&times;</button>
+  </div>
+  <div class="hamburger-panel-body">
+    <div class="hamburger-nav">
+      <div class="hamburger-nav-grid">
+        <div class="hamburger-nav-group">
+          <a href="wireframe_news.html">ニュース</a>
+          <div class="ham-sub">
+            <a href="wireframe_news.html">新着ニュース</a>
+            <a href="wireframe_news_products.html">新製品・新着</a>
+            <a href="wireframe_news_events.html">イベント情報</a>
+            <a href="wireframe_news_ranking.html">人気ランキング</a>
+            <a href="wireframe_news_exhibition.html">展示会</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="wireframe_fishing.html">フィッシング</a>
+          <div class="ham-sub">
+            <a href="wireframe_fishing_lure.html">ルアーフィッシング</a>
+            <a href="wireframe_fishing_tackle.html">タックル・ギア</a>
+            <a href="wireframe_fishing_species.html">魚種別ガイド</a>
+            <a href="wireframe_fishing_beginner.html">フィッシング入門</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="wireframe_yacht.html">ヨット</a>
+          <div class="ham-sub">
+            <a href="wireframe_yacht_review.html">最新ヨットレビュー</a>
+            <a href="wireframe_yacht_technique.html">セーリング技術</a>
+            <a href="wireframe_yacht_race.html">レース情報</a>
+            <a href="wireframe_yacht_guide.html">購入ガイド</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="wireframe_boat.html">ボート</a>
+          <div class="ham-sub">
+            <a href="wireframe_boat_review.html">ボートレビュー</a>
+            <a href="wireframe_boat_technique.html">操縦テクニック</a>
+            <a href="wireframe_boat_2hp.html">2馬力ボート特集</a>
+            <a href="wireframe_boat_trailable.html">トレーラブルボート</a>
+            <a href="wireframe_boat_guide.html">購入ガイド</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="wireframe_gear.html">マリングッズ・ギア</a>
+          <div class="ham-sub">
+            <a href="wireframe_gear_wear.html">マリンウェア</a>
+            <a href="wireframe_gear_lifejacket.html">ライフジャケット</a>
+            <a href="wireframe_gear_paddle.html">パドルスポーツ用品</a>
+            <a href="wireframe_gear_list.html">マリングッズ一覧</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="wireframe_marina.html">マリーナ</a>
+          <div class="ham-sub">
+            <a href="wireframe_marina_list.html">全国マリーナ一覧</a>
+            <a href="wireframe_marina_area.html">エリア別検索</a>
+            <a href="wireframe_marina_map.html">マリーナマップ</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="wireframe_lifestyle.html">ライフスタイル</a>
+          <div class="ham-sub">
+            <a href="wireframe_lifestyle_fashion.html">ファッション</a>
+            <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
+            <a href="wireframe_lifestyle_hotel.html">ホテル・リゾート</a>
+            <a href="wireframe_lifestyle_travel.html">トラベル</a>
+            <a href="wireframe_lifestyle_goods.html">グッズ</a>
+            <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+          </div>
+        </div>
+        <div class="hamburger-nav-group">
+          <a href="#" onclick="toast('マガジン');return false;">マガジン</a>
+          <div class="ham-sub">
+            <a href="#">KAZI</a>
+            <a href="#">Boat CLUB</a>
+            <a href="#">Sea Dream</a>
+            <a href="#">CANOE WORLD</a>
+            <a href="#">書籍</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hamburger-aside">
+      <a class="hamburger-member-banner" href="wireframe_sdclub.html">
+        <div class="ham-member-label">KAZI SeaDream Club</div>
+        <div class="ham-member-title">KAZI SeaDream Club</div>
+        <div class="ham-member-desc">海を愛する人のための<br>特別なメンバーシップ。<br>入会金・年会費は無料です。</div>
+        <span class="ham-member-btn">入会する（無料）</span>
+      </a>
+      <div class="hamburger-search">
+        <div class="hamburger-search-label">SEARCH</div>
+        <div class="hamburger-search-box">
+          <input type="text" placeholder="キーワードで検索">
+          <button onclick="toast('検索')">検索</button>
+        </div>
+        <div class="hamburger-tags">
+          <a href="#">#ヨットレース</a>
+          <a href="#">#フィッシング入門</a>
+          <a href="#">#マリーナガイド</a>
+          <a href="#">#ボートインプレ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mega Menu Overlay -->
+<div class="mega-overlay" id="megaOverlay" onclick="closeMega()"></div>
+
+<!-- Mega Menu: ニュース -->
+<div class="mega-menu" id="mega-news">
+  <div class="mega-menu-header"><a href="wireframe_news.html" class="mega-title" style="text-decoration:none;color:inherit">ニュース トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">新着ニュース</div>
+      <a href="wireframe_news.html">新着ニュース一覧</a>
+      <a href="wireframe_news_products.html">新製品・新着</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">イベント</div>
+      <a href="wireframe_news_events.html">イベント情報</a>
+      <a href="wireframe_news_exhibition.html">展示会</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">ランキング</div>
+      <a href="wireframe_news_ranking.html">人気ランキング</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: フィッシング -->
+<div class="mega-menu" id="mega-fishing">
+  <div class="mega-menu-header"><a href="wireframe_fishing.html" class="mega-title" style="text-decoration:none;color:inherit">フィッシング トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">カテゴリー</div>
+      <a href="wireframe_fishing_lure.html">ルアーフィッシング</a>
+      <a href="wireframe_fishing_species.html">魚種別ガイド</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">ギア・入門</div>
+      <a href="wireframe_fishing_tackle.html">タックル・ギア</a>
+      <a href="wireframe_fishing_beginner.html">フィッシング入門</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: マリングッズ・ギア -->
+<div class="mega-menu" id="mega-gear">
+  <div class="mega-menu-header"><a href="wireframe_gear.html" class="mega-title" style="text-decoration:none;color:inherit">マリングッズ・ギア トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">ウェア・安全</div>
+      <a href="wireframe_gear_wear.html">マリンウェア（機能系）</a>
+      <a href="wireframe_gear_lifejacket.html">ライフジャケット・安全器具</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">用品</div>
+      <a href="wireframe_gear_paddle.html">パドルスポーツ用品</a>
+      <a href="wireframe_gear_list.html">マリングッズ一覧</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: ヨット -->
+<div class="mega-menu" id="mega-yacht">
+  <div class="mega-menu-header"><a href="wireframe_yacht.html" class="mega-title" style="text-decoration:none;color:inherit">ヨット トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">ヨット</div>
+      <a href="wireframe_yacht_review.html">最新ヨットレビュー</a>
+      <a href="wireframe_yacht_guide.html">購入ガイド</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">セーリング</div>
+      <a href="wireframe_yacht_technique.html">セーリング技術</a>
+      <a href="wireframe_yacht_race.html">レース情報</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: ボート -->
+<div class="mega-menu" id="mega-boat">
+  <div class="mega-menu-header"><a href="wireframe_boat.html" class="mega-title" style="text-decoration:none;color:inherit">ボート トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">ボートレビュー</div>
+      <a href="wireframe_boat_review.html">ボートレビュー</a>
+      <a href="wireframe_boat_2hp.html">2馬力ボート特集</a>
+      <a href="wireframe_boat_trailable.html">トレーラブルボート</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">テクニック・ガイド</div>
+      <a href="wireframe_boat_technique.html">操縦テクニック</a>
+      <a href="wireframe_boat_guide.html">購入ガイド</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: マリーナ -->
+<div class="mega-menu" id="mega-marina">
+  <div class="mega-menu-header"><a href="wireframe_marina.html" class="mega-title" style="text-decoration:none;color:inherit">マリーナ トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">マリーナを探す</div>
+      <a href="wireframe_marina_list.html">全国マリーナ一覧</a>
+      <a href="wireframe_marina_area.html">エリア別マリーナ検索</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">マップ</div>
+      <a href="wireframe_marina_map.html">マリーナマップ（地図）</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: ライフスタイル -->
+<div class="mega-menu" id="mega-lifestyle">
+  <div class="mega-menu-header"><a href="wireframe_lifestyle.html" class="mega-title" style="text-decoration:none;color:inherit">ライフスタイル トップ</a></div>
+  <div class="mega-menu-body">
+    <div class="mega-col">
+      <div class="mega-col-title">ファッション・グルメ</div>
+      <a href="wireframe_lifestyle_fashion.html">マリンウェア・ファッション</a>
+      <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">トラベル・リゾート</div>
+      <a href="wireframe_lifestyle_hotel.html">ホテル・リゾート</a>
+      <a href="wireframe_lifestyle_travel.html">トラベル</a>
+    </div>
+    <div class="mega-col">
+      <div class="mega-col-title">その他</div>
+      <a href="wireframe_lifestyle_goods.html">グッズ</a>
+      <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+    </div>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- ===== HERO SLIDER ===== -->
+<div class="hero-slider" id="heroSlider">
+  <div class="hero-overlay"><span class="hero-tagline">海を愛する人の、羅針盤。</span></div>
+  <div class="slides-track" id="slidesTrack">
+    <div class="slide active" style="background-image:url('photos/hero_01.jpg')" onclick="location.href='wireframe_article.html?cat=%E7%89%B9%E9%9B%86&title=%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%93%E3%82%B8%E3%83%A5%E3%82%A2%E3%83%AB%EF%BC%8816%3A9%20%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%EF%BC%89'"">
+      <div class="slide-caption-wrap">
+        <div class="slide-caption-bar"></div>
+        <div class="slide-caption">
+          <div class="area-label">特集</div>
+          <div class="area-title">J-Classヨットレース 2018<br>巨大帆船の迫力に迫る — 世界最高峰のクラシックヨットが集結</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide" style="background-image:url('photos/hero_02.jpg')" onclick="location.href='wireframe_article.html?cat=%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0&title=%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0%E7%89%B9%E9%9B%86%EF%BC%9A%E6%98%A5%E3%81%AE%E9%87%A3%E3%82%8A%E3%82%92%E6%A5%BD%E3%81%97%E3%82%82%E3%81%86'"">
+      <div class="slide-caption-wrap">
+        <div class="slide-caption-bar"></div>
+        <div class="slide-caption">
+          <div class="area-label">フィッシング</div>
+          <div class="area-title">唐桑の海に生きる<br>三陸の伝統漁業を訪ねて — 漁師たちの暮らしと海への想い</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide" style="background-image:url('photos/hero_03.jpg')" onclick="location.href='wireframe_article.html?cat=%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB&title=%E3%83%9E%E3%83%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E7%89%B9%E9%9B%86%202025'"">
+      <div class="slide-caption-wrap">
+        <div class="slide-caption-bar"></div>
+        <div class="slide-caption">
+          <div class="area-label">ライフスタイル</div>
+          <div class="area-title">インドネシアの島々を巡る<br>帆船シロロナ号クルーズ紀行 — コモド島からラジャアンパットへの航海記</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide" style="background-image:url('photos/hero_04.jpg')" onclick="location.href='wireframe_article.html?cat=%E3%83%9C%E3%83%BC%E3%83%88&title=%E3%83%9C%E3%83%BC%E3%83%88%E3%83%BB%E3%83%A8%E3%83%83%E3%83%88%E6%9C%80%E6%96%B0%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3'"">
+      <div class="slide-caption-wrap">
+        <div class="slide-caption-bar"></div>
+        <div class="slide-caption">
+          <div class="area-label">ボート・ヨット</div>
+          <div class="area-title">TP52スーパーシリーズ<br>カスカイス大会レポート — 頂点を争うワンデザインレースの舞台裏</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide" style="background-image:url('photos/hero_05.jpg')" onclick="smoothTo(null,'sec-sdclub')">
+      <div class="slide-caption-wrap">
+        <div class="slide-caption-bar"></div>
+        <div class="slide-caption">
+          <div class="area-label">KAZI SeaDream Club</div>
+          <div class="area-title">星空の下、灯りが海面を照らす<br>夜のアンカリングの魅力 — 静寂に包まれた海上の特別な時間</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-arrow prev" onclick="slideMove(-1)">&#8249;</div>
+  <div class="slider-arrow next" onclick="slideMove(1)">&#8250;</div>
+  <div class="slider-dots">
+    <div class="dot active" onclick="slideTo(0)"></div>
+    <div class="dot" onclick="slideTo(1)"></div>
+    <div class="dot" onclick="slideTo(2)"></div>
+    <div class="dot" onclick="slideTo(3)"></div>
+    <div class="dot" onclick="slideTo(4)"></div>
+  </div>
+</div>
+
+<!-- Hero spacer — pushes content below the fixed hero -->
+<div class="hero-spacer"></div>
+
+<!-- ===== Scrolling content layer ===== -->
+<div class="main-wrap">
+
+<!-- ===== MAIN ===== -->
+<div class="content-with-sidebar">
+<main id="top">
+
+  <!-- News & Trends -->
+  <div class="section reveal" id="sec-news">
+    <div class="section-header" data-en="NEWS &amp; TRENDS">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>新着・トレンド記事</h2>
+      <a class="more" href="wireframe_news.html">すべて見る</a>
+    </div>
+    <div class="pickup-layout">
+      <a class="card-featured" href="wireframe_article.html">
+        <div class="card-img"><img src="photos/news_main.jpg" alt=""></div>
+        <div class="card-body">
+          <span class="card-cat">ニュース</span>
+          <div class="card-title"><span class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>新製品情報：2025年春モデル一挙紹介 — 注目のニューモデルを徹底レビュー</div>
+          <div class="card-excerpt">各メーカーから発表された2025年春の新製品を一挙にご紹介。注目のフィッシングギアからボート用品まで、今シーズン見逃せないアイテムを厳選しました。</div>
+          <div class="card-meta">2025.10.01</div>
+        </div>
+      </a>
+      <div class="pickup-list">
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">フィッシング</span>
+            <div class="card-title">秋のルアーフィッシング攻略ガイド — シーバス・青物狙いのベストシーズン到来</div>
+            <div class="card-excerpt">秋はルアーフィッシングのベストシーズン。ターゲット別の攻略法とおすすめタックルを解説します。</div>
+            <div class="card-meta">2025.09.28</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/news_01.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">ライフスタイル</span>
+            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>海辺リゾート特集：秋の絶景ホテル — 全室オーシャンビューの贅沢な時間を過ごす</div>
+            <div class="card-excerpt">マリンライフを満喫できる、海が見える絶景ホテルを全国からセレクト。週末の小旅行にも最適です。</div>
+            <div class="card-meta">2025.09.25</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/news_02.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">ボート</span>
+            <div class="card-title"><span class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>2025年最新ボートインプレッション — 話題のニューモデル5艇を乗り比べ徹底検証</div>
+            <div class="card-excerpt">話題の最新モデルを実際に試乗。操船性能から居住性まで徹底レビューします。</div>
+            <div class="card-meta">2025.09.20</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/news_03.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">マリーナ</span>
+            <div class="card-title">横浜ベイサイドマリーナ リニューアル情報 — 新クラブハウスと充実のサービス内容を先行取材</div>
+            <div class="card-excerpt">大規模改修を経てリニューアルオープン。新設備と新サービスの詳細をお届けします。</div>
+            <div class="card-meta">2025.09.15</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/marina_01.jpg" alt=""></div>
+        </a>
+      </div>
+    </div>
+    <a class="more-bottom" href="wireframe_news.html">もっと見る</a>
+  </div>
+
+  <!-- Fishing -->
+  <div class="section reveal" id="sec-fishing">
+    <div class="section-header" data-en="FISHING">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>フィッシング</h2>
+      <a class="more" href="wireframe_fishing.html">すべて見る</a>
+    </div>
+    <div class="pickup-layout">
+      <a class="card-featured" href="wireframe_article.html">
+        <div class="card-img"><img src="photos/fishing_main.jpg" alt=""></div>
+        <div class="card-body">
+          <span class="card-cat">フィッシング</span>
+          <div class="card-title"><span class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>ルアーフィッシング完全ガイド：初心者からベテランまで楽しめるタックル選びと実践テクニック徹底解説</div>
+          <div class="card-excerpt">初心者から中級者まで対応した、ルアーフィッシングの総合ガイド。ロッド・リール選びの基本から、シーズン別の攻略テクニックまで網羅。</div>
+          <div class="card-meta">2025.09.15</div>
+        </div>
+      </a>
+      <div class="pickup-list">
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">魚種別ガイド</span>
+            <div class="card-title">シーバスの狙い方：ポイント選びと時間帯 — 東京湾のランカーサイズを狙う秘訣<span class="ad-icon">AD</span></div>
+            <div class="card-excerpt">シーバスを狙うならまずポイント選びが重要。潮の流れや時間帯など、釣果に直結するノウハウを公開。</div>
+            <div class="card-meta">2025.09.10</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/fishing_01.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">入門</span>
+            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>フィッシング入門：道具の揃え方 — 予算別おすすめタックルセットと選び方のポイント</div>
+            <div class="card-excerpt">これから釣りを始める方へ。最初に揃えるべき道具と予算の目安をわかりやすく解説します。</div>
+            <div class="card-meta">2025.09.05</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/fishing_02.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">テクニック</span>
+            <div class="card-title">秋のエギング攻略：アオリイカを釣るコツ — エギ選び・シャクリ方・おすすめポイント完全網羅</div>
+            <div class="card-excerpt">秋の新子シーズン到来。サイトフィッシングで狙うエギングテクニックをプロが伝授。</div>
+            <div class="card-meta">2025.09.01</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/fishing_03.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">大物釣り</span>
+            <div class="card-title">カジキマグロを追え！トローリング入門 — 大物を仕留めるためのタックルとテクニック</div>
+            <div class="card-excerpt">憧れのビッグゲームフィッシング。タックル選びからファイトのコツまで徹底解説。</div>
+            <div class="card-meta">2025.08.28</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/fishing_01.jpg" alt=""></div>
+        </a>
+      </div>
+    </div>
+    <a class="more-bottom" href="wireframe_fishing.html">もっと見る</a>
+  </div>
+
+  <!-- Ad Banner 1 -->
+  <div class="ad-grid reveal">
+    <a class="ad-banner" href="https://www.diners.co.jp/ja/entry_form/lp/ptnr_rd/index.html" target="_blank">
+      <span class="ad-icon">AD</span>
+      <div class="ad-banner-img">広告画像</div>
+      <div class="ad-banner-body">
+        <div class="ad-banner-sponsor">Sponsored</div>
+        <div class="ad-banner-title">ダイナースクラブカード ― 海を愛する人のためのプレミアムカード</div>
+        <div class="ad-banner-desc">マリーナ優待・ボートショー招待など、マリンライフを豊かにする特典が充実。</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Lifestyle -->
+  <div class="section reveal" id="sec-lifestyle">
+    <div class="section-header" data-en="LIFESTYLE">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>ライフスタイル</h2>
+      <a class="more" href="wireframe_lifestyle.html">すべて見る</a>
+    </div>
+    <div class="pickup-layout">
+      <a class="card-featured" href="wireframe_article.html">
+        <div class="card-img"><img src="photos/lifestyle_main.jpg" alt=""></div>
+        <div class="card-body">
+          <span class="card-cat">ファッション</span>
+          <div class="card-title">2025秋冬マリンファッション最新トレンド — 海を感じるスタイリング提案とおすすめブランド紹介<span class="ad-icon">AD</span></div>
+          <div class="card-excerpt">機能性とデザインを両立した最新マリンウェアコレクション。海でも街でも映えるスタイリングを提案します。</div>
+          <div class="card-meta">2025.09.18</div>
+        </div>
+      </a>
+      <div class="pickup-list">
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">グルメ</span>
+            <div class="card-title">海の幸を楽しむ：船上グルメレシピ集 — 釣りたて魚介で作る絶品料理12品</div>
+            <div class="card-excerpt">釣ったばかりの魚をその場で調理。船上で手軽に作れる絶品レシピをシェフ監修でお届け。</div>
+            <div class="card-meta">2025.09.12</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/lifestyle_01.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">ホテル・リゾート</span>
+            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>海辺の絶景ホテル10選：関東編 — 週末に行ける海沿いラグジュアリーステイ</div>
+            <div class="card-excerpt">オーシャンビューの客室で目覚める贅沢。関東近郊で海を満喫できるホテルを厳選しました。</div>
+            <div class="card-meta">2025.09.08</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/lifestyle_02.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">トラベル</span>
+            <div class="card-title">瀬戸内海クルーズ：島めぐりの旅 — 直島・豊島・小豆島を巡る3泊4日プラン</div>
+            <div class="card-excerpt">瀬戸内の美しい島々をヨットで巡る、大人のための贅沢なクルーズプランをご紹介。</div>
+            <div class="card-meta">2025.09.02</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/lifestyle_03.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">マリンカルチャー</span>
+            <div class="card-title">海の映画特集：名作マリン・シネマ10選 — 冒険から感動まで必見の海洋映画ガイド</div>
+            <div class="card-excerpt">海をテーマにした珠玉の映画作品を厳選。航海、サーフィン、ダイビングの世界を描いた名作たち。</div>
+            <div class="card-meta">2025.08.25</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/lifestyle_01.jpg" alt=""></div>
+        </a>
+      </div>
+    </div>
+    <a class="more-bottom" href="wireframe_lifestyle.html">もっと見る</a>
+  </div>
+
+  <!-- Ad Banner 2 -->
+  <div class="ad-grid reveal">
+    <a class="ad-banner" href="#" onclick="toast('広告');return false;">
+      <span class="ad-icon">AD</span>
+      <div class="ad-banner-img">広告画像</div>
+      <div class="ad-banner-body">
+        <div class="ad-banner-sponsor">Sponsored</div>
+        <div class="ad-banner-title">ヤマハ発動機 ― 海の冒険を、もっと自由に。</div>
+        <div class="ad-banner-desc">フィッシングからクルージングまで、あらゆるマリンシーンに応える信頼のラインナップ。</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Parallax Banner -->
+  <div class="parallax-banner" id="parallaxBanner1">
+    <div class="parallax-banner-img"></div>
+  </div>
+
+  <!-- Boat & Yacht -->
+  <div class="section reveal" id="sec-boat">
+    <div class="section-header" data-en="BOAT &amp; YACHT">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>ボート・ヨット</h2>
+      <a class="more" href="wireframe_boat.html">すべて見る</a>
+    </div>
+    <div class="pickup-layout">
+      <a class="card-featured" href="wireframe_article.html">
+        <div class="card-img"><img src="photos/boat_main.jpg" alt=""></div>
+        <div class="card-body">
+          <span class="card-cat">ボートレビュー</span>
+          <div class="card-title"><span class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>ヤマハ SR210 徹底インプレッション — ジェットボートの新たなスタンダードを実走レビュー<span class="ad-icon">AD</span></div>
+          <div class="card-excerpt">ファミリーユースからフィッシングまで対応する万能モデル。実際に試乗して感じた操船性と快適性をレポートします。</div>
+          <div class="card-meta">2025.09.20</div>
+        </div>
+      </a>
+      <div class="pickup-list">
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">レース情報</span>
+            <div class="card-title"><span class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>2025年秋のヨットレース情報まとめ — 全日本選手権から国際レガッタまで注目大会を網羅</div>
+            <div class="card-excerpt">全国各地で開催される秋のヨットレーススケジュールを一覧でお届けします。</div>
+            <div class="card-meta">2025.09.15</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/boat_01.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">入門・ガイド</span>
+            <div class="card-title">初めてのボート購入ガイド：2馬力ボート編 — 免許不要で楽しめるおすすめモデルと費用</div>
+            <div class="card-excerpt">免許不要で楽しめる2馬力ボートの選び方。価格帯や維持費など、購入前に知りたい情報を網羅。</div>
+            <div class="card-meta">2025.09.08</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/boat_02.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">セーリング</span>
+            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>クルージングヨットの選び方完全ガイド — サイズ・装備・予算で比較する理想の一艇</div>
+            <div class="card-excerpt">30〜40ftクラスのクルージングヨットを比較。長距離航海に適したモデルの見極め方を解説。</div>
+            <div class="card-meta">2025.09.01</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/boat_03.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">メンテナンス</span>
+            <div class="card-title">ボートの冬季メンテナンス完全マニュアル — エンジン・船体・電装系の点検チェックリスト</div>
+            <div class="card-excerpt">オフシーズンに行うべき整備ポイントを解説。エンジン・船底・電装系のチェックリスト付き。</div>
+            <div class="card-meta">2025.08.20</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/boat_01.jpg" alt=""></div>
+        </a>
+      </div>
+    </div>
+    <a class="more-bottom" href="wireframe_boat.html">もっと見る</a>
+  </div>
+
+  <!-- Ad Banner 3 -->
+  <div class="ad-grid reveal">
+    <a class="ad-banner" href="https://www.j-marina-a.com" target="_blank">
+      <span class="ad-icon">AD</span>
+      <div class="ad-banner-img">広告画像</div>
+      <div class="ad-banner-body">
+        <div class="ad-banner-sponsor">Sponsored</div>
+        <div class="ad-banner-title">ジャパンマリーナアライアンス ― 全国マリーナネットワーク</div>
+        <div class="ad-banner-desc">日本全国の提携マリーナで、快適なマリンライフをサポートします。</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Marine Goods & Gear -->
+  <div class="section reveal" id="sec-gear">
+    <div class="section-header" data-en="MARINE GOODS &amp; GEAR">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>マリングッズ・ギア</h2>
+      <a class="more" href="wireframe_gear.html">すべて見る</a>
+    </div>
+    <div class="pickup-layout">
+      <a class="card-featured" href="wireframe_article.html">
+        <div class="card-img"><img src="photos/gear_main.jpg" alt=""></div>
+        <div class="card-body">
+          <span class="card-cat">マリンウェア</span>
+          <div class="card-title">2025年版 機能系マリンウェアおすすめ10選 — 防水・透湿・UVカットの最新テクノロジーを比較<span class="ad-icon">AD</span></div>
+          <div class="card-excerpt">防水・透湿・UVカットなど、海上で求められる機能を備えた最新マリンウェアを厳選してご紹介。価格帯別に比較しました。</div>
+          <div class="card-meta">2025.09.22</div>
+        </div>
+      </a>
+      <div class="pickup-list">
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">安全器具</span>
+            <div class="card-title">ライフジャケット選び方ガイド — タイプ別比較と安全基準をわかりやすく解説</div>
+            <div class="card-excerpt">桜マーク付きの安全なライフジャケットを種類別に解説。用途に合った一着の選び方。</div>
+            <div class="card-meta">2025.09.16</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/gear_01.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">パドルスポーツ</span>
+            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>カヤック・カヌー入門：必要なギア一覧 — 初めてでも安心の装備選びと購入ガイド</div>
+            <div class="card-excerpt">カヤックを始めるために必要な装備を、初期費用の目安とともにリストアップしました。</div>
+            <div class="card-meta">2025.09.10</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/gear_02.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">マリングッズ</span>
+            <div class="card-title">マリンガジェット最新アイテム特集 — 魚群探知機からスマートウォッチまで注目デバイス</div>
+            <div class="card-excerpt">GPSプロッター、魚群探知機、防水カメラなど、海で使える最新ガジェットを一挙紹介。</div>
+            <div class="card-meta">2025.09.05</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/gear_03.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">釣り具</span>
+            <div class="card-title">2025年注目のフィッシングリール比較 — ダイワ・シマノ・アブガルシアの最新モデル対決</div>
+            <div class="card-excerpt">シマノ・ダイワの最新リールを徹底比較。スピニング・ベイトそれぞれのおすすめモデルを紹介。</div>
+            <div class="card-meta">2025.08.30</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/gear_01.jpg" alt=""></div>
+        </a>
+      </div>
+    </div>
+    <a class="more-bottom" href="wireframe_gear.html">もっと見る</a>
+  </div>
+
+  <!-- Ad Banner 4 -->
+  <div class="ad-grid reveal">
+    <a class="ad-banner" href="#" onclick="toast('広告');return false;">
+      <span class="ad-icon">AD</span>
+      <div class="ad-banner-img">広告画像</div>
+      <div class="ad-banner-body">
+        <div class="ad-banner-sponsor">Sponsored</div>
+        <div class="ad-banner-title">トーハツ ― 信頼の船外機メーカー</div>
+        <div class="ad-banner-desc">高性能・低燃費の船外機で、安全で快適なマリンレジャーを。</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Marina -->
+  <div class="section reveal" id="sec-marina">
+    <div class="section-header" data-en="MARINA">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>マリーナ</h2>
+      <a class="more" href="wireframe_marina.html">すべて見る</a>
+    </div>
+    <div class="pickup-layout">
+      <a class="card-featured" href="wireframe_article.html">
+        <div class="card-img"><img src="photos/marina_main.jpg" alt=""></div>
+        <div class="card-body">
+          <span class="card-cat">関東</span>
+          <div class="card-title">関東エリアのおすすめマリーナ5選 — アクセス・料金・設備を徹底比較して選ぶベストマリーナ</div>
+          <div class="card-excerpt">アクセス良好で設備が充実した関東エリアのマリーナをピックアップ。ビジター利用の料金や施設情報も詳しくご紹介。</div>
+          <div class="card-meta">2025.09.18</div>
+        </div>
+      </a>
+      <div class="pickup-list">
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">関西</span>
+            <div class="card-title">関西・瀬戸内のマリーナ完全ガイド — 大阪湾から瀬戸内海まで厳選マリーナ紹介</div>
+            <div class="card-excerpt">瀬戸内海を拠点にクルージングを楽しめるマリーナを、料金やサービス内容とともに紹介。</div>
+            <div class="card-meta">2025.09.12</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/marina_01.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">マリーナマップ</span>
+            <div class="card-title">マリーナマップで探す全国551カ所 — エリア・料金・設備で絞り込めるインタラクティブ検索</div>
+            <div class="card-excerpt">全国のマリーナ・ハーバーを地図上で検索。エリア・設備条件で絞り込みも可能です。</div>
+            <div class="card-meta">2025.09.06</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/marina_02.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">入門ガイド</span>
+            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>はじめてのマリーナ係留：費用と手続き — 月額料金の相場から契約の流れまで丸わかり</div>
+            <div class="card-excerpt">マリーナへの係留を検討中の方へ。月額費用の相場や契約の流れをわかりやすく解説。</div>
+            <div class="card-meta">2025.09.01</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/marina_03.jpg" alt=""></div>
+        </a>
+        <a class="card-list" href="wireframe_article.html">
+          <div class="card-list-body">
+            <span class="card-cat">九州・沖縄</span>
+            <div class="card-title">沖縄マリーナガイド：南国の海を満喫 — 本島・宮古・石垣のマリーナ施設と周辺情報</div>
+            <div class="card-excerpt">沖縄本島から離島まで、エメラルドグリーンの海を堪能できるマリーナを紹介します。</div>
+            <div class="card-meta">2025.08.22</div>
+          </div>
+          <div class="card-img-sm"><img src="photos/marina_02.jpg" alt=""></div>
+        </a>
+      </div>
+    </div>
+    <a class="more-bottom" href="wireframe_marina.html">もっと見る</a>
+  </div>
+
+  <!-- KAZI SeaPlaza CTA -->
+  <div class="cta-seaplaza reveal">
+    <div class="cta-text">
+      <h3>KAZIシープラザ</h3>
+      <p>マリン用品・ボート用品のオンラインショップ</p>
+    </div>
+    <a class="cta-btn" href="#" onclick="toast('KAZIシープラザ（外部）へ移動');return false;">ショップへ</a>
+  </div>
+
+  <!-- YouTube: Kazi Movie -->
+  <div class="sec-youtube reveal">
+    <div class="section-header" data-en="YOUTUBE">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>Kazi Movie</h2>
+    </div>
+    <div class="youtube-inner">
+      <div class="youtube-embed">
+        <iframe src="https://www.youtube.com/embed/7_XB3M_2zJc" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="youtube-text">
+        <h3>Kazi Movie チャンネル</h3>
+        <p>「Kazi Movie」では、弊社で発行しているさまざまな雑誌 ― 月刊『Kazi』、月刊『Boat CLUB』、『Sea Dream』、『CANOE WORLD』、『Premium BOATING』 などの誌面と連携し、関連記事の動画を少しずつアップしています。</p>
+        <div class="youtube-stats">
+          <div class="youtube-stat">
+            <div class="youtube-stat-value">1.6万</div>
+            <div class="youtube-stat-label">チャンネル登録者数</div>
+          </div>
+          <div class="youtube-stat">
+            <div class="youtube-stat-value">382</div>
+            <div class="youtube-stat-label">公開動画数</div>
+          </div>
+          <div class="youtube-stat">
+            <div class="youtube-stat-value">65万</div>
+            <div class="youtube-stat-label">最高再生回数</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLICATION -->
+  <div class="sec-publication reveal">
+    <div class="section-header" data-en="PUBLICATION">
+      <span class="kazi-motif"><svg viewBox="0 0 871.26 235.78" xmlns="http://www.w3.org/2000/svg"><polygon points="728.28 0 689.37 0 354.11 235.78 393.01 235.78 728.28 0"/><polygon points="599.29 0 335.27 0 0 235.78 264.02 235.78 599.29 0"/><polygon points="864.07 0 825.16 0 489.9 235.78 528.8 235.78 864.07 0"/></svg></span>
+      <h2>刊行物</h2>
+    </div>
+    <div class="pub-grid">
+      <a class="pub-item" href="#" onclick="toast('月刊Kazi');return false;">
+        <div class="pub-cover pub-placeholder" style="background:#1a2a3a;"><span>KAZI</span></div>
+        <div class="pub-name">月刊 Kazi</div>
+      </a>
+      <a class="pub-item" href="#" onclick="toast('月刊Boat CLUB');return false;">
+        <div class="pub-cover pub-placeholder" style="background:#2c5f8a;"><span>Boat CLUB</span></div>
+        <div class="pub-name">月刊 Boat CLUB</div>
+      </a>
+      <a class="pub-item" href="#" onclick="toast('Sea Dream');return false;">
+        <div class="pub-cover pub-placeholder" style="background:#0a0f1a;"><span>Sea Dream</span></div>
+        <div class="pub-name">Sea Dream</div>
+      </a>
+      <a class="pub-item" href="#" onclick="toast('CANOE WORLD');return false;">
+        <div class="pub-cover pub-placeholder" style="background:#3a6b4a;"><span>CANOE WORLD</span></div>
+        <div class="pub-name">CANOE WORLD</div>
+      </a>
+      <a class="pub-item" href="#" onclick="toast('Premium BOATING');return false;">
+        <div class="pub-cover pub-placeholder" style="background:#4a3a2a;"><span>Premium BOATING</span></div>
+        <div class="pub-name">Premium BOATING</div>
+      </a>
+      <a class="pub-item" href="#" onclick="toast('書籍');return false;">
+        <div class="pub-cover pub-placeholder" style="background:#555;"><span>書籍</span></div>
+        <div class="pub-name">書籍</div>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- Sidebar -->
+<aside class="content-sidebar">
+  <div class="sidebar-sticky">
+    <a class="sidebar-sdclub" href="wireframe_sdclub.html">
+      <div class="sidebar-label">MEMBERSHIP</div>
+      <div class="sidebar-title">KAZI SeaDream<br>Club</div>
+      <div class="sidebar-desc">海を愛する人のための特別なメンバーシップ。選び抜かれたイベント、特別な体験、上質なライフスタイル。</div>
+      <span class="sidebar-btn">入会する（無料）</span>
+    </a>
+    <a class="sidebar-ad" href="#" onclick="toast('広告クリック');return false;" style="background-image:url('photos/boat_main.jpg')">
+      <span class="sidebar-ad-label">AD</span>
+    </a>
+  </div>
+</aside>
+</div><!-- /.content-with-sidebar -->
+
+<!-- FOOTER -->
+
+<div class="big-cta">
+  <h2>KAZI SeaDream Club 発足。</h2>
+  <p>
+    海を愛する人のための特別なメンバーシップ。<br>
+    選び抜かれたイベントや特別な体験、上質なライフスタイルをお届けします。<br>
+    入会金・年会費は無料です。
+  </p>
+  <a class="big-cta-btn" href="wireframe_sdclub_register.html">KAZI SeaDream Club に入会する</a>
+  <div class="big-cta-note">すでに会員の方は <a href="wireframe_login.html">こちらからログイン</a></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-sitemap">
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_news.html">ニュース</a></div>
+        <ul>
+          <li><a href="wireframe_news.html">新着ニュース</a></li>
+          <li><a href="wireframe_news_products.html">新製品・新着</a></li>
+          <li><a href="wireframe_news_events.html">イベント情報</a></li>
+          <li><a href="wireframe_news_ranking.html">人気ランキング</a></li>
+          <li><a href="wireframe_news_exhibition.html">展示会</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_fishing.html">フィッシング</a></div>
+        <ul>
+          <li><a href="wireframe_fishing_lure.html">ルアーフィッシング</a></li>
+          <li><a href="wireframe_fishing_tackle.html">タックル・ギア</a></li>
+          <li><a href="wireframe_fishing_species.html">魚種別ガイド</a></li>
+          <li><a href="wireframe_fishing_beginner.html">フィッシング入門</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_gear.html">マリングッズ・ギア</a></div>
+        <ul>
+          <li><a href="wireframe_gear_wear.html">マリンウェア（機能系）</a></li>
+          <li><a href="wireframe_gear_lifejacket.html">ライフジャケット・安全器具</a></li>
+          <li><a href="wireframe_gear_paddle.html">パドルスポーツ用品</a></li>
+          <li><a href="wireframe_gear_list.html">マリングッズ一覧</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_yacht.html">ヨット</a></div>
+        <ul>
+          <li><a href="wireframe_yacht_review.html">最新ヨットレビュー</a></li>
+          <li><a href="wireframe_yacht_technique.html">セーリング技術</a></li>
+          <li><a href="wireframe_yacht_race.html">レース情報</a></li>
+          <li><a href="wireframe_yacht_guide.html">購入ガイド</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_boat.html">ボート</a></div>
+        <ul>
+          <li><a href="wireframe_boat_review.html">ボートレビュー</a></li>
+          <li><a href="wireframe_boat_technique.html">操縦テクニック</a></li>
+          <li><a href="wireframe_boat_2hp.html">2馬力ボート特集</a></li>
+          <li><a href="wireframe_boat_trailable.html">トレーラブルボート</a></li>
+          <li><a href="wireframe_boat_guide.html">購入ガイド</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_marina.html">マリーナ</a></div>
+        <ul>
+          <li><a href="wireframe_marina_list.html">全国マリーナ一覧</a></li>
+          <li><a href="wireframe_marina_area.html">エリア別マリーナ検索</a></li>
+          <li><a href="wireframe_marina_map.html">マリーナマップ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_lifestyle.html">ライフスタイル</a></div>
+        <ul>
+          <li><a href="wireframe_lifestyle_fashion.html">マリンウェア・ファッション</a></li>
+          <li><a href="wireframe_lifestyle_gourmet.html">グルメ</a></li>
+          <li><a href="wireframe_lifestyle_hotel.html">ホテル・リゾート</a></li>
+          <li><a href="wireframe_lifestyle_travel.html">トラベル</a></li>
+          <li><a href="wireframe_lifestyle_goods.html">グッズ</a></li>
+          <li><a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">サービス</div>
+        <ul>
+          <li><a href="wireframe_sdclub.html">KAZI SeaDream Club</a></li>
+          <li><a href="wireframe_entry.html">エントリーガイド</a></li>
+          <li><a href="wireframe_maker.html">メーカー&amp;ビルダー</a></li>
+          <li><a href="wireframe_company.html">会社概要</a></li>
+          <li><a href="wireframe_contact.html">お問い合わせ</a></li>
+          <li><a href="wireframe_privacy.html">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; KAZI Online All Rights Reserved.</div>
+  </div>
+</footer>
+
+</div><!-- /.main-wrap -->
+
+<div id="toast"></div>
+
+<script>
+  // ===== Random Photo Assignment =====
+  (function() {
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+    function pick(arr, n) { return shuffle(arr).slice(0, n); }
+
+    const heroPool = [
+      'hero_01.jpg','hero_02.jpg','hero_03.jpg','hero_04.jpg','hero_05.jpg',
+      'jclass_01.jpg','jclass_02.jpg','jclass_03.jpg',
+      'tp52_02.jpg','tp52_03.jpg',
+      'endeavour_01.jpg','endeavour_02.jpg','endeavour_03.jpg',
+      'classic_01.jpg','classic_02.jpg','classic_03.jpg',
+      'silolona_01.jpg','transpac_01.jpg','transpac_02.jpg',
+      'hobart_01.jpg','hobart_02.jpg','hobart_03.jpg',
+      'arctic_01.jpg','arctic_02.jpg','arctic_03.jpg'
+    ];
+    const cardPool = [
+      'news_main.jpg','news_01.jpg','news_02.jpg','news_03.jpg',
+      'fishing_main.jpg','fishing_01.jpg','fishing_02.jpg','fishing_03.jpg',
+      'lifestyle_main.jpg','lifestyle_01.jpg','lifestyle_02.jpg','lifestyle_03.jpg',
+      'boat_main.jpg','boat_01.jpg','boat_02.jpg','boat_03.jpg',
+      'gear_main.jpg','gear_01.jpg','gear_02.jpg','gear_03.jpg',
+      'marina_main.jpg','marina_01.jpg','marina_02.jpg','marina_03.jpg',
+      'jclass_01.jpg','jclass_02.jpg','jclass_03.jpg',
+      'tp52_02.jpg','tp52_03.jpg',
+      'imperia_01.jpg','imperia_02.jpg',
+      'dragon_01.jpg','dragon_02.jpg',
+      'sttropez_01.jpg','sttropez_02.jpg','sttropez_03.jpg',
+      'hobart_01.jpg','hobart_02.jpg','hobart_03.jpg',
+      'silolona_01.jpg','classic_01.jpg','classic_02.jpg','classic_03.jpg',
+      'eilean_01.jpg','eilean_02.jpg',
+      'endeavour_01.jpg','endeavour_02.jpg','endeavour_03.jpg',
+      'marquesas_01.jpg','marquesas_02.jpg',
+      'ponam_01.jpg','transpac_01.jpg','transpac_02.jpg',
+      'karakuwa_01.jpg','arctic_01.jpg','arctic_02.jpg','arctic_03.jpg',
+      'portugal_01.jpg','portugal_02.jpg'
+    ];
+
+    // Hero slides
+    const heroPhotos = pick(heroPool, 5);
+    document.querySelectorAll('.slide').forEach(function(slide, i) {
+      slide.style.backgroundImage = "url('photos/" + heroPhotos[i] + "')";
+    });
+
+    // Card images (featured + small)
+    const allCards = shuffle(cardPool);
+    let idx = 0;
+    document.querySelectorAll('.card-img img, .card-img-sm img').forEach(function(img) {
+      img.src = 'photos/' + allCards[idx % allCards.length];
+      idx++;
+    });
+  })();
+
+  // ===== Infinite Carousel Slider =====
+  (function() {
+    const track = document.getElementById('slidesTrack');
+    const origSlides = Array.from(document.querySelectorAll('.slide'));
+    const TOTAL = origSlides.length;
+    const dots = document.querySelectorAll('.dot');
+
+    // Clone all slides and append for seamless loop
+    origSlides.forEach(s => {
+      const clone = s.cloneNode(true);
+      clone.classList.remove('active');
+      track.appendChild(clone);
+    });
+    // Also prepend clones for backward loop
+    for (let i = TOTAL - 1; i >= 0; i--) {
+      const clone = origSlides[i].cloneNode(true);
+      clone.classList.remove('active');
+      track.insertBefore(clone, track.firstChild);
+    }
+
+    const allSlides = Array.from(track.querySelectorAll('.slide'));
+    let current = TOTAL; // start at first real slide (after prepended clones)
+
+    function getSlotW() {
+      return document.getElementById('heroSlider').offsetWidth * 0.80;
+    }
+    function getOffset(idx) {
+      const containerW = document.getElementById('heroSlider').offsetWidth;
+      const slotW = containerW * 0.80;
+      const initOff = containerW * 0.10;
+      return initOff - idx * slotW;
+    }
+
+    function render(animate) {
+      track.style.transition = animate ? 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+      track.style.transform = 'translateX(' + getOffset(current) + 'px)';
+      allSlides.forEach((s, i) => s.classList.toggle('active', i === current));
+      const dotIdx = ((current - TOTAL) % TOTAL + TOTAL) % TOTAL;
+      dots.forEach((d, i) => d.classList.toggle('active', i === dotIdx));
+    }
+
+    function jumpIfNeeded() {
+      if (current >= TOTAL * 2) {
+        current -= TOTAL;
+        render(false);
+      } else if (current < TOTAL) {
+        current += TOTAL;
+        render(false);
+      }
+    }
+
+    track.addEventListener('transitionend', jumpIfNeeded);
+
+    window.slideTo = function(n) {
+      current = TOTAL + n;
+      render(true);
+      resetTimer();
+    };
+    window.slideMove = function(dir) {
+      current += dir;
+      render(true);
+      resetTimer();
+    };
+
+    let timer = setInterval(function() { window.slideMove(1); }, 4000);
+    window.resetTimer = function() {
+      clearInterval(timer);
+      timer = setInterval(function() { window.slideMove(1); }, 4000);
+    };
+
+    window.addEventListener('resize', function() { render(false); });
+
+    // Initial: hidden behind blue overlay, then slide in when overlay reveals
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(' + (-document.getElementById('heroSlider').offsetWidth) + 'px)';
+    allSlides.forEach(s => s.classList.remove('active'));
+    setTimeout(function() {
+      track.style.transition = 'transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94)';
+      track.style.transform = 'translateX(' + getOffset(current) + 'px)';
+      allSlides[current].classList.add('active');
+      dots.forEach((d, i) => d.classList.toggle('active', i === 0));
+    }, 300);
+  })();
+
+  // ===== Article navigation =====
+  function openArticle(cat, title) {
+    const url = 'wireframe_article.html?cat=' + encodeURIComponent(cat) + '&title=' + encodeURIComponent(title);
+    window.location.href = url;
+  }
+
+  // ===== Smooth scroll =====
+  function navClick(e, id) {
+    e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+  function smoothTo(e, id) {
+    if (e) e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ===== Search Overlay =====
+  function openSearch() {
+    document.getElementById('searchOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('searchInput').focus(), 100);
+  }
+  function closeSearchBox() {
+    document.getElementById('searchOverlay').classList.remove('open');
+  }
+  function closeSearch(e) {
+    if (e.target === document.getElementById('searchOverlay')) closeSearchBox();
+  }
+  function fillSearch(word) {
+    document.getElementById('searchInput').value = word;
+    document.getElementById('searchInput').focus();
+  }
+
+  // ===== ESC key =====
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeSearchBox();
+      closeMega();
+      closeArticle();
+    }
+  });
+
+  // ===== Toast =====
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = '\u2192 ' + msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+  }
+
+  // ===== Mega Menu =====
+  const megaMap = {
+    'ニュース': 'mega-news',
+    'フィッシング': 'mega-fishing',
+    'マリングッズ・ギア': 'mega-gear',
+    'ヨット': 'mega-yacht',
+    'ボート': 'mega-boat',
+    'マリーナ': 'mega-marina',
+    'ライフスタイル': 'mega-lifestyle'
+  };
+  let activeMega = null;
+
+  function closeMega() {
+    document.querySelectorAll('.mega-menu').forEach(m => m.classList.remove('open'));
+    document.getElementById('megaOverlay').classList.remove('open');
+    document.querySelectorAll('.nav-item > a.has-sub').forEach(a => a.classList.remove('active'));
+    activeMega = null;
+  }
+
+  document.querySelectorAll('.nav-item > a.has-sub').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const label = this.textContent.trim();
+      const megaId = megaMap[label];
+      if (!megaId) return;
+      if (activeMega === megaId) { closeMega(); return; }
+      closeMega();
+      document.getElementById(megaId).classList.add('open');
+      document.getElementById('megaOverlay').classList.add('open');
+      this.classList.add('active');
+      activeMega = megaId;
+    });
+  });
+
+  // ===== Scrolled Header (compact + hamburger) =====
+  (function() {
+    var header = document.querySelector('header');
+    var threshold = 80;
+    var captionWraps = document.querySelectorAll('.slide-caption-wrap');
+    window.addEventListener('scroll', function() {
+      var y = window.scrollY;
+      if (y > threshold) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      // Hero caption moves up on scroll
+      captionWraps.forEach(function(w) {
+        w.style.transform = 'translateY(' + (-y * 0.4) + 'px)';
+      });
+      // Parallax banners
+      document.querySelectorAll('.parallax-banner').forEach(function(b) {
+        var rect = b.getBoundingClientRect();
+        var viewH = window.innerHeight;
+        if (rect.bottom > 0 && rect.top < viewH) {
+          var ratio = (rect.top + rect.height) / (viewH + rect.height);
+          var offset = (ratio - 0.5) * 80;
+          b.querySelector('.parallax-banner-img').style.transform = 'translateY(' + offset + 'px)';
+        }
+      });
+    });
+  })();
+
+  // Parallax banner random images
+  (function() {
+    var bannerPhotos = [
+      'hero_01.jpg','hero_02.jpg','hero_03.jpg','hero_04.jpg','hero_05.jpg',
+      'silolona_01.jpg','sttropez_01.jpg','sttropez_02.jpg',
+      'jclass_01.jpg','jclass_02.jpg','transpac_01.jpg',
+      'portugal_01.jpg','portugal_02.jpg','arctic_01.jpg','arctic_02.jpg',
+      'marquesas_01.jpg','marquesas_02.jpg','eilean_01.jpg'
+    ];
+    document.querySelectorAll('.parallax-banner-img').forEach(function(img) {
+      var photo = bannerPhotos[Math.floor(Math.random() * bannerPhotos.length)];
+      img.style.backgroundImage = "url('photos/" + photo + "')";
+    });
+  })();
+
+  function toggleHamburger() {
+    var panel = document.getElementById('hamburgerPanel');
+    var backdrop = document.getElementById('hamburgerBackdrop');
+    if (panel.classList.contains('open')) {
+      closeHamburger();
+    } else {
+      panel.classList.add('open');
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeHamburger() {
+    var panel = document.getElementById('hamburgerPanel');
+    var backdrop = document.getElementById('hamburgerBackdrop');
+    panel.classList.remove('open');
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ===== SDC 右下追従バナー（スクロール600pxで表示） =====
+  var floatBannerClosed = false;
+  var floatBanner = document.getElementById('sdcFloatBanner');
+  window.closeFloatBanner = function() {
+    floatBanner.classList.remove('show');
+    floatBannerClosed = true;
+  };
+  window.addEventListener('scroll', function() {
+    if (floatBannerClosed) return;
+    floatBanner.classList.toggle('show', window.scrollY > 600);
+  });
+
+  // ===== Scroll Reveal with IntersectionObserver =====
+  (function() {
+    const revealElements = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      revealElements.forEach(function(el) {
+        observer.observe(el);
+      });
+    } else {
+      // Fallback for older browsers
+      revealElements.forEach(function(el) {
+        el.classList.add('visible');
+      });
+    }
+  })();
+
+  // ===== Background Diagonal Stripe Animation =====
+  (function() {
+    var bgc   = document.getElementById('bgCanvas');
+    if (!bgc) return;
+    var bgctx = bgc.getContext('2d');
+
+    bgc.width  = window.innerWidth;
+    bgc.height = window.innerHeight;
+    window.addEventListener('resize', function() {
+      bgc.width  = window.innerWidth;
+      bgc.height = window.innerHeight;
+      stripeRender();
+    });
+
+    var ANGLE = 35 * Math.PI / 180;
+    var stripes = [
+      [-0.05,  1, 0.15, 180, 0.012],
+      [ 0.30, -1, 0.25,  60, 0.035],
+      [ 0.50,  1, 0.18,   4, 0.12],
+      [ 0.60,  1, 0.12, 140, 0.01],
+      [ 0.90, -1, 0.30,  45, 0.04],
+    ];
+    var sPos   = []; for(var i=0;i<stripes.length;i++) sPos.push(0);
+    var sWm    = []; for(var i=0;i<stripes.length;i++) sWm.push(1);
+    var sVel   = 0;
+    var sSmooth= 0;
+    var sRaf   = null;
+    var sLastY = 0;
+
+    window.addEventListener('scroll', function() {
+      var y  = window.scrollY;
+      var dy = y - sLastY;
+      sLastY = y;
+      sVel  += dy * 0.6;
+      if (!sRaf) sRaf = requestAnimationFrame(stripeLoop);
+
+      // Hide during hero, show after
+      var hero = document.getElementById('heroSlider');
+      var heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
+      if (y < heroBottom) { bgc.style.opacity = 0; } else { bgc.style.opacity = 1; }
+    });
+
+    function stripeLoop() {
+      sRaf = null;
+      sSmooth += (sVel - sSmooth) * 0.3;
+      sVel    *= 0.5;
+      for (var i = 0; i < stripes.length; i++) {
+        sPos[i] += sSmooth * stripes[i][2] * stripes[i][1] * 0.3;
+        var tw   = 1 + Math.abs(sSmooth) * 0.003;
+        sWm[i]  += (tw - sWm[i]) * 0.1;
+      }
+      stripeRender();
+      if (Math.abs(sSmooth) > 1.0 || Math.abs(sVel) > 1.0) {
+        sRaf = requestAnimationFrame(stripeLoop);
+      } else {
+        sSmooth = 0; sVel = 0;
+        for (var i = 0; i < stripes.length; i++) sWm[i] = 1;
+        stripeRender();
+        bgc.style.opacity = 0;
+      }
+    }
+
+    function stripeRender() {
+      var W = bgc.width, H = bgc.height;
+      var d = Math.sqrt(W * W + H * H) * 1.4;
+      bgctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < stripes.length; i++) {
+        var cx = stripes[i][0] * W + sPos[i];
+        // Loop position within screen bounds
+        cx = ((cx % W) + W) % W;
+        var w  = Math.max(4, stripes[i][3] * sWm[i]);
+        bgctx.save();
+        bgctx.translate(cx, H / 2);
+        bgctx.rotate(ANGLE);
+        bgctx.fillStyle = 'rgba(44,95,138,' + stripes[i][4] + ')';
+        bgctx.fillRect(-w / 2, -d / 2, w, d);
+        bgctx.restore();
+      }
+    }
+
+    stripeRender();
+  })();
+</script>
+</body>
+</html>
