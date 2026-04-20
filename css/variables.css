@@ -1,0 +1,87 @@
+/* ============================================================
+   KAZI ONLINE v2 — Design Tokens (CSS Custom Properties)
+   ============================================================ */
+
+:root {
+  /* === Colors === */
+  --color-primary-dark:   #1e3a5f;
+  --color-primary:        #2c5f8a;
+  --color-primary-light:  #3a7ab5;
+  --color-accent:         #e8f0f8;
+  --color-accent-light:   #b8ecff;
+
+  --color-text-primary:   #1a1a1a;
+  --color-text-secondary: #4a4a4a;   /* was #666 — WCAG AA fix */
+  --color-text-tertiary:  #6b6b6b;   /* was #999 — WCAG AA fix */
+  --color-text-disabled:  #8a8a8a;   /* was #aaa — WCAG AA fix */
+  --color-text-inverse:   #ffffff;
+
+  --color-bg-primary:     #ffffff;
+  --color-bg-secondary:   #f7f7f5;
+  --color-bg-dark:        #1a1a1a;
+  --color-bg-hero:        #0a0f1a;
+
+  --color-border-light:   #e8e8e8;
+  --color-border:         #d0d0d0;
+  --color-border-dark:    #333333;
+
+  /* === Typography Scale === */
+  --font-size-xs:    11px;
+  --font-size-sm:    13px;
+  --font-size-base:  15px;
+  --font-size-md:    16px;
+  --font-size-lg:    20px;
+  --font-size-xl:    24px;
+  --font-size-2xl:   28px;
+  --font-size-3xl:   36px;
+
+  --font-heading:    'Noto Serif JP', serif;
+  --font-body:       'Noto Sans JP', sans-serif;
+  --font-ui:         'Inter', sans-serif;
+
+  --font-weight-light:    300;
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-bold:     700;
+
+  --line-height-tight:    1.4;
+  --line-height-normal:   1.7;
+  --line-height-relaxed:  2.0;
+
+  /* === Spacing Scale (4px base) === */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   24px;
+  --space-6:   32px;
+  --space-7:   40px;
+  --space-8:   48px;
+  --space-9:   64px;
+  --space-10:  80px;
+  --space-11:  100px;
+
+  /* === Border Radius === */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-pill:  9999px;
+
+  /* === Shadows === */
+  --shadow-sm:     0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:     0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg:     0 8px 32px rgba(0,0,0,.12);
+  --shadow-xl:     0 16px 48px rgba(0,0,0,.16);
+
+  /* === Transitions === */
+  --ease-out:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-fast:  0.15s;
+  --duration-normal: 0.3s;
+  --duration-slow:  0.5s;
+
+  /* === Layout === */
+  --max-width:     1600px;
+  --sidebar-width: 280px;
+  --header-height: 64px;
+  --header-height-compact: 48px;
+}

@@ -1,0 +1,364 @@
+/* ============================================================
+   KAZI ONLINE v2 — Design Overrides
+   Loaded AFTER page-specific CSS to apply v2 design improvements
+   ============================================================ */
+
+/* === 1. Color Contrast Fixes (WCAG AA) === */
+
+/* Secondary text: #666 → #4a4a4a */
+.card-cat,
+.card-date,
+.breadcrumb a,
+.footer-col a,
+.article-date,
+.article-author,
+.form-note,
+.sidebar-nav li a,
+.page-count,
+.confirm-table th,
+.benefit-detail-body p {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Tertiary text: #999 → #6b6b6b */
+.page-file,
+.card-excerpt,
+.related-card-excerpt,
+.related-card-date,
+.article-cat-date,
+.search-tag,
+.footer-bottom,
+.wf-label,
+.page-header p,
+.big-cta-note,
+.toc-toggle,
+.meta-item,
+.step-desc {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Disabled text: #aaa/#bbb/#ccc → #8a8a8a */
+.page-arrow,
+.breadcrumb .sep,
+.history-item-date {
+  color: var(--color-text-disabled) !important;
+}
+
+/* === 2. Typography Improvements === */
+
+/* Ensure consistent body font */
+body {
+  font-family: var(--font-body) !important;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Section titles — consistent sizing */
+.section-title,
+.section-header h2 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+}
+
+/* Card titles */
+.card-title {
+  font-family: var(--font-heading);
+  line-height: var(--line-height-tight);
+}
+
+/* Meta text minimum size */
+.card-date,
+.related-card-date,
+.article-cat-date,
+.page-file,
+.ad-label,
+.sidebar-ad-label {
+  font-size: var(--font-size-xs);
+  font-family: var(--font-ui);
+}
+
+/* === 3. Header Gradient Enhancement === */
+header {
+  border-top: 3px solid !important;
+  border-image: linear-gradient(to right, var(--color-primary-dark), var(--color-primary), var(--color-primary-light)) 1 !important;
+}
+
+/* === 4. Button Standardization === */
+
+/* Primary buttons */
+.btn-login,
+.form-submit,
+.plan-cta,
+.register-cta-btn,
+.search-submit-btn {
+  border-radius: var(--radius-md) !important;
+  transition: all var(--duration-normal) var(--ease-out) !important;
+}
+
+/* Outline buttons */
+.big-cta-btn,
+.sdc-popup-btn,
+.sidebar-btn {
+  border-radius: var(--radius-md) !important;
+  transition: all var(--duration-normal) var(--ease-out) !important;
+}
+
+/* Tag/pill buttons */
+.search-tag,
+.search-cat-btn,
+.tag-item a,
+.tag-link {
+  border-radius: var(--radius-pill) !important;
+}
+
+/* Button hover enhancement */
+.btn-login:hover,
+.form-submit:hover,
+.plan-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* === 5. Card Shadow System === */
+.card-featured,
+.feature-card,
+.plan-card,
+.benefit-card {
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out) !important;
+}
+
+.card-featured:hover,
+.feature-card:hover,
+.plan-card:hover,
+.benefit-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Related card hover */
+.related-card:hover,
+.card-list:hover {
+  background: var(--color-bg-secondary) !important;
+}
+
+/* === 6. Focus States (Accessibility) === */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* Remove default outline for mouse clicks */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* === 7. Skeleton Loading for Images === */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.card-img,
+.card-img-sm,
+.related-card-img,
+.slide,
+.cat-hero,
+.article-hero-img,
+.bookmark-card-img,
+.history-item-img {
+  background-color: #f0f0f0;
+  background-image: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Stop shimmer when image loads */
+.card-img[style*="background-image"],
+.card-img-sm[style*="background-image"],
+.related-card-img[style*="background-image"],
+.article-hero-img[style*="background-image"] {
+  animation: none;
+}
+
+/* === 8. Ad Differentiation === */
+.ad-native,
+.ad-banner {
+  background: var(--color-bg-secondary) !important;
+  border-left: 3px solid var(--color-text-disabled) !important;
+}
+
+.ad-label,
+.ad-native-label,
+.sidebar-ad-label {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  color: var(--color-text-disabled) !important;
+  text-transform: uppercase;
+}
+
+/* === 9. Scroll Reveal Enhancement === */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === 10. Footer Enhancement === */
+.footer-sitemap {
+  gap: var(--space-6) var(--space-5);
+}
+
+.footer-col-title {
+  font-family: var(--font-ui);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-col a {
+  color: rgba(255,255,255,0.65) !important;
+  transition: color var(--duration-fast) !important;
+}
+
+.footer-col a:hover {
+  color: rgba(255,255,255,0.95) !important;
+}
+
+/* === 11. Search Overlay Enhancement === */
+.search-box {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-xl) !important;
+}
+
+.search-input-row input {
+  border-radius: var(--radius-md) !important;
+  font-size: var(--font-size-base) !important;
+}
+
+/* === 12. SDC Float Banner Enhancement === */
+.sdc-float-banner {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* === 13. Toast Enhancement === */
+.toast {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  font-family: var(--font-body) !important;
+}
+
+/* === 14. Breadcrumb Enhancement === */
+.breadcrumb {
+  font-size: var(--font-size-sm) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+.breadcrumb a {
+  color: var(--color-text-secondary) !important;
+  text-decoration: none !important;
+  transition: color var(--duration-fast) !important;
+}
+
+.breadcrumb a:hover {
+  color: var(--color-primary) !important;
+}
+
+/* === 15. Form Enhancement === */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border-radius: var(--radius-md) !important;
+  border-color: var(--color-border) !important;
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast) !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(44, 95, 138, 0.1) !important;
+  outline: none !important;
+}
+
+/* === 16. Back to Top Button Enhancement === */
+.btn-top {
+  border-radius: 50% !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: all var(--duration-normal) var(--ease-out) !important;
+}
+
+.btn-top:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* === 17. More/CTA Button Enhancement === */
+.more-bottom,
+.btn-more,
+.section-more {
+  border-radius: var(--radius-md) !important;
+  transition: all var(--duration-normal) var(--ease-out) !important;
+}
+
+.more-bottom:hover,
+.btn-more:hover,
+.section-more:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* === 18. Category Badge Enhancement === */
+.card-cat,
+.article-cat-badge,
+.related-card-cat {
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font-body) !important;
+  font-weight: var(--font-weight-medium) !important;
+  letter-spacing: 0.04em;
+}
+
+/* === 19. Sidebar SDC Banner Enhancement === */
+.sidebar-sdclub {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+}
+
+/* === 20. Mobile Hamburger Always Visible (UX Fix) === */
+@media (max-width: 1024px) {
+  .btn-hamburger {
+    display: flex !important;
+  }
+  .global-nav {
+    display: none !important;
+  }
+}
+
+/* === 21. Image Lazy Loading Fade-in === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+img[loading="lazy"] {
+  animation: fadeIn 0.3s ease-in;
+}
