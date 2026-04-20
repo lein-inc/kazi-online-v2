@@ -306,7 +306,27 @@
     gap: 32px 24px;
     border-bottom: 1px solid rgba(255,255,255,.1);
   }
-  .footer-col {}
+  .footer-col {
+    display: flex; flex-direction: column;
+  }
+  .footer-col > a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
+    font-weight: 600; transition: color 0.2s;
+    margin-bottom: 6px;
+  }
+  .footer-col > a:hover { color: #fff; }
+  .footer-local {
+    padding: 0 40px 32px;
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-local a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
+    font-weight: 600; transition: color 0.2s;
+  }
+  .footer-local a:hover { color: #fff; }
   .footer-col-title {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 13px; color: #fff; font-weight: 600;
