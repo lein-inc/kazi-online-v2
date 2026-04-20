@@ -441,19 +441,33 @@
     font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
     font-weight: 600; transition: color 0.2s;
     margin-bottom: 6px;
+    padding-left: 10px;
   }
   .footer-col > a:hover { color: #fff; }
-  .footer-local {
-    padding: 0 40px 32px;
-    display: flex; flex-wrap: wrap; gap: 8px 20px;
+  .footer-local-nav {
+    padding: 32px 40px 24px;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 12px 28px;
+    justify-content: start;
     border-bottom: 1px solid rgba(255,255,255,.1);
   }
-  .footer-local a {
+  .footer-local-nav a {
     font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px; color: rgba(255,255,255,.5); text-decoration: none;
+    font-size: 12px; color: rgba(255,255,255,.7); text-decoration: none;
     font-weight: 600; transition: color 0.2s;
   }
-  .footer-local a:hover { color: #fff; }
+  .footer-local-nav a:hover { color: #fff; }
+  .footer-corporate {
+    padding: 20px 40px;
+    display: flex; flex-wrap: wrap; gap: 8px 24px;
+  }
+  .footer-corporate a {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px; color: rgba(255,255,255,.4); text-decoration: none;
+    font-weight: 500; transition: color 0.2s;
+  }
+  .footer-corporate a:hover { color: #fff; }
   .footer-col-title {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 13px; color: #fff; font-weight: 600;
