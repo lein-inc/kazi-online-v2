@@ -105,18 +105,6 @@
     });
   })();
 
-  /* === 5. Search keyboard hint === */
-  (function() {
-    var searchBtn = document.querySelector('.btn-search, .header-search');
-    if (searchBtn) {
-      var hint = document.createElement('span');
-      hint.className = 'search-hint';
-      hint.textContent = '/';
-      hint.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border:1px solid #ccc;border-radius:3px;font-size:11px;color:#999;margin-left:6px;font-family:Inter,sans-serif;';
-      searchBtn.appendChild(hint);
-    }
-  })();
-
   /* === 6. Smooth scroll for anchor links === */
   document.querySelectorAll('a[href^="#"]').forEach(function(link) {
     link.addEventListener('click', function(e) {
