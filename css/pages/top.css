@@ -881,6 +881,7 @@
   .main-wrap {
     position: relative; z-index: 1;
     background-color: #fff;
+    box-shadow: none;
   }
 
   /* Sections */
@@ -1287,4 +1288,3 @@
     will-change: transform;
   }
 
-  /* (box-shadow merged into .main-wrap above) */
