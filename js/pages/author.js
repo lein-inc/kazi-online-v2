@@ -39,10 +39,10 @@ let toastTimer;
 
   // ===== Mega Menu =====
   const megaMap = {
-    'ニュース': 'mega-news', 'フィッシング': 'mega-fishing',
-    'マリングッズ・ギア': 'mega-gear', 'ヨット': 'mega-yacht',
-    'ボート': 'mega-boat', 'マリーナ': 'mega-marina',
-    'ライフスタイル': 'mega-lifestyle'
+    'ヨット': 'mega-yacht', 'ボート': 'mega-boat',
+    'フィッシング': 'mega-fishing', 'クルージング': 'mega-cruising',
+    'ライフスタイル': 'mega-lifestyle', 'グッズ＆ギア': 'mega-gear',
+    'トピックス': 'mega-news'
   };
   let activeMega = null;
   function closeMega() {
