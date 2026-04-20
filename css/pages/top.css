@@ -881,7 +881,6 @@
   .main-wrap {
     position: relative; z-index: 1;
     background-color: #fff;
-    box-shadow: 0 -8px 32px rgba(0,0,0,0.08);
   }
 
   /* Sections */
