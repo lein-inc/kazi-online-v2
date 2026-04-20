@@ -564,7 +564,7 @@
   }
 
   .sec-publication {
-    padding: 80px 0; border-top: 1px solid #e8e8e8;
+    padding: 80px 0; border-top: none;
   }
   .pub-grid {
     display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px;
