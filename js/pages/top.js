@@ -108,7 +108,9 @@
       }
     }
 
-    track.addEventListener('transitionend', jumpIfNeeded);
+    track.addEventListener('transitionend', function(e) {
+      if (e.target === track && e.propertyName === 'transform') jumpIfNeeded();
+    });
 
     window.slideTo = function(n) {
       current = TOTAL + n;
@@ -121,10 +123,10 @@
       resetTimer();
     };
 
-    let timer = setInterval(function() { window.slideMove(1); }, 4000);
+    let timer = setInterval(function() { window.slideMove(1); }, 6000);
     window.resetTimer = function() {
       clearInterval(timer);
-      timer = setInterval(function() { window.slideMove(1); }, 4000);
+      timer = setInterval(function() { window.slideMove(1); }, 6000);
     };
 
     window.addEventListener('resize', function() { render(false); });
