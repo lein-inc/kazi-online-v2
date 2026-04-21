@@ -244,10 +244,10 @@
 
   /* Content & Grid */
   .content-with-sidebar { padding: 0 16px; gap: 24px; }
-  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 20px; }
+  .grid-3, .grid-4 { grid-template-columns: 1fr !important; gap: 20px; }
 
   /* Maker Grid */
-  .maker-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .maker-grid { grid-template-columns: 1fr !important; }
 
   /* Benefit Detail */
   .benefit-detail-item { gap: 16px; padding: 20px 0; }
@@ -256,7 +256,7 @@
   .benefit-detail-body p { font-size: 13px; }
 
   /* Feature Grid */
-  .feature-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .feature-grid { grid-template-columns: 1fr !important; }
 
   /* Category Hero — stack vertically */
   .cat-hero-inner { flex-direction: column; gap: 8px; }
@@ -276,9 +276,14 @@
   .hero-spacer { height: 480px !important; }
   .slide { width: 92% !important; }
   .slide-caption { padding: 18px 22px; max-width: 100%; }
-  .slide-caption h2 { font-size: 18px !important; }
+  .slide-caption .area-title { font-size: 18px !important; }
+  .slide-caption .area-label { font-size: 11px; padding: 4px 12px; margin-bottom: 8px; }
+  .slide-caption .area-desc { font-size: 12px; }
+  .slider-arrow { width: 40px; height: 40px; font-size: 18px; }
+  .slider-arrow.prev { left: 12px; }
+  .slider-arrow.next { right: 12px; }
 
-  /* Pickup Layout (TOP) */
+  /* Pickup Layout (TOP) — 2col → 1col */
   .pickup-layout { grid-template-columns: 1fr !important; gap: 24px 0; }
   .card-featured .card-title { font-size: 20px; }
   .card-featured .card-excerpt { font-size: 12px; }
@@ -286,18 +291,57 @@
   .card-list .card-title { font-size: 16px; }
   .card-list .card-excerpt { display: none; }
 
-  /* Section headers (TOP) */
-  .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  /* New Articles Grid (TOP) — 2col → 1col */
+  .new-articles-grid { grid-template-columns: 1fr !important; }
+  .new-articles-grid .card-list { padding-left: 0 !important; border-left: none !important; }
+  .new-articles-grid .card-list:nth-last-child(-n+2) { border-bottom: 1px solid #eee; }
+  .new-articles-grid .card-list:last-child { border-bottom: none; }
+  .new-articles-grid .card-img-sm { width: 110px !important; height: 74px !important; }
 
-  /* YouTube / Kazi Movie */
+  /* Service Banners (TOP) — 2col → 1col */
+  .service-banners { grid-template-columns: 1fr !important; gap: 12px; }
+  .service-banner-img { width: 140px; min-height: 110px; }
+  .service-banner-body { padding: 16px 20px; }
+  .service-banner-body h3 { font-size: 16px; }
+  .service-banner-body p { font-size: 12px; }
+
+  /* Ad Banner (TOP) — 横並び→縦積み */
+  .ad-banner { flex-direction: column; padding: 16px; gap: 12px; }
+  .ad-banner-img { width: 100%; height: 180px; }
+  .ad-banner-title { font-size: 14px; }
+  .ad-banner-desc { font-size: 12px; }
+
+  /* SeaPlaza CTA — 横並び→縦積み */
+  .cta-seaplaza { flex-direction: column; padding: 40px 20px; gap: 20px; text-align: center; }
+
+  /* Section headers (TOP) */
+  .section-header { flex-direction: column; align-items: center; gap: 8px; }
+  .section-header::before { font-size: 10px; }
+  .section-header h2 { font-size: 20px; }
+  .section .more-bottom { padding: 10px 32px; font-size: 12px; }
+
+  /* Section spacing (TOP) */
+  .section { padding: 48px 0; }
+  .section-alt { padding-left: 16px; padding-right: 16px; }
+  .sec-youtube { padding: 48px 0; }
+  .sec-publication { padding: 48px 0; }
+
+  /* YouTube / Kazi Movie — 2col → 1col */
   .youtube-inner { grid-template-columns: 1fr !important; gap: 20px; }
   .youtube-text h3 { font-size: 18px; }
   .youtube-text p { font-size: 12px; }
   .youtube-stats { gap: 24px; }
   .youtube-stat-value { font-size: 20px; }
 
-  /* Publication Grid */
-  .pub-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 12px; }
+  /* Publication Grid — 6col → 3col */
+  .pub-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 12px; margin-top: 24px; }
+
+  /* Footer Links — 4col → 2col */
+  .footer-links { grid-template-columns: repeat(2, 1fr) !important; padding: 32px 16px 24px; gap: 8px 16px; }
+  .footer-links a { font-size: 11px; }
+
+  /* Footer SNS */
+  .footer-sns { padding: 16px !important; gap: 8px 16px !important; }
 
   /* Page Hero (SDC Auth) */
   .page-hero { padding: 56px 16px 44px !important; }
@@ -354,15 +398,16 @@
   .register-cta-btn { padding: 16px 48px; font-size: 14px; }
 
   /* Big CTA */
-  .big-cta { padding: 64px 16px; }
-  .big-cta h2 { font-size: 24px; }
-  .big-cta p { font-size: 13px; margin-bottom: 28px; }
-  .big-cta-btn { padding: 16px 48px; font-size: 14px; }
+  .big-cta { padding: 56px 16px; }
+  .big-cta h2 { font-size: 22px; }
+  .big-cta p { font-size: 13px; margin-bottom: 24px; line-height: 1.8; }
+  .big-cta p br { display: none; }
+  .big-cta-btn { padding: 16px 40px; font-size: 13px; }
 
   /* Article Header */
   .article-header { padding: 16px !important; gap: 16px; }
 
-  /* Related Articles — stack to 1 column */
+  /* Related Articles — 2col → 1col */
   .related-grid { grid-template-columns: 1fr !important; }
   .related-card-img { width: 90px; height: 60px; }
   .related-card-title { font-size: 14px; }
@@ -392,10 +437,6 @@
   /* SDC Landing — about / plan */
   .about-wrap { grid-template-columns: 1fr !important; gap: 24px; }
   .plan-grid { grid-template-columns: 1fr !important; }
-
-  /* Ad Banner (TOP) */
-  .ad-banner { padding: 16px; gap: 16px; }
-  .ad-banner-img { width: 120px; height: 68px; }
 
   /* Company Page */
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -440,27 +481,45 @@
   .maker-grid { grid-template-columns: 1fr !important; }
 
   /* Hero Slider (TOP) */
-  .hero-slider { height: 380px !important; }
-  .hero-spacer { height: 380px !important; }
+  .hero-slider { height: 340px !important; }
+  .hero-spacer { height: 340px !important; }
   .slide { width: 100% !important; }
-  .slide-caption { padding: 14px 16px; }
-  .slide-caption h2 { font-size: 15px !important; }
-  .slide-caption .area-label { font-size: 10px; }
+  .slide-caption { padding: 12px 14px; }
+  .slide-caption .area-title { font-size: 15px !important; }
+  .slide-caption .area-label { font-size: 10px; padding: 3px 10px; margin-bottom: 6px; }
+  .slide-caption .area-desc { display: none; }
+  .slider-arrow { width: 36px; height: 36px; font-size: 16px; }
+  .slider-arrow.prev { left: 8px; }
+  .slider-arrow.next { right: 8px; }
+  .slider-dots { bottom: 16px; gap: 6px; }
+  .dot { width: 6px; height: 6px; }
 
   /* Pickup Layout (TOP) — vertical stacking */
-  .card-list { flex-direction: column; gap: 12px; }
-  .card-list .card-img-sm { width: 100%; height: 180px; }
-  .card-list .card-title { font-size: 15px; }
   .card-featured .card-title { font-size: 18px; }
   .card-featured .card-img { aspect-ratio: 16/9; }
+  .card-featured .card-excerpt { font-size: 12px; -webkit-line-clamp: 2; }
+
+  /* Service Banners (TOP) — 縦積み+コンパクト */
+  .service-banner { flex-direction: column; }
+  .service-banner-img { width: 100%; min-height: 160px; }
+  .service-banner-body { padding: 16px; }
+  .service-banner-body h3 { font-size: 15px; margin-bottom: 6px; }
+  .service-banner-body p { font-size: 12px; }
+
+  /* Ad Banner (TOP) */
+  .ad-banner-img { height: 160px; }
 
   /* YouTube / Kazi Movie */
   .youtube-text h3 { font-size: 16px; }
+  .youtube-text p { font-size: 12px; line-height: 1.7; }
   .youtube-stats { gap: 16px; flex-wrap: wrap; }
   .youtube-stat-value { font-size: 18px; }
 
-  /* Publication Grid */
-  .pub-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+  /* Publication Grid — 3col → 2col */
+  .pub-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; margin-top: 20px; }
+
+  /* Footer Links — 2col → 1col */
+  .footer-links { grid-template-columns: 1fr !important; padding: 24px 12px 20px; gap: 6px; }
 
   /* Page Hero (SDC Auth) */
   .page-hero { padding: 44px 12px 36px !important; }
