@@ -438,6 +438,24 @@
     font-size: 11px; color: rgba(255,255,255,.3);
     letter-spacing: 0.08em;
   }
+  /* Footer SNS */
+  .footer-sns {
+    padding: 24px 40px;
+    display: flex; flex-wrap: wrap;
+    gap: 10px 24px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-sns a, .footer-sns a:link, .footer-sns a:visited {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: rgba(255,255,255,.6); text-decoration: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 600;
+    transition: color 0.2s; line-height: 1;
+  }
+  .footer-sns a svg { flex-shrink: 0; vertical-align: middle; }
+  .footer-sns a:hover { color: #fff; }
+  .footer-sns a::after { display: none !important; }
+
 
   #toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);

@@ -185,8 +185,12 @@ button:focus:not(:focus-visible) {
 .card-img[style*="background-image"],
 .card-img-sm[style*="background-image"],
 .related-card-img[style*="background-image"],
-.article-hero-img[style*="background-image"] {
+.article-hero-img[style*="background-image"],
+.bookmark-card-img[style*="background-image"],
+.history-item-img[style*="background-image"] {
   animation: none;
+  background-size: cover;
+  background-position: center;
 }
 
 /* === 8. Ad Differentiation === */
@@ -475,4 +479,62 @@ img[loading="lazy"] {
   .service-banners { grid-template-columns: 1fr; gap: 12px; }
   .service-banner-img { width: 160px; min-height: 120px; }
   .new-articles-grid .card-img-sm { width: 120px !important; height: 80px !important; }
+}
+
+/* === 25. External Link Icon === */
+a[target="_blank"]::after {
+  content: '';
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-left: 4px;
+  vertical-align: middle;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E") no-repeat center / contain;
+  background-color: currentColor;
+  opacity: 0.8;
+}
+/* Exclude icons/images/buttons from external icon */
+a[target="_blank"].card-featured::after,
+a[target="_blank"].card-list::after,
+a[target="_blank"].service-banner::after,
+a[target="_blank"].ad-banner::after,
+a[target="_blank"].btn-login::after,
+a[target="_blank"].sdc-float-banner-btn::after,
+a[target="_blank"].big-cta-btn::after,
+.footer-sns a::after {
+  display: none;
+}
+
+/* === 26. Footer SNS Links === */
+.footer-sns {
+  padding: 24px 40px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px 24px !important;
+  border-bottom: 1px solid rgba(255,255,255,.1) !important;
+}
+.footer-sns a,
+.footer-sns a:link,
+.footer-sns a:visited {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: rgba(255,255,255,.6) !important;
+  text-decoration: none !important;
+  font-family: 'Noto Sans JP', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  transition: color 0.2s !important;
+  line-height: 1 !important;
+}
+.footer-sns a svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.footer-sns a:hover {
+  color: #fff !important;
+}
+.footer-sns a[target="_blank"]::after {
+  display: none !important;
 }

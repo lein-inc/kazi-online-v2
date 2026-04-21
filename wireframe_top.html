@@ -11,6 +11,13 @@
 <link rel="stylesheet" href="responsive.css">
 <link rel="stylesheet" href="css/variables.css">
 <link rel="stylesheet" href="css/v2-overrides.css">
+<style>
+.footer-sns{padding:24px 40px;display:flex;flex-wrap:wrap;gap:10px 24px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-sns a,.footer-sns a:link,.footer-sns a:visited{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.6)!important;text-decoration:none!important;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:600;transition:color .2s;line-height:1}
+.footer-sns a svg{flex-shrink:0;vertical-align:middle}
+.footer-sns a:hover{color:#fff!important}
+.footer-sns a::after{display:none!important}
+</style>
 </head>
 <body>
 <canvas id="bgCanvas" width="1920" height="1080"></canvas>
@@ -73,7 +80,7 @@
       <a class="search-cat-btn" href="wireframe_fishing.html" onclick="closeSearchBox()">
         <span class="search-cat-symbol">[ F ]</span>フィッシング
       </a>
-      <a class="search-cat-btn" href="#" onclick="toast('クルージング');closeSearchBox();return false;">
+      <a class="search-cat-btn" href="wireframe_cruising.html" onclick="closeSearchBox();">
         <span class="search-cat-symbol">[ C ]</span>クルージング
       </a>
       <a class="search-cat-btn" href="wireframe_lifestyle.html" onclick="closeSearchBox()">
@@ -143,7 +150,7 @@
         <a href="wireframe_fishing.html" class="has-sub">フィッシング</a>
       </div>
       <div class="nav-item">
-        <a href="#" class="has-sub">クルージング</a>
+        <a href="wireframe_cruising.html" class="has-sub">クルージング</a>
       </div>
       <div class="nav-item">
         <a href="wireframe_lifestyle.html" class="has-sub">ライフスタイル</a>
@@ -200,11 +207,11 @@
               </div>
             </div>
             <div class="hamburger-nav-group">
-              <a href="#" onclick="toast('クルージング');return false;">クルージング</a>
+              <a href="wireframe_cruising.html">クルージング</a>
               <div class="ham-sub">
-                <a href="#" onclick="toast('国内クルーズ');return false;">国内クルーズ</a>
-                <a href="#" onclick="toast('海外クルーズ');return false;">海外クルーズ</a>
-                <a href="#" onclick="toast('クルージング入門');return false;">クルージング入門</a>
+                <a href="wireframe_cruising_domestic.html">国内クルーズ</a>
+                <a href="wireframe_cruising_international.html">海外クルーズ</a>
+                <a href="wireframe_cruising_beginner.html">クルージング入門</a>
               </div>
             </div>
             <div class="hamburger-nav-group">
@@ -212,9 +219,9 @@
               <div class="ham-sub">
                 <a href="wireframe_lifestyle_fashion.html">ファッション</a>
                 <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
-                <a href="#" onclick="toast('時計');return false;">時計</a>
-                <a href="#" onclick="toast('クルマ');return false;">クルマ</a>
-                <a href="#" onclick="toast('客船');return false;">客船</a>
+                <a href="wireframe_lifestyle_watch.html">時計</a>
+                <a href="wireframe_lifestyle_car.html">クルマ</a>
+                <a href="wireframe_lifestyle_cruise_ship.html">客船</a>
                 <a href="wireframe_lifestyle_hotel.html">リゾート</a>
               </div>
             </div>
@@ -260,19 +267,19 @@
       <div class="hamburger-local">
         <div class="hamburger-local-label">OTHER</div>
         <div class="hamburger-local-links">
-          <a href="#" onclick="toast('動画');return false;">動画</a>
+          <a href="https://www.youtube.com/c/kazimovie" target="_blank">動画</a>
           <a href="wireframe_marina.html">マリーナ</a>
-          <a href="#" onclick="toast('求人情報');return false;">求人情報</a>
-          <a href="#" onclick="toast('マリンカレンダー');return false;">マリンカレンダー</a>
-          <a href="#" onclick="toast('用語辞典');return false;">用語辞典</a>
-          <a href="#" onclick="toast('舵社出版物');return false;">舵社出版物</a>
-          <a href="#" onclick="toast('初心者');return false;">初心者</a>
-          <a href="#" onclick="toast('ギャラリー');return false;">ギャラリー</a>
-          <a href="#" onclick="toast('シープラザ');return false;">シープラザ</a>
+          <a href="wireframe_jobs.html">求人情報</a>
+          <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+          <a href="https://yougo.kazi.co.jp" target="_blank">用語辞典</a>
+          <a href="wireframe_publications.html">舵社出版物</a>
+          <a href="wireframe_beginner.html">初心者</a>
+          <a href="wireframe_gallery.html">ギャラリー</a>
+          <a href="https://www.seaplaza.jp" target="_blank">シープラザ（Sea Plaza）</a>
           <a href="wireframe_company.html">会社案内</a>
           <a href="wireframe_contact.html">お問い合わせ</a>
           <a href="wireframe_privacy.html">プライバシーポリシー</a>
-          <a href="#" onclick="toast('FAQ');return false;">FAQ</a>
+          <a href="wireframe_faq.html">FAQ</a>
         </div>
       </div>
     </div>
@@ -314,11 +321,11 @@
 
 <!-- Mega Menu: クルージング -->
 <div class="mega-menu" id="mega-cruising">
-  <div class="mega-menu-header"><a href="#" class="mega-title" style="text-decoration:none;color:inherit" onclick="toast('クルージング');return false;">クルージング</a></div>
+  <div class="mega-menu-header"><a href="wireframe_cruising.html" class="mega-title" style="text-decoration:none;color:inherit">クルージング</a></div>
   <div class="mega-menu-body">
-    <a href="#" onclick="toast('国内クルーズ');return false;">国内クルーズ</a>
-    <a href="#" onclick="toast('海外クルーズ');return false;">海外クルーズ</a>
-    <a href="#" onclick="toast('クルージング入門');return false;">クルージング入門</a>
+    <a href="wireframe_cruising_domestic.html">国内クルーズ</a>
+    <a href="wireframe_cruising_international.html">海外クルーズ</a>
+    <a href="wireframe_cruising_beginner.html">クルージング入門</a>
   </div>
   <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
 </div>
@@ -329,9 +336,9 @@
   <div class="mega-menu-body">
     <a href="wireframe_lifestyle_fashion.html">ファッション</a>
     <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
-    <a href="#" onclick="toast('時計');return false;">時計</a>
-    <a href="#" onclick="toast('クルマ');return false;">クルマ</a>
-    <a href="#" onclick="toast('客船');return false;">客船</a>
+    <a href="wireframe_lifestyle_watch.html">時計</a>
+    <a href="wireframe_lifestyle_car.html">クルマ</a>
+    <a href="wireframe_lifestyle_cruise_ship.html">客船</a>
     <a href="wireframe_lifestyle_hotel.html">リゾート</a>
   </div>
   <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
@@ -475,15 +482,6 @@
           </div>
           <div class="card-img-sm"><img src="photos/lifestyle_main.jpg" alt=""></div>
         </a>
-        <a class="card-list" href="wireframe_article.html">
-          <div class="card-list-body">
-            <span class="card-cat">グッズ＆ギア</span>
-            <div class="card-title">2025年版 機能系マリンウェアおすすめ10選 — 防水・透湿・UVカットを比較<span class="ad-icon">AD</span></div>
-            <div class="card-excerpt">海上で求められる機能を備えた最新マリンウェアを厳選。価格帯別に比較しました。</div>
-            <div class="card-meta">2025.09.18</div>
-          </div>
-          <div class="card-img-sm"><img src="photos/gear_main.jpg" alt=""></div>
-        </a>
       </div>
     </div>
   </div>
@@ -528,15 +526,6 @@
           </div>
           <div class="card-img-sm"><img src="photos/fishing_main.jpg" alt=""></div>
         </a>
-        <a class="card-list" href="wireframe_article.html">
-          <div class="card-list-body">
-            <span class="card-cat">ライフスタイル</span>
-            <div class="card-title"><span class="lock-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M10 5h-1V3.5C9 1.57 7.43 0 5.5 0S2 1.57 2 3.5V5H1C.45 5 0 5.45 0 6v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM6 10.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM7.5 5h-4V3.5C3.5 2.4 4.4 1.5 5.5 1.5S7.5 2.4 7.5 3.5V5z"/></svg></span>インドネシア帆船クルーズ紀行 — コモド島からラジャアンパットへの航海記</div>
-            <div class="card-excerpt">伝統帆船シロロナ号で巡るインドネシアの秘境。壮大な自然と海の冒険を綴る。</div>
-            <div class="card-meta">2025.09.24</div>
-          </div>
-          <div class="card-img-sm"><img src="photos/lifestyle_main.jpg" alt=""></div>
-        </a>
       </div>
     </div>
   </div>
@@ -574,8 +563,8 @@
       <a class="card-list" href="wireframe_article.html">
         <div class="card-list-body">
           <span class="card-cat">ボート</span>
-          <div class="card-title">2025年最新ボートインプレッション — 話題のニューモデル5艇を乗り比べ徹底検証</div>
-          <div class="card-excerpt">話題の最新モデルを実際に試乗。操船性能から居住性まで徹底レビューします。</div>
+          <div class="card-title">ヤマハ マリンジェット 2025年モデル — 新世代の走りと快適性を体感<span class="ad-icon">AD</span></div>
+          <div class="card-excerpt">進化したハルデザインと新型エンジンで圧倒的な走行安定性を実現。試乗レポート。</div>
           <div class="card-meta">2025.09.28</div>
         </div>
         <div class="card-img-sm"><img src="photos/boat_01.jpg" alt=""></div>
@@ -600,12 +589,12 @@
       </a>
       <a class="card-list" href="wireframe_article.html">
         <div class="card-list-body">
-          <span class="card-cat">マリーナ</span>
-          <div class="card-title">関東エリアのおすすめマリーナ5選 — アクセス・料金・設備を徹底比較</div>
-          <div class="card-excerpt">アクセス良好で設備が充実した関東エリアのマリーナをピックアップしました。</div>
+          <span class="card-cat">グッズ＆ギア</span>
+          <div class="card-title">ダイワ新作リール「ソルティガ IC」徹底レビュー — 電動の常識を覆す軽さ<span class="ad-icon">AD</span></div>
+          <div class="card-excerpt">グローブライドが送る最新電動リールの実釣インプレッション。軽量化と感度の両立に迫る。</div>
           <div class="card-meta">2025.09.20</div>
         </div>
-        <div class="card-img-sm"><img src="photos/marina_01.jpg" alt=""></div>
+        <div class="card-img-sm"><img src="photos/gear_01.jpg" alt=""></div>
       </a>
       <a class="card-list" href="wireframe_article.html">
         <div class="card-list-body">
@@ -677,7 +666,7 @@
           <p>全国551カ所のマリーナ・ハーバー情報をマップで検索。設備・料金・アクセスを比較して最適な拠点を見つけよう。</p>
         </div>
       </a>
-      <a class="service-banner" href="#" onclick="toast('求人情報');return false;">
+      <a class="service-banner" href="wireframe_jobs.html">
         <div class="service-banner-img" style="background-image:url('photos/boat_main.jpg')">
           <span class="service-banner-label">ORIGINAL</span>
         </div>
@@ -687,7 +676,7 @@
           <p>マリン業界の求人・採用情報。ボート販売、マリーナスタッフ、整備士など海に関わる仕事を探せます。</p>
         </div>
       </a>
-      <a class="service-banner" href="#" onclick="toast('マリンカレンダー');return false;">
+      <a class="service-banner" href="wireframe_lifestyle_calendar.html">
         <div class="service-banner-img" style="background-image:url('photos/lifestyle_main.jpg')">
           <span class="service-banner-label">ORIGINAL</span>
         </div>
@@ -697,7 +686,7 @@
           <p>ボートショー・ヨットレース・釣り大会などマリン関連イベントの年間スケジュールを網羅。</p>
         </div>
       </a>
-      <a class="service-banner" href="#" onclick="toast('用語辞典');return false;">
+      <a class="service-banner" href="https://yougo.kazi.co.jp" target="_blank">
         <div class="service-banner-img" style="background-image:url('photos/gear_main.jpg')">
           <span class="service-banner-label">ORIGINAL</span>
         </div>
@@ -797,18 +786,18 @@
         <a href="wireframe_fishing_beginner.html">釣り入門</a>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title"><a href="#" onclick="toast('クルージング');return false;">クルージング</a></div>
-        <a href="#" onclick="toast('国内クルーズ');return false;">国内クルーズ</a>
-        <a href="#" onclick="toast('海外クルーズ');return false;">海外クルーズ</a>
-        <a href="#" onclick="toast('クルージング入門');return false;">クルージング入門</a>
+        <div class="footer-col-title"><a href="wireframe_cruising.html">クルージング</a></div>
+        <a href="wireframe_cruising_domestic.html">国内クルーズ</a>
+        <a href="wireframe_cruising_international.html">海外クルーズ</a>
+        <a href="wireframe_cruising_beginner.html">クルージング入門</a>
       </div>
       <div class="footer-col">
         <div class="footer-col-title"><a href="wireframe_lifestyle.html">ライフスタイル</a></div>
         <a href="wireframe_lifestyle_fashion.html">ファッション</a>
         <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
-        <a href="#" onclick="toast('時計');return false;">時計</a>
-        <a href="#" onclick="toast('クルマ');return false;">クルマ</a>
-        <a href="#" onclick="toast('客船');return false;">客船</a>
+        <a href="wireframe_lifestyle_watch.html">時計</a>
+        <a href="wireframe_lifestyle_car.html">クルマ</a>
+        <a href="wireframe_lifestyle_cruise_ship.html">客船</a>
         <a href="wireframe_lifestyle_hotel.html">リゾート</a>
       </div>
       <div class="footer-col">
@@ -825,21 +814,30 @@
       </div>
     </div>
     <div class="footer-local-nav">
-      <a href="#" onclick="toast('動画');return false;">動画</a>
+      <a href="https://www.youtube.com/c/kazimovie" target="_blank">動画</a>
       <a href="wireframe_marina.html">マリーナ</a>
-      <a href="#" onclick="toast('求人情報');return false;">求人情報</a>
-      <a href="#" onclick="toast('マリンカレンダー');return false;">マリンカレンダー</a>
-      <a href="#" onclick="toast('用語辞典');return false;">用語辞典</a>
-      <a href="#" onclick="toast('舵社出版物');return false;">舵社出版物</a>
-      <a href="#" onclick="toast('初心者');return false;">初心者</a>
-      <a href="#" onclick="toast('ギャラリー');return false;">ギャラリー</a>
-      <a href="#" onclick="toast('シープラザ');return false;">シープラザ</a>
+      <a href="wireframe_jobs.html">求人情報</a>
+      <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+      <a href="https://yougo.kazi.co.jp" target="_blank">用語辞典</a>
+      <a href="wireframe_publications.html">舵社出版物</a>
+      <a href="wireframe_beginner.html">初心者</a>
+      <a href="wireframe_gallery.html">ギャラリー</a>
+      <a href="https://www.seaplaza.jp" target="_blank">シープラザ（Sea Plaza）</a>
+    </div>
+    <div class="footer-sns">
+      <a href="https://x.com/kazi_online1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Kazi_Online1932</a>
+      <a href="https://www.instagram.com/kazi_magazine/" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@kazi_magazine</a>
+      <a href="https://www.facebook.com/kazi1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>KAZI</a>
+      <a href="https://www.facebook.com/kazionline1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>KAZI Online</a>
+      <a href="https://www.facebook.com/BoatCLUB" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Boat CLUB</a>
+      <a href="https://www.facebook.com/CANOEWORLDweb" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>CANOE WORLD</a>
+      <a href="https://www.youtube.com/c/kazimovie" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>KAZI Movie</a>
     </div>
     <div class="footer-corporate">
       <a href="wireframe_company.html">会社案内</a>
       <a href="wireframe_contact.html">お問い合わせ</a>
       <a href="wireframe_privacy.html">プライバシーポリシー</a>
-      <a href="#" onclick="toast('FAQ');return false;">FAQ</a>
+      <a href="wireframe_faq.html">FAQ</a>
     </div>
     <div class="footer-bottom">&copy; KAZI Online All Rights Reserved.</div>
   </div>

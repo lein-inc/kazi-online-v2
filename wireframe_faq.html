@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よくある質問 | KAZI Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/pages/lifestyle_travel.css">
+<link rel="stylesheet" href="responsive.css">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/v2-overrides.css">
+<style>
+.footer-sns{padding:24px 40px;display:flex;flex-wrap:wrap;gap:10px 24px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-sns a,.footer-sns a:link,.footer-sns a:visited{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.6)!important;text-decoration:none!important;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:600;transition:color .2s;line-height:1}
+.footer-sns a svg{flex-shrink:0;vertical-align:middle}
+.footer-sns a:hover{color:#fff!important}
+.footer-sns a::after{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas" width="1920" height="1080"></canvas>
+<!-- 検索ポップアップ（TOP統一版） -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+    <div class="search-box-header">
+      <h3>サイト内検索</h3>
+      <span class="search-close" onclick="closeSearchBox()">&#10005;</span>
+    </div>
+    <div class="search-input-row">
+      <input type="text" id="searchInput" placeholder="キーワードを入力してください（例：ルアー釣り、ボート免許、クルージング）" />
+      <button onclick="toast('検索：「'+document.getElementById('searchInput').value+'」')">検索</button>
+    </div>
+    <div class="search-section-title">よく検索されるキーワード</div>
+    <div class="search-tags">
+      <a class="search-tag" href="#" onclick="fillSearch('ルアー釣り');return false;">ルアー釣り</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリンウェア');return false;">マリンウェア</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ボート免許');return false;">ボート免許</a>
+      <a class="search-tag" href="#" onclick="fillSearch('クルージング 関東');return false;">クルージング 関東</a>
+      <a class="search-tag" href="#" onclick="fillSearch('カヤック 入門');return false;">カヤック 入門</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ヤマハ ボート');return false;">ヤマハ ボート</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ライフジャケット');return false;">ライフジャケット</a>
+      <a class="search-tag" href="#" onclick="fillSearch('ヨット 購入');return false;">ヨット 購入</a>
+      <a class="search-tag" href="#" onclick="fillSearch('釣り 初心者');return false;">釣り 初心者</a>
+      <a class="search-tag" href="#" onclick="fillSearch('KAZI SeaDream Club');return false;">KAZI SeaDream Club</a>
+      <a class="search-tag" href="#" onclick="fillSearch('マリンカレンダー');return false;">マリンカレンダー</a>
+      <a class="search-tag" href="#" onclick="fillSearch('インプレッション');return false;">インプレッション</a>
+    </div>
+    <div class="search-section-title">カテゴリーから探す</div>
+        <div class="search-cats">
+      <a class="search-cat-btn" href="wireframe_yacht.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ Y ]</span>ヨット
+      </a>
+      <a class="search-cat-btn" href="wireframe_boat.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ B ]</span>ボート
+      </a>
+      <a class="search-cat-btn" href="wireframe_fishing.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ F ]</span>フィッシング
+      </a>
+      <a class="search-cat-btn" href="wireframe_cruising.html" onclick="closeSearchBox();">
+        <span class="search-cat-symbol">[ C ]</span>クルージング
+      </a>
+      <a class="search-cat-btn" href="wireframe_lifestyle.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ L ]</span>ライフスタイル
+      </a>
+      <a class="search-cat-btn" href="wireframe_gear.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ G ]</span>グッズ＆ギア
+      </a>
+      <a class="search-cat-btn" href="wireframe_news.html" onclick="closeSearchBox()">
+        <span class="search-cat-symbol">[ T ]</span>トピックス
+      </a>
+    </div>
+    <div class="search-sdc-banner">
+      <div class="search-sdc-text">
+        <div class="search-sdc-label">MEMBER'S CLUB</div>
+        <div class="search-sdc-title">KAZI SeaDream Club</div>
+        <div class="search-sdc-desc">海を愛する人のための特別なメンバーシップ — 入会金・年会費は無料です</div>
+      </div>
+      <a class="search-sdc-btn" href="wireframe_sdclub.html" onclick="closeSearchBox()">無料登録はこちら</a>
+    </div>
+    <div class="search-section-title">注目の記事</div>
+    <div class="search-featured">
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0&title=%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%B3%E3%82%B0%E5%AE%8C%E5%85%A8%E3%82%AC%E3%82%A4%E3%83%89">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">フィッシング</div>
+          <div class="search-feat-title">ルアーフィッシング完全ガイド：タックル選びから釣り方まで</div>
+        </div>
+      </a>
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%9C%E3%83%BC%E3%83%88&title=2025%E5%B9%B4%E6%9C%80%E6%96%B0%E3%83%9C%E3%83%BC%E3%83%88%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">ボート</div>
+          <div class="search-feat-title">2025年最新ボートインプレッション</div>
+        </div>
+      </a>
+      <a class="search-feat-card" href="wireframe_article.html?cat=%E3%83%9E%E3%83%AA%E3%83%BC%E3%83%8A&title=%E3%83%9E%E3%83%AA%E3%83%BC%E3%83%8A%E3%83%9E%E3%83%83%E3%83%97%E3%81%A7%E6%8E%A2%E3%81%99%E5%85%A8%E5%9B%BD551%E3%82%AB%E6%89%80">
+        <div class="search-feat-img">画像</div>
+        <div class="search-feat-body">
+          <div class="search-feat-cat">マリーナ</div>
+          <div class="search-feat-title">マリーナマップで探す全国551カ所</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="wf-label">WIREFRAME — よくある質問（FAQ）</div>
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-top">
+    <a class="logo" href="wireframe_top.html"><img class="logo-full" src="kazilogo.svg" alt="KAZI ONLINE"><img class="logo-small" src="kazilogo_s.svg" alt="KAZI"></a>
+
+    <nav class="global-nav">
+      <div class="nav-item">
+        <a href="wireframe_yacht.html" class="has-sub">ヨット</a>
+      </div>
+      <div class="nav-item">
+        <a href="wireframe_boat.html" class="has-sub">ボート</a>
+      </div>
+      <div class="nav-item">
+        <a href="wireframe_fishing.html" class="has-sub">フィッシング</a>
+      </div>
+      <div class="nav-item">
+        <a href="wireframe_cruising.html" class="has-sub">クルージング</a>
+      </div>
+      <div class="nav-item">
+        <a href="wireframe_lifestyle.html" class="has-sub">ライフスタイル</a>
+      </div>
+      <div class="nav-item">
+        <a href="wireframe_gear.html" class="has-sub">グッズ＆ギア</a>
+      </div>
+      <div class="nav-item">
+        <a href="wireframe_news.html" class="has-sub">トピックス</a>
+      </div>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-hamburger" onclick="toggleHamburger()"><span></span><span></span><span></span></button>
+      <div class="btn-search" onclick="openSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
+      <a class="btn-login" href="wireframe_login.html">KAZI SeaDream Club ログイン</a>
+      <a class="btn-sitemap" href="index.html" title="サイトマップ（管理用）">MAP</a>
+    </div>
+  </div>
+</header>
+
+<!-- Full-screen Hamburger Menu -->
+<div class="hamburger-backdrop" id="hamburgerBackdrop" onclick="closeHamburger()"></div>
+<div class="hamburger-panel" id="hamburgerPanel">
+  <div class="hamburger-panel-header">
+    <img class="logo-ham" src="kazilogo.svg" alt="KAZI ONLINE">
+    <button class="hamburger-close" onclick="closeHamburger()">&times;</button>
+  </div>
+  <div class="hamburger-panel-body">
+    <div class="hamburger-nav">
+                    <div class="hamburger-nav-grid">
+            <div class="hamburger-nav-group">
+              <a href="wireframe_yacht.html">ヨット</a>
+              <div class="ham-sub">
+                <a href="wireframe_yacht_review.html">ヨットの紹介</a>
+                <a href="wireframe_yacht_race.html">レース</a>
+                <a href="wireframe_yacht_technique.html">ハウツー</a>
+              </div>
+            </div>
+            <div class="hamburger-nav-group">
+              <a href="wireframe_boat.html">ボート</a>
+              <div class="ham-sub">
+                <a href="wireframe_boat_review.html">ボートの紹介</a>
+                <a href="wireframe_boat_technique.html">エンジン</a>
+                <a href="wireframe_boat_guide.html">ハウツー</a>
+              </div>
+            </div>
+            <div class="hamburger-nav-group">
+              <a href="wireframe_fishing.html">フィッシング</a>
+              <div class="ham-sub">
+                <a href="wireframe_fishing_lure.html">ルアー</a>
+                <a href="wireframe_fishing_species.html">船釣り</a>
+                <a href="wireframe_fishing_beginner.html">釣り入門</a>
+              </div>
+            </div>
+            <div class="hamburger-nav-group">
+              <a href="wireframe_cruising.html">クルージング</a>
+              <div class="ham-sub">
+                <a href="wireframe_cruising_domestic.html">国内クルーズ</a>
+                <a href="wireframe_cruising_international.html">海外クルーズ</a>
+                <a href="wireframe_cruising_beginner.html">クルージング入門</a>
+              </div>
+            </div>
+            <div class="hamburger-nav-group">
+              <a href="wireframe_lifestyle.html">ライフスタイル</a>
+              <div class="ham-sub">
+                <a href="wireframe_lifestyle_fashion.html">ファッション</a>
+                <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
+                <a href="wireframe_lifestyle_watch.html">時計</a>
+                <a href="wireframe_lifestyle_car.html">クルマ</a>
+                <a href="wireframe_lifestyle_cruise_ship.html">客船</a>
+                <a href="wireframe_lifestyle_hotel.html">リゾート</a>
+              </div>
+            </div>
+            <div class="hamburger-nav-group">
+              <a href="wireframe_gear.html">グッズ＆ギア</a>
+              <div class="ham-sub">
+                <a href="wireframe_gear_wear.html">マリンウェア</a>
+                <a href="wireframe_gear_lifejacket.html">安全装備</a>
+                <a href="wireframe_gear_paddle.html">パドルスポーツ</a>
+              </div>
+            </div>
+            <div class="hamburger-nav-group">
+              <a href="wireframe_news.html">トピックス</a>
+              <div class="ham-sub">
+                <a href="wireframe_news.html">ニュース</a>
+                <a href="wireframe_news_events.html">イベント</a>
+                <a href="wireframe_news_ranking.html">ランキング</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    <div class="hamburger-aside">
+      <a class="hamburger-member-banner" href="wireframe_sdclub.html">
+        <div class="ham-member-label">KAZI SeaDream Club</div>
+        <div class="ham-member-title">KAZI SeaDream Club</div>
+        <div class="ham-member-desc">海を愛する人のための<br>特別なメンバーシップ。<br>入会金・年会費は無料です。</div>
+        <span class="ham-member-btn">入会する（無料）</span>
+      </a>
+      <div class="hamburger-search">
+        <div class="hamburger-search-label">SEARCH</div>
+        <div class="hamburger-search-box">
+          <input type="text" placeholder="キーワードで検索">
+          <button onclick="toast('検索')">検索</button>
+        </div>
+        <div class="hamburger-tags">
+          <a href="#">#ヨットレース</a><a href="#">#フィッシング入門</a><a href="#">#マリーナガイド</a><a href="#">#ボートインプレ</a>
+        </div>
+      </div>
+      <div class="hamburger-local">
+        <div class="hamburger-local-label">OTHER</div>
+        <div class="hamburger-local-links">
+          <a href="https://www.youtube.com/c/kazimovie" target="_blank">動画</a>
+          <a href="wireframe_marina.html">マリーナ</a>
+          <a href="wireframe_jobs.html">求人情報</a>
+          <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+          <a href="https://yougo.kazi.co.jp" target="_blank">用語辞典</a>
+          <a href="wireframe_publications.html">舵社出版物</a>
+          <a href="wireframe_beginner.html">初心者</a>
+          <a href="wireframe_gallery.html">ギャラリー</a>
+          <a href="https://www.seaplaza.jp" target="_blank">シープラザ（Sea Plaza）</a>
+          <a href="wireframe_company.html">会社案内</a>
+          <a href="wireframe_contact.html">お問い合わせ</a>
+          <a href="wireframe_privacy.html">プライバシーポリシー</a>
+          <a href="wireframe_faq.html">FAQ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mega Menu: ヨット -->
+<div class="mega-menu" id="mega-yacht">
+  <div class="mega-menu-header"><a href="wireframe_yacht.html" class="mega-title" style="text-decoration:none;color:inherit">ヨット</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_yacht_review.html">ヨットの紹介</a>
+    <a href="wireframe_yacht_race.html">レース</a>
+    <a href="wireframe_yacht_technique.html">ハウツー</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: ボート -->
+<div class="mega-menu" id="mega-boat">
+  <div class="mega-menu-header"><a href="wireframe_boat.html" class="mega-title" style="text-decoration:none;color:inherit">ボート</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_boat_review.html">ボートの紹介</a>
+    <a href="wireframe_boat_technique.html">エンジン</a>
+    <a href="wireframe_boat_guide.html">ハウツー</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: フィッシング -->
+<div class="mega-menu" id="mega-fishing">
+  <div class="mega-menu-header"><a href="wireframe_fishing.html" class="mega-title" style="text-decoration:none;color:inherit">フィッシング</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_fishing_lure.html">ルアー</a>
+    <a href="wireframe_fishing_species.html">船釣り</a>
+    <a href="wireframe_fishing_beginner.html">釣り入門</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: クルージング -->
+<div class="mega-menu" id="mega-cruising">
+  <div class="mega-menu-header"><a href="wireframe_cruising.html" class="mega-title" style="text-decoration:none;color:inherit">クルージング</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_cruising_domestic.html">国内クルーズ</a>
+    <a href="wireframe_cruising_international.html">海外クルーズ</a>
+    <a href="wireframe_cruising_beginner.html">クルージング入門</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: ライフスタイル -->
+<div class="mega-menu" id="mega-lifestyle">
+  <div class="mega-menu-header"><a href="wireframe_lifestyle.html" class="mega-title" style="text-decoration:none;color:inherit">ライフスタイル</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_lifestyle_fashion.html">ファッション</a>
+    <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
+    <a href="wireframe_lifestyle_watch.html">時計</a>
+    <a href="wireframe_lifestyle_car.html">クルマ</a>
+    <a href="wireframe_lifestyle_cruise_ship.html">客船</a>
+    <a href="wireframe_lifestyle_hotel.html">リゾート</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: グッズ＆ギア -->
+<div class="mega-menu" id="mega-gear">
+  <div class="mega-menu-header"><a href="wireframe_gear.html" class="mega-title" style="text-decoration:none;color:inherit">グッズ＆ギア</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_gear_wear.html">マリンウェア</a>
+    <a href="wireframe_gear_lifejacket.html">安全装備</a>
+    <a href="wireframe_gear_paddle.html">パドルスポーツ</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+
+<!-- Mega Menu: トピックス -->
+<div class="mega-menu" id="mega-news">
+  <div class="mega-menu-header"><a href="wireframe_news.html" class="mega-title" style="text-decoration:none;color:inherit">トピックス</a></div>
+  <div class="mega-menu-body">
+    <a href="wireframe_news.html">ニュース</a>
+    <a href="wireframe_news_events.html">イベント</a>
+    <a href="wireframe_news_ranking.html">ランキング</a>
+  </div>
+  <div class="mega-menu-footer" onclick="closeMega()">閉じる &times;</div>
+</div>
+<div id="megaOverlay" class="mega-overlay" onclick="closeMega()"></div>
+
+<div class="breadcrumb"><a href="wireframe_top.html">TOP</a><span>></span>よくある質問</div>
+<div class="cat-hero"><div class="cat-hero-inner"><h1>よくある質問</h1><p>KAZI Onlineの使い方やSeaDream Clubに関するよくある質問と回答をまとめました。</p></div></div>
+<div class="subcat-wrap"><div class="subcat-tabs">
+  <a href="#faq-site" class="subcat-tab active" onclick="showFaqCat('site');return false;">サイトの使い方</a>
+  <a href="#faq-sdc" class="subcat-tab" onclick="showFaqCat('sdc');return false;">SeaDream Club</a>
+  <a href="#faq-content" class="subcat-tab" onclick="showFaqCat('content');return false;">記事・コンテンツ</a>
+  <a href="#faq-other" class="subcat-tab" onclick="showFaqCat('other');return false;">その他</a>
+</div></div>
+<div class="content-with-sidebar">
+<main>
+<style>
+.faq-section{margin-bottom:48px}
+.faq-section-title{font-family:'Noto Sans JP',sans-serif;font-size:18px;font-weight:700;color:#1a1a1a;padding:16px 0;border-bottom:2px solid #2c5f8a;margin-bottom:0}
+.faq-item{border-bottom:1px solid #e8e8e8}
+.faq-q{display:flex;align-items:flex-start;gap:12px;padding:20px 0;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;line-height:1.7;transition:color .2s}
+.faq-q:hover{color:#2c5f8a}
+.faq-q::before{content:'Q';display:flex;align-items:center;justify-content:center;min-width:28px;height:28px;background:#2c5f8a;color:#fff;font-size:13px;font-weight:700;border-radius:4px;flex-shrink:0}
+.faq-q::after{content:'+';margin-left:auto;font-size:20px;color:#999;flex-shrink:0;transition:transform .2s}
+.faq-q.open::after{content:'\2212'}
+.faq-a{display:none;padding:0 0 20px 40px;font-size:14px;color:#555;line-height:1.8;font-family:'Noto Sans JP',sans-serif}
+.faq-a.open{display:block}
+.faq-a::before{content:'A';display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;background:#e8f0f8;color:#2c5f8a;font-size:13px;font-weight:700;border-radius:4px;margin-right:12px;vertical-align:top;flex-shrink:0}
+</style>
+
+  <div class="faq-section" id="faq-site">
+    <div class="faq-section-title">サイトの使い方</div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">KAZI Onlineとはどんなサイトですか？</div>
+      <div class="faq-a">KAZI Onlineは、ヨット・ボート・フィッシングなど海のレジャーに関する総合情報サイトです。最新ニュース、レビュー記事、ハウツーガイド、マリーナ情報など、マリンライフに役立つコンテンツを無料でお届けしています。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">記事の検索方法を教えてください。</div>
+      <div class="faq-a">ページ右上の検索アイコンをクリックすると検索ボックスが開きます。キーワード検索のほか、カテゴリーやよく検索されるキーワードからも記事を探すことができます。キーボードの「/」キーでも検索ボックスを開けます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">スマートフォンでも閲覧できますか？</div>
+      <div class="faq-a">はい、KAZI Onlineはレスポンシブデザインに対応しており、スマートフォン・タブレット・PCなど、あらゆるデバイスで快適にご利用いただけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">ブックマーク機能はありますか？</div>
+      <div class="faq-a">SeaDream Club会員の方は、気になる記事をブックマークに保存できます。マイページからいつでもブックマーク一覧を確認できます。</div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faq-sdc">
+    <div class="faq-section-title">SeaDream Club</div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">SeaDream Clubとは何ですか？</div>
+      <div class="faq-a">KAZI SeaDream Clubは、海を愛する方のための無料メンバーシップです。会員限定記事の閲覧、デジタル誌の購読、マリーナ優待、各種イベントへの参加など、さまざまな特典をご利用いただけます。入会金・年会費は無料です。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">会員登録の方法を教えてください。</div>
+      <div class="faq-a">トップページやフッターの「入会する（無料）」ボタンから登録フォームにお進みください。メールアドレスとパスワードを設定するだけで、すぐにご利用いただけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">パスワードを忘れた場合はどうすればよいですか？</div>
+      <div class="faq-a">ログインページの「パスワードをお忘れの方」リンクから再設定が可能です。登録メールアドレスにパスワード再設定用のリンクをお送りします。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">メールマガジンの配信を停止できますか？</div>
+      <div class="faq-a">マイページの「メールマガジン設定」から配信のオン／オフを切り替えられます。また、メールマガジン本文内の配信停止リンクからも停止できます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">退会するにはどうすればよいですか？</div>
+      <div class="faq-a">マイページの「アカウント設定」から退会手続きが可能です。退会後はブックマークや閲覧履歴などの会員データが削除されますのでご注意ください。</div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faq-content">
+    <div class="faq-section-title">記事・コンテンツ</div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">会員限定記事とは何ですか？</div>
+      <div class="faq-a">一部の記事はSeaDream Club会員限定で公開しています。記事に「MEMBER」バッジが表示されているものが対象です。無料会員登録をしていただくとすべてお読みいただけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">記事の内容に間違いを見つけた場合はどうすればよいですか？</div>
+      <div class="faq-a">お手数ですが、<a href="wireframe_contact.html">お問い合わせフォーム</a>より該当記事のURLと修正内容をお知らせください。確認の上、速やかに対応いたします。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">記事をSNSでシェアできますか？</div>
+      <div class="faq-a">はい、各記事ページにX（Twitter）・Facebook・LINEなどのシェアボタンを設置しています。ぜひお気に入りの記事をシェアしてください。</div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faq-other">
+    <div class="faq-section-title">その他</div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">広告掲載について問い合わせたいのですが。</div>
+      <div class="faq-a">広告掲載に関するお問い合わせは、<a href="wireframe_contact.html">お問い合わせフォーム</a>または<a href="wireframe_company.html">会社案内ページ</a>に記載の連絡先までご連絡ください。媒体資料もご用意しております。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">取材・プレスリリースの送付先を教えてください。</div>
+      <div class="faq-a"><a href="wireframe_contact.html">お問い合わせフォーム</a>から「取材・プレスリリース」を選択してお送りください。編集部で確認の上、掲載を検討いたします。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">推奨ブラウザを教えてください。</div>
+      <div class="faq-a">Google Chrome、Safari、Firefox、Microsoft Edgeの最新版を推奨しています。JavaScriptを有効にしてご利用ください。</div>
+    </div>
+  </div>
+
+<script>
+function toggleFaq(el){el.classList.toggle('open');el.nextElementSibling.classList.toggle('open')}
+function showFaqCat(cat){
+  document.querySelectorAll('.subcat-tab').forEach(function(t){t.classList.remove('active')});
+  event.target.classList.add('active');
+  var sections=document.querySelectorAll('.faq-section');
+  if(cat==='all'){sections.forEach(function(s){s.style.display=''});return}
+  sections.forEach(function(s){s.style.display=s.id==='faq-'+cat?'':'none'});
+}
+</script>
+
+</main>
+<aside class="content-sidebar">
+  <div class="sidebar-sticky">
+    <a class="sidebar-sdclub" href="wireframe_sdclub.html">
+      <div class="sidebar-label">MEMBERSHIP</div>
+      <div class="sidebar-title">KAZI SeaDream<br>Club</div>
+      <div class="sidebar-desc">海を愛する人のための特別なメンバーシップ。選び抜かれたイベント、特別な体験、上質なライフスタイル。</div>
+      <span class="sidebar-btn">入会する（無料）</span>
+    </a>
+    <a class="sidebar-ad" href="#" onclick="toast('広告クリック');return false;" style="background-image:url('photos/boat_main.jpg')">
+      <span class="sidebar-ad-label">AD</span>
+    </a>
+  </div>
+</aside>
+</div><!-- /.content-with-sidebar -->
+
+<div class="big-cta">
+  <h2>KAZI SeaDream Club 発足。</h2>
+  <p>
+    海を愛する人のための特別なメンバーシップ。<br>
+    選び抜かれたイベントや特別な体験、上質なライフスタイルをお届けします。<br>
+    入会金・年会費は無料です。
+  </p>
+  <a class="big-cta-btn" href="wireframe_sdclub_register.html">KAZI SeaDream Club に入会する</a>
+  <div class="big-cta-note">すでに会員の方は <a href="wireframe_login.html">こちらからログイン</a></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-sitemap">
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_yacht.html">ヨット</a></div>
+        <a href="wireframe_yacht_review.html">ヨットの紹介</a>
+        <a href="wireframe_yacht_race.html">レース</a>
+        <a href="wireframe_yacht_technique.html">ハウツー</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_boat.html">ボート</a></div>
+        <a href="wireframe_boat_review.html">ボートの紹介</a>
+        <a href="wireframe_boat_technique.html">エンジン</a>
+        <a href="wireframe_boat_guide.html">ハウツー</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_fishing.html">フィッシング</a></div>
+        <a href="wireframe_fishing_lure.html">ルアー</a>
+        <a href="wireframe_fishing_species.html">船釣り</a>
+        <a href="wireframe_fishing_beginner.html">釣り入門</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_cruising.html">クルージング</a></div>
+        <a href="wireframe_cruising_domestic.html">国内クルーズ</a>
+        <a href="wireframe_cruising_international.html">海外クルーズ</a>
+        <a href="wireframe_cruising_beginner.html">クルージング入門</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_lifestyle.html">ライフスタイル</a></div>
+        <a href="wireframe_lifestyle_fashion.html">ファッション</a>
+        <a href="wireframe_lifestyle_gourmet.html">グルメ</a>
+        <a href="wireframe_lifestyle_watch.html">時計</a>
+        <a href="wireframe_lifestyle_car.html">クルマ</a>
+        <a href="wireframe_lifestyle_cruise_ship.html">客船</a>
+        <a href="wireframe_lifestyle_hotel.html">リゾート</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_gear.html">グッズ＆ギア</a></div>
+        <a href="wireframe_gear_wear.html">マリンウェア</a>
+        <a href="wireframe_gear_lifejacket.html">安全装備</a>
+        <a href="wireframe_gear_paddle.html">パドルスポーツ</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title"><a href="wireframe_news.html">トピックス</a></div>
+        <a href="wireframe_news.html">ニュース</a>
+        <a href="wireframe_news_events.html">イベント</a>
+        <a href="wireframe_news_ranking.html">ランキング</a>
+      </div>
+    </div>
+    <div class="footer-local-nav">
+      <a href="https://www.youtube.com/c/kazimovie" target="_blank">動画</a>
+      <a href="wireframe_marina.html">マリーナ</a>
+      <a href="wireframe_jobs.html">求人情報</a>
+      <a href="wireframe_lifestyle_calendar.html">マリンカレンダー</a>
+      <a href="https://yougo.kazi.co.jp" target="_blank">用語辞典</a>
+      <a href="wireframe_publications.html">舵社出版物</a>
+      <a href="wireframe_beginner.html">初心者</a>
+      <a href="wireframe_gallery.html">ギャラリー</a>
+      <a href="https://www.seaplaza.jp" target="_blank">シープラザ（Sea Plaza）</a>
+    </div>
+        <div class="footer-sns">
+      <a href="https://x.com/kazi_online1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Kazi_Online1932</a>
+      <a href="https://www.instagram.com/kazi_magazine/" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@kazi_magazine</a>
+      <a href="https://www.facebook.com/kazi1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>KAZI</a>
+      <a href="https://www.facebook.com/kazionline1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>KAZI Online</a>
+      <a href="https://www.facebook.com/BoatCLUB" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Boat CLUB</a>
+      <a href="https://www.facebook.com/CANOEWORLDweb" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>CANOE WORLD</a>
+      <a href="https://www.youtube.com/c/kazimovie" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>KAZI Movie</a>
+    </div>
+    <div class="footer-corporate">
+      <a href="wireframe_company.html">会社案内</a>
+      <a href="wireframe_contact.html">お問い合わせ</a>
+      <a href="wireframe_privacy.html">プライバシーポリシー</a>
+      <a href="wireframe_faq.html">FAQ</a>
+    </div>
+    <div class="footer-bottom">&copy; KAZI Online All Rights Reserved.</div>
+  </div>
+</footer>
+<div id="toast"></div>
+<script src="js/pages/lifestyle_travel.js"></script>
+<script src="js/v2-enhancements.js"></script>
+</body>
+</html>

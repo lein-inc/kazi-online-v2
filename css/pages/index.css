@@ -68,3 +68,21 @@
   footer { border-top: 2px solid #333; margin-top: 0; }
   .footer-inner { max-width: 1100px; margin: 0 auto; }
   .footer-bottom { text-align: center; padding: 24px; font-size: 12px; color: #aaa; }
+  /* Footer SNS */
+  .footer-sns {
+    padding: 24px 40px;
+    display: flex; flex-wrap: wrap;
+    gap: 10px 24px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-sns a, .footer-sns a:link, .footer-sns a:visited {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: rgba(255,255,255,.6); text-decoration: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 600;
+    transition: color 0.2s; line-height: 1;
+  }
+  .footer-sns a svg { flex-shrink: 0; vertical-align: middle; }
+  .footer-sns a:hover { color: #fff; }
+  .footer-sns a::after { display: none !important; }
+
