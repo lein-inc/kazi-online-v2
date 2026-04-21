@@ -224,7 +224,35 @@ button:focus:not(:focus-visible) {
 
 /* === 10. Footer Enhancement === */
 .footer-sitemap {
-  gap: var(--space-6) var(--space-5);
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: var(--space-6) var(--space-4) !important;
+}
+@media (max-width: 1280px) {
+  .footer-sitemap {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+/* Tablet/mobile breakpoints は responsive.css で 3col / 1col に切替 */
+
+/* Hamburger Nav — CSS columns でサブなしカテゴリでも自然に整列 */
+.hamburger-nav-grid {
+  display: block !important;
+  column-count: 4;
+  column-gap: 40px;
+}
+.hamburger-nav-group {
+  break-inside: avoid;
+  margin-bottom: 28px;
+}
+@media (max-width: 1024px) {
+  .hamburger-nav-grid { column-count: 3; column-gap: 28px; }
+}
+@media (max-width: 768px) {
+  .hamburger-nav-grid { column-count: 2; column-gap: 24px; }
+  .hamburger-nav-group { margin-bottom: 20px; }
+}
+@media (max-width: 480px) {
+  .hamburger-nav-grid { column-count: 1; }
 }
 
 .footer-col-title {
