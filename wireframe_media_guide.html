@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head><script src="auth.js">
-  function fillSearch(kw) { var el = document.getElementById('searchInput'); if(el){ el.value = kw; el.focus(); } }
-</script>
+<head><script src="auth.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>新しいパスワード設定 - KAZI SeaDream Club - KAZI ONLINE ワイヤーフレーム</title>
+<title>メディアガイド - KAZI ONLINE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/pages/reset_confirm.css">
+<link rel="stylesheet" href="css/pages/media_guide.css">
 <link rel="stylesheet" href="responsive.css">
 <link rel="stylesheet" href="css/variables.css">
 <link rel="stylesheet" href="css/v2-overrides.css">
@@ -107,9 +105,7 @@
     </div>
   </div>
 </div>
-</div>
-
-<div class="wf-label">WIREFRAME — KAZI SeaDream Club 新しいパスワード設定</div>
+<div class="wf-label">WIREFRAME — メディアガイド</div>
 
 <!-- ===== HEADER ===== -->
 <header>
@@ -222,6 +218,7 @@
           <a href="wireframe_beginner.html">初心者</a>
           <a href="wireframe_gallery.html">ギャラリー</a>
           <a href="https://www.seaplaza.jp" target="_blank">シープラザ（Sea Plaza）</a>
+          <a href="wireframe_media_guide.html">メディアガイド</a>
           <a href="wireframe_company.html">会社案内</a>
           <a href="wireframe_contact.html">お問い合わせ</a>
           <a href="wireframe_privacy.html">プライバシーポリシー</a>
@@ -270,52 +267,316 @@
 
 <div id="megaOverlay" class="mega-overlay" onclick="closeMega()"></div>
 
-<!-- ===== PAGE HERO ===== -->
-<div class="page-hero">
-  <div class="page-hero-eyebrow">KAZI ONLINE MEMBERS CLUB</div>
-  <h1>新しいパスワードの設定</h1>
-  <p>KAZI SeaDream Club アカウントの新しいパスワードを設定してください</p>
-</div>
-
-<!-- ===== BREADCRUMB ===== -->
 <div class="breadcrumb">
-  <a href="wireframe_top.html">TOP</a><span class="sep">&gt;</span>
-  <a href="wireframe_sdclub.html">KAZI SeaDream Club</a><span class="sep">&gt;</span>
-  パスワード再設定
+  <a href="wireframe_top.html">TOP</a><span>></span>メディアガイド
 </div>
 
-<!-- ===== FORM ===== -->
-<div class="form-wrap" id="resetForm">
-
-  <div class="form-group">
-    <label class="form-label">新しいパスワード<span class="required">必須</span></label>
-    <input class="form-input" type="password" placeholder="8文字以上の半角英数字">
-    <div class="form-hint">8文字以上、英字と数字を含めてください</div>
+<!-- ===== STATEMENT HERO ===== -->
+<div class="statement-hero">
+  <div class="statement-hero-inner">
+    <div class="statement-eyebrow">FOR BUSINESS / 企業・法人のお客様へ</div>
+    <h1 class="statement-headline">
+      マリン業界に特化した<br>
+      <em>最強のメディアパートナー</em>
+    </h1>
+    <p class="statement-body">
+      70年以上の実績と、マリンに特化した圧倒的な読者・ユーザー基盤。
+      広告・タイアップ・イベント・取材協力まで、貴社のマーケティングを総合的にサポートします。
+    </p>
+    <div class="statement-cta-row">
+      <a class="btn-statement-primary" href="#b2b-contact" onclick="smoothScroll('b2b-contact');return false;">無料でお問い合わせ</a>
+      <a class="btn-statement-outline" href="#" onclick="toast('資料ダウンロード（PDF）');return false;">メディアガイドをDL（PDF）</a>
+    </div>
   </div>
-
-  <div class="form-group">
-    <label class="form-label">新しいパスワード（確認）<span class="required">必須</span></label>
-    <input class="form-input" type="password" placeholder="パスワードを再入力">
-  </div>
-
-  <a class="form-submit" href="#" onclick="showComplete();return false;" style="text-decoration:none;">パスワードを変更する</a>
-
-  <div class="form-back-link">
-    <a href="wireframe_login.html">&larr; ログインページに戻る</a>
-  </div>
-
 </div>
 
-<!-- ===== COMPLETE ===== -->
-<div class="complete-wrap" id="completeWrap">
-  <div class="complete-icon">&#10003;</div>
-  <h2>パスワードが変更されました</h2>
-  <p>新しいパスワードでログインしてください。</p>
-  <a class="complete-btn" href="wireframe_login.html">ログインページへ</a>
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stats-bar-label">KAZI / 数字で見る舵社</div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">70<span class="stat-unit">年以上</span></div>
+        <div class="stat-label">創業からの歴史</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">月刊<span class="stat-unit">発行</span></div>
+        <div class="stat-label">マリン専門誌「Kazi」</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">551<span class="stat-unit">カ所</span></div>
+        <div class="stat-label">全国マリーナ掲載数</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">XXX<span class="stat-unit">万PV</span></div>
+        <div class="stat-label">KAZI ONLINE 月間PV</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">XXX<span class="stat-unit">社以上</span></div>
+        <div class="stat-label">取引メーカー・掲載企業数</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- ===== FOOTER ===== -->
+<div class="content-with-sidebar">
+<main>
 
+  <!-- ===== SERVICES ===== -->
+  <div id="services">
+    <div class="sec-head">
+      <h2>メディア一覧</h2>
+      <span class="sec-head-en">OUR MEDIA</span>
+    </div>
+
+    <div class="services-grid">
+      <!-- 月刊Kazi -->
+      <div class="service-card">
+        <div class="service-card-icon">[ K ]</div>
+        <div class="service-card-body">
+          <div class="service-card-tag">PRINT MEDIA</div>
+          <div class="service-card-name">月刊 Kazi</div>
+          <div class="service-card-desc">
+            1952年創刊。日本唯一のマリン総合専門誌。ヨット・ボート・フィッシングから
+            マリンライフスタイルまで、毎月最新情報をお届け。読者層はマリンオーナー・
+            愛好家を中心に、購買力の高いターゲット層を形成。
+          </div>
+          <div class="service-card-meta">
+            <span class="service-tag">月刊発行</span>
+            <span class="service-tag">全国書店・定期購読</span>
+            <span class="service-tag">広告掲載可</span>
+          </div>
+          <a class="service-card-link" href="#" onclick="toast('月刊Kaziへ');return false;">詳細・広告掲載のご案内 →</a>
+        </div>
+      </div>
+
+      <!-- KAZI ONLINE -->
+      <div class="service-card">
+        <div class="service-card-icon">[ W ]</div>
+        <div class="service-card-body">
+          <div class="service-card-tag">WEB MEDIA</div>
+          <div class="service-card-name">KAZI ONLINE</div>
+          <div class="service-card-desc">
+            マリン専門Webメディア。ニュース・インプレッション・フィッシング・マリーナ情報など
+            豊富なコンテンツを365日配信。SEOに強い専門コンテンツとSNS拡散で、
+            マリン層への効果的なリーチを実現。
+          </div>
+          <div class="service-card-meta">
+            <span class="service-tag">月間XXX万PV</span>
+            <span class="service-tag">記事広告</span>
+            <span class="service-tag">バナー広告</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KAZIシープラザ -->
+      <div class="service-card">
+        <div class="service-card-icon">[ E ]</div>
+        <div class="service-card-body">
+          <div class="service-card-tag">E-COMMERCE</div>
+          <div class="service-card-name">KAZIシープラザ</div>
+          <div class="service-card-desc">
+            マリン用品専門オンラインショップ。ライフジャケット・マリンウェア・
+            フィッシングギア・アクセサリーなど、厳選されたマリン用品を販売。
+            専門誌バックナンバーの取り扱いも。
+          </div>
+          <div class="service-card-meta">
+            <span class="service-tag">マリン専門EC</span>
+            <span class="service-tag">商品掲載・販売委託</span>
+          </div>
+          <a class="service-card-link" href="https://www.seaplaza.jp" target="_blank">ショップを見る →</a>
+        </div>
+      </div>
+
+      <!-- KAZI SeaDream Club -->
+      <div class="service-card">
+        <div class="service-card-icon">[ S ]</div>
+        <div class="service-card-body">
+          <div class="service-card-tag">MEMBERSHIP</div>
+          <div class="service-card-name">KAZI SeaDream Club</div>
+          <div class="service-card-desc">
+            マリン愛好家向け会員制コミュニティ。会員限定コンテンツ・イベント優先案内・
+            特典クーポンなどを提供。エンゲージメントの高いコアなマリン層に
+            直接リーチできるプラットフォーム。
+          </div>
+          <div class="service-card-meta">
+            <span class="service-tag">会員限定コンテンツ</span>
+            <span class="service-tag">スポンサー協賛可</span>
+          </div>
+          <a class="service-card-link" href="wireframe_sdclub.html">KAZI SeaDream Clubを見る →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== B2B BANNER ===== -->
+  <div class="b2b-banner" id="b2b-top">
+    <div class="b2b-banner-text">
+      <div class="b2b-banner-eyebrow">ADVERTISING MENU / 広告メニュー</div>
+      <div class="b2b-banner-headline">
+        マリン愛好家に<br>確実にリーチ
+      </div>
+      <div class="b2b-banner-body">
+        月刊誌・Webメディア・EC・会員コミュニティの4チャネルで、<br>
+        貴社の商品・サービスをマリン愛好家に届けます。
+      </div>
+    </div>
+    <div class="b2b-banner-cta">
+      <a class="btn-b2b-primary" href="#b2b-contact" onclick="smoothScroll('b2b-contact');return false;">無料でお問い合わせ</a>
+      <a class="btn-b2b-outline" href="#" onclick="toast('資料ダウンロード（PDF）');return false;">メディアガイドをDL</a>
+    </div>
+  </div>
+
+  <!-- ===== B2B SERVICES ===== -->
+  <div>
+    <div class="sec-head">
+      <h2>企業向けサービス</h2>
+      <span class="sec-head-en">BUSINESS SOLUTIONS</span>
+    </div>
+
+    <div class="b2b-grid">
+      <!-- 広告掲載 -->
+      <div class="b2b-card">
+        <div class="b2b-card-icon">[ 広告 ]</div>
+        <div class="b2b-card-name">広告掲載</div>
+        <div class="b2b-card-desc">
+          月刊Kazi誌面・KAZI ONLINEへの広告出稿。ターゲットを絞ったマリン愛好家層に効率よくリーチ。
+        </div>
+        <ul class="b2b-card-points">
+          <li>月刊誌 全面・半面・1/4面広告</li>
+          <li>Webバナー広告（トップ・記事内）</li>
+          <li>メルマガ広告</li>
+          <li>KAZI SeaDream Club会員向け配信</li>
+        </ul>
+        <a class="b2b-card-cta" href="#b2b-contact" onclick="smoothScroll('b2b-contact');return false;">広告について相談する →</a>
+      </div>
+
+      <!-- タイアップ -->
+      <div class="b2b-card">
+        <div class="b2b-card-icon">[ 記事 ]</div>
+        <div class="b2b-card-name">タイアップ・記事制作</div>
+        <div class="b2b-card-desc">
+          編集部が制作するタイアップ記事・特集。読者に信頼されるコンテンツで自然な訴求が可能。
+        </div>
+        <ul class="b2b-card-points">
+          <li>タイアップ記事（誌面・Web）</li>
+          <li>製品インプレッション記事</li>
+          <li>ブランドストーリー特集</li>
+          <li>SNS連動コンテンツ</li>
+        </ul>
+        <a class="b2b-card-cta" href="#b2b-contact" onclick="smoothScroll('b2b-contact');return false;">タイアップについて相談する →</a>
+      </div>
+
+      <!-- イベント・展示会 -->
+      <div class="b2b-card">
+        <div class="b2b-card-icon">[ 展示 ]</div>
+        <div class="b2b-card-name">イベント・展示会</div>
+        <div class="b2b-card-desc">
+          舵社主催イベント・展示会への協賛・出展。マリン愛好家と直接コネクトできる絶好の機会。
+        </div>
+        <ul class="b2b-card-points">
+          <li>ジャパンインターナショナルボートショー</li>
+          <li>マリン関連展示会・イベント協賛</li>
+          <li>KAZI SeaDream Club会員向けイベント</li>
+          <li>メーカー・ビルダー向け出展サポート</li>
+        </ul>
+        <a class="b2b-card-cta" href="#b2b-contact" onclick="smoothScroll('b2b-contact');return false;">イベント協賛を相談する →</a>
+      </div>
+
+      <!-- 取材・プレスリリース -->
+      <div class="b2b-card">
+        <div class="b2b-card-icon">[ PR ]</div>
+        <div class="b2b-card-name">取材・プレスリリース</div>
+        <div class="b2b-card-desc">
+          新製品・新サービスの取材・プレスリリース受付。マリン専門読者に向けて確実に情報を届けます。
+        </div>
+        <ul class="b2b-card-points">
+          <li>新製品発表・取材対応</li>
+          <li>プレスリリース掲載</li>
+          <li>展示会・発表会の取材</li>
+          <li>インプレッション撮影・試乗取材</li>
+        </ul>
+        <a class="b2b-card-cta" href="#b2b-contact" onclick="smoothScroll('b2b-contact');return false;">取材・PRを依頼する →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== B2B CONTACT FORM ===== -->
+  <div class="b2b-contact-wrap" id="b2b-contact">
+    <div class="b2b-contact-head">
+      <h3>企業・法人向けお問い合わせ</h3>
+      <span>BUSINESS INQUIRY</span>
+    </div>
+    <div class="b2b-form-grid">
+      <div class="form-group">
+        <label class="form-label">会社名<span class="required">必須</span></label>
+        <input type="text" class="form-input" placeholder="例：株式会社〇〇マリン">
+      </div>
+      <div class="form-group">
+        <label class="form-label">部署名<span class="optional">任意</span></label>
+        <input type="text" class="form-input" placeholder="例：マーケティング部">
+      </div>
+      <div class="form-group">
+        <label class="form-label">お名前<span class="required">必須</span></label>
+        <input type="text" class="form-input" placeholder="例：山田 太郎">
+      </div>
+      <div class="form-group">
+        <label class="form-label">メールアドレス<span class="required">必須</span></label>
+        <input type="email" class="form-input" placeholder="例：yamada@company.co.jp">
+      </div>
+      <div class="form-group">
+        <label class="form-label">電話番号<span class="optional">任意</span></label>
+        <input type="tel" class="form-input" placeholder="例：03-XXXX-XXXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">お問い合わせの種類<span class="required">必須</span></label>
+        <select class="form-select">
+          <option value="">-- 選択してください --</option>
+          <option>広告掲載について</option>
+          <option>タイアップ・記事制作について</option>
+          <option>イベント・展示会協賛について</option>
+          <option>取材・プレスリリースについて</option>
+          <option>その他・ご相談</option>
+        </select>
+      </div>
+      <div class="form-group form-full">
+        <label class="form-label">お問い合わせ内容<span class="required">必須</span></label>
+        <textarea class="form-textarea" placeholder="ご相談内容・ご要望をご記入ください。（例：2026年春号へのボート新製品広告掲載を検討しています。媒体資料と掲載料金を教えてください。）"></textarea>
+      </div>
+    </div>
+    <div class="form-submit-row">
+      <button class="form-submit" onclick="toast('お問い合わせを送信しました（デモ）');return false;">送信する</button>
+      <p class="form-note">通常2営業日以内にご返信いたします。<br>お急ぎの場合はお電話（03-XXXX-XXXX）でもお問い合わせいただけます。</p>
+    </div>
+  </div>
+
+</main>
+<aside class="content-sidebar">
+  <div class="sidebar-sticky">
+    <a class="sidebar-sdclub" href="wireframe_sdclub.html">
+      <div class="sidebar-label">MEMBERSHIP</div>
+      <div class="sidebar-title">KAZI SeaDream<br>Club</div>
+      <div class="sidebar-desc">海を愛する人のための特別なメンバーシップ。選び抜かれたイベント、特別な体験、上質なライフスタイル。</div>
+      <span class="sidebar-btn">入会する（無料）</span>
+    </a>
+    <a class="sidebar-ad" href="#" onclick="toast('広告クリック');return false;" style="background-image:url('photos/boat_main.jpg')">
+      <span class="sidebar-ad-label">AD</span>
+    </a>
+  </div>
+</aside>
+</div><!-- /.content-with-sidebar -->
+
+
+<div class="big-cta">
+  <h2>KAZI SeaDream Club 発足。</h2>
+  <p>
+    海を愛する人のための特別なメンバーシップ。<br>
+    選び抜かれたイベントや特別な体験、上質なライフスタイルをお届けします。<br>
+    入会金・年会費は無料です。
+  </p>
+  <a class="big-cta-btn" href="wireframe_sdclub_register.html">KAZI SeaDream Club に入会する</a>
+  <div class="big-cta-note">すでに会員の方は <a href="wireframe_login.html">こちらからログイン</a></div>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -364,6 +625,7 @@
       <a href="wireframe_beginner.html">初心者</a>
       <a href="wireframe_gallery.html">ギャラリー</a>
       <a href="https://www.seaplaza.jp" target="_blank">シープラザ（Sea Plaza）</a>
+      <a href="wireframe_media_guide.html">メディアガイド</a>
     </div>
         <div class="footer-sns">
       <a href="https://x.com/kazi_online1932" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Kazi_Online1932</a>
@@ -376,6 +638,7 @@
     </div>
     <div class="footer-corporate">
       <a href="wireframe_company.html">会社案内</a>
+      <a href="wireframe_media_guide.html">メディアガイド</a>
       <a href="wireframe_contact.html">お問い合わせ</a>
       <a href="wireframe_privacy.html">プライバシーポリシー</a>
       <a href="wireframe_faq.html">FAQ</a>
@@ -386,7 +649,7 @@
 
 <div id="toast"></div>
 
-<script src="js/pages/reset_confirm.js"></script>
+<script src="js/pages/company.js"></script>
 <script src="js/v2-enhancements.js"></script>
 </body>
 </html>
